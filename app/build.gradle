@@ -31,10 +31,10 @@ android {
         }
     }
     //glide
-    repositories {
-        mavenCentral()
-        google()
-    }
+//    repositories {
+//        mavenCentral()
+//        google()
+//    }
 
 }
 
@@ -63,11 +63,11 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'  //没有使用特殊Header，可以不加这行
 
-    //图片选择器
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.2'
+    //图片选择器 2.3.2
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.9'
+
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     //轮播
     implementation 'cn.bingoogolapple:bga-banner:3.0.0'

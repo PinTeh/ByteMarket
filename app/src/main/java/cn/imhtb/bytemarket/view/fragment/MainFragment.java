@@ -119,6 +119,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onTabSelect(int position) {
                 //TODO 如何区分？
+                list.clear();
+                adapter.notifyDataSetChanged();
+                loadMoreData();
+
             }
 
             @Override

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,6 +72,7 @@ public class PublishFragment extends Fragment {
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())
                 .maxSelectNum(5)
+                //.loadImageEngine(GlideEngine.createGlideEngine())
                 .selectionMode(PictureConfig.MULTIPLE)
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
