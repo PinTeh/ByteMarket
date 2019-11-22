@@ -1,91 +1,106 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".view.fragment.MainFragment">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/background_register"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/contentDescription"
-            android:src="@drawable/logo" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/background_mine"
-            android:orientation="horizontal"
-            android:padding="3dp">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/contentDescription"
-                android:src="@mipmap/search" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/search_tips" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <!--顶部菜单-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/background_register"
+                    android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="55dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/contentDescription" />
-    </LinearLayout>
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:contentDescription="@string/contentDescription"
+                        android:src="@drawable/logo" />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="33dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_mine"
+                        android:orientation="horizontal"
+                        android:padding="3dp">
 
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:contentDescription="@string/contentDescription"
+                            android:src="@mipmap/search" />
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="@string/search_tips" />
 
-    <cn.bingoogolapple.bgabanner.BGABanner
-        android:id="@+id/banner_guide_content"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:banner_pageChangeDuration="1000"
-        app:banner_pointAutoPlayAble="false"
-        app:banner_pointContainerBackground="@android:color/transparent"
-        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-        app:banner_pointTopBottomMargin="15dp"
-        app:banner_transitionEffect="alpha" />
+                    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="55dp"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/contentDescription" />
+                </LinearLayout>
+
+                <cn.bingoogolapple.bgabanner.BGABanner
+                    android:id="@+id/banner_guide_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:banner_pageChangeDuration="1000"
+                    app:banner_pointAutoPlayAble="false"
+                    app:banner_pointContainerBackground="@android:color/transparent"
+                    app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+                    app:banner_pointTopBottomMargin="15dp"
+                    app:banner_transitionEffect="alpha" />
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/ctl_main_classify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#9E9E9E"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
-            app:tl_indicator_gravity="TOP"
-            app:tl_textBold="true"
+            android:padding="10dp"
+            app:tl_indicator_gravity="BOTTOM"
+            app:tl_textBold="false"
+            app:tl_textsize="12sp"
             app:tl_underline_color="#1A000000"
             app:tl_underline_gravity="TOP"
-            app:tl_underline_height="1dp"/>
+            app:tl_underline_height="1dp" />
 
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_goods"
@@ -93,9 +108,8 @@
                 android:layout_height="match_parent"
 
                 />
-
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
-    </LinearLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

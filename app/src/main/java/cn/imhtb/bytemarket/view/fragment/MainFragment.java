@@ -4,6 +4,7 @@ package cn.imhtb.bytemarket.view.fragment;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -113,6 +115,18 @@ public class MainFragment extends Fragment {
         smartRefreshLayout.setEnableRefresh(false);
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
 
+        commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                //TODO 如何区分？
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
     }
 
 
@@ -121,7 +135,18 @@ public class MainFragment extends Fragment {
 
         Handler handler = new Handler();
         handler.postDelayed(()->{
-            init();
+
+            for (int i = 0; i < titles.length; i++) {
+                GoodsEntity goods = new GoodsEntity();
+                goods.setTitle(titles[i]);
+                goods.setPrice(new BigDecimal(prices[i]));
+                goods.setImageId(images.getResourceId(i,0));
+                UserEntity userEntity = new UserEntity();
+                userEntity.setUsername("人称江湖梁总");
+                goods.setAuthor(userEntity);
+                list.add(goods);
+            }
+
             adapter.notifyDataSetChanged();
             smartRefreshLayout.finishLoadMore();
         },1000);
@@ -136,6 +161,7 @@ public class MainFragment extends Fragment {
             UserEntity userEntity = new UserEntity();
             userEntity.setUsername("人称江湖梁总");
             goods.setAuthor(userEntity);
+            list.add(goods);
             list.add(goods);
         }
 

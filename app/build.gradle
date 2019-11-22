@@ -72,4 +72,5 @@ dependencies {
     //轮播
     implementation 'cn.bingoogolapple:bga-banner:3.0.0'
 
+    implementation 'com.android.support:design:29.0.0'
 }
