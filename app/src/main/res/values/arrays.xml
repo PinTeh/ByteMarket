@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subTitle">
+        <item>全部</item>
+        <item>校园</item>
+        <item>热门</item>
+        <item>手机</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="title">
+        <item>首页</item>
+        <item>校园</item>
+        <item>发布</item>
+        <item>消息</item>
+        <item>我的</item>
+    </string-array>
+
+    <integer-array name="select">
+        <item>@mipmap/home_select</item>
+        <item>@mipmap/education_select</item>
+        <item>1</item>
+        <item>@mipmap/msg_select</item>
+        <item>@mipmap/user_select</item>
+    </integer-array>
+
+    <integer-array name="unSelect">
+        <item>@mipmap/home</item>
+        <item>@mipmap/education</item>
+        <item>1</item>
+        <item>@mipmap/msg</item>
+        <item>@mipmap/user</item>
+    </integer-array>
+</resources>

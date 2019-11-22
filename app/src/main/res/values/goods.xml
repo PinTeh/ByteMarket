@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="goods_title">
+        <item>个人闲置 苹果耳机iphone7/8/X扁头耳机线原装正品</item>
+        <item>原厂液态硅胶苹果x/xs/xs max手机壳iphone6s</item>
+        <item>香奈儿磨砂口红130</item>
+        <item>个人闲置苹果iPad原原装充电器12W快充头平板充电器</item>
+        <item>森海塞尔HD25/森海塞尔hd25Ⅱ头戴式监听耳机 森海塞尔</item>
+    </string-array>
+
+    <string-array name="goods_price">
+        <item>65.00</item>
+        <item>15.00</item>
+        <item>85.00</item>
+        <item>35.00</item>
+        <item>298.00</item>
+    </string-array>
+
+    <integer-array name="goods_image">
+        <item>@mipmap/goods1</item>
+        <item>@mipmap/goods2</item>
+        <item>@mipmap/goods3</item>
+        <item>@mipmap/goods4</item>
+        <item>@mipmap/goods5</item>
+    </integer-array>
+</resources>

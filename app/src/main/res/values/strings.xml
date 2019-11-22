@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ByteMarket</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contentDescription">TODO</string>
+    <string name="search_tips">请输入搜索关键词</string>
+</resources>
