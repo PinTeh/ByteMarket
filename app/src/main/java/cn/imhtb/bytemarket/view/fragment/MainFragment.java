@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,6 +110,8 @@ public class MainFragment extends Fragment {
         adapter = new GoodsAdapter(getActivity(),list);
         recyclerView.setAdapter(adapter);
         init();
+
+
 
         //刷新控件
         smartRefreshLayout = view.findViewById(R.id.swipe_refresh);

@@ -1,6 +1,7 @@
 package cn.imhtb.bytemarket.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class GoodsEntity {
@@ -12,6 +13,8 @@ public class GoodsEntity {
     private BigDecimal price;
 
     private UserEntity author;
+
+    private List<String> images;
 
     public int getImageId() {
         return imageId;
@@ -43,6 +46,14 @@ public class GoodsEntity {
 
     public void setAuthor(UserEntity author) {
         this.author = author;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public static GoodsEntity newInstance(){

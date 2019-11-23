@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".DetailActivity">
 
@@ -16,61 +17,93 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:padding="5dp"
             android:orientation="vertical">
-
+            <!--用户信息显示-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
-                <ImageView
-                    android:id="@+id/tv_goods_detail_user_avatar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_detail_user_avatar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:contentDescription="@string/contentDescription"
                     android:src="@mipmap/avatar" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical"
-                    android:padding="1dp">
-
                     <TextView
-                        android:id="@+id/tv_goods_detail_user_username"
+                        android:id="@+id/tv_detail_user_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:padding="5dp"
                         android:text="@string/contentDescription"
                         android:textColor="@android:color/black"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="@string/contentDescription" />
-                </LinearLayout>
             </LinearLayout>
 
-            <!-- 主体内容-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/darker_gray" />
 
-            <ImageView
+            <!--价格-->
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_detail_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:sCenterTextString="1000"
+                app:sCenterTextSize="23sp"
+                app:sCenterViewGravity="left_center"
+                app:sCenterTextColor="@android:color/holo_red_dark"
+                app:sLeftTextString="￥"
+                app:sLeftTextColor="@android:color/holo_red_dark"
+                app:sLeftViewMarginRight="0dp"
+                app:sLeftViewMarginLeft="0dp"
+                app:sLeftTextSize="16sp"
+                 />
+
+            <!--主体内容-->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:padding="20dp"
-                android:src="@mipmap/guide_one" />
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/black"
+                    android:text="原厂液态硅胶苹果x/xs/xs max手机壳iphone6s"/>
+
+
+                <TextView
+                    android:id="@+id/tv_detail_describe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/black"
+                    android:text="原厂液态硅胶苹果x/xs/xs max手机壳iphone6s"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/guide_one" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
@@ -78,7 +111,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp">
@@ -90,8 +123,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:contentDescription="@string/contentDescription"
                 android:src="@mipmap/operation" />
 
@@ -108,8 +141,8 @@
 
         <TextView
             android:id="@+id/iv_goods_detail_chat"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
             android:layout_margin="5dp"
             android:background="@drawable/background_buy"
             android:gravity="center"
