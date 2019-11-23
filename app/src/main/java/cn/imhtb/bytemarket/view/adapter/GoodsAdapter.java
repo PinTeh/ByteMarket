@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +19,13 @@ import cn.imhtb.bytemarket.entity.GoodsEntity;
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder> {
 
     private Context context;
+    private ISelfOnItemClickListener listener;
     private List<GoodsEntity> list;
 
-    public GoodsAdapter(Context context, List<GoodsEntity> list) {
+    public GoodsAdapter(Context context, List<GoodsEntity> list,ISelfOnItemClickListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,12 +42,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         holder.title.setText((list.get(position).getTitle()));
         holder.username.setText((list.get(position).getAuthor().getUsername()));
 
-//        holder.content.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, DetailActivity.class);
-//            //TODO
-//            intent.putExtra("desc",position + "");
-//            context.startActivity(intent);
-//        });
+        holder.content.setOnClickListener(v -> {
+            //实现方式一
+            /*
+            Intent intent = new Intent(context, DetailActivity.class);
+            context.startActivity(intent);
+             */
+            listener.itemClick(position);
+        });
 
     }
 
@@ -60,7 +65,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         TextView price;
         ImageView avatar;
         TextView username;
-//        LinearLayout content;
+        LinearLayout content;
 
         public GoodsHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,7 +74,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
             this.price = itemView.findViewById(R.id.tv_goods_price);
             this.avatar = itemView.findViewById(R.id.iv_goods_author_avatar);
             this.username = itemView.findViewById(R.id.tv_goods_author_username);
-//            this.content = itemView.findViewById(R.id.ll_goods);
+            this.content = itemView.findViewById(R.id.ll_goods);
         }
+    }
+
+    public interface ISelfOnItemClickListener{
+        void itemClick(int position);
     }
 }

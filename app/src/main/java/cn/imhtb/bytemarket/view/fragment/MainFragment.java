@@ -1,22 +1,23 @@
 package cn.imhtb.bytemarket.view.fragment;
 
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -34,6 +35,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.imhtb.bytemarket.DetailActivity;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.entity.GoodsEntity;
@@ -71,6 +73,8 @@ public class MainFragment extends Fragment {
 
     private List<GoodsEntity> list = new ArrayList<>();
 
+    private FragmentActivity context;
+
     private ArrayList<CustomTabEntity> customTabEntities = new ArrayList<>();
 
     public MainFragment() {}
@@ -100,17 +104,20 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
-
+        context = getActivity();
         RecyclerView recyclerView = view.findViewById(R.id.rv_goods);
         //设置瀑布流布局
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
 
         //初始化适配器及数据
-        adapter = new GoodsAdapter(getActivity(),list);
+        adapter = new GoodsAdapter(getActivity(),list,position -> {
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra("GOODS", JSON.toJSONString(list.get(position)));
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
         init();
-
 
 
         //刷新控件
@@ -135,8 +142,6 @@ public class MainFragment extends Fragment {
         });
 
     }
-
-
 
     private void loadMoreData() {
 
@@ -163,17 +168,17 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < titles.length; i++) {
             GoodsEntity goods = new GoodsEntity();
             goods.setTitle(titles[i]);
+            goods.setDescribe(titles[i] + titles[i]);
             goods.setPrice(new BigDecimal(prices[i]));
             goods.setImageId(images.getResourceId(i,0));
             UserEntity userEntity = new UserEntity();
             userEntity.setUsername("人称江湖梁总");
             goods.setAuthor(userEntity);
             list.add(goods);
-            list.add(goods);
         }
 
         contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
-                Glide.with(getActivity())
+                Glide.with(context)
                 .load(model)
                 .placeholder(R.drawable.p_seekbar_thumb_normal)
                 .error(R.drawable.p_seekbar_thumb_normal)
