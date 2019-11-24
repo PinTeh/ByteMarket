@@ -1,57 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
+<LinearLayout
     android:id="@+id/srl_mine_wrap"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAD5D4D4"
+    android:orientation="vertical"
     tools:context=".ui.fragment.MineFragment">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/background_register"
-            android:paddingLeft="20dp"
-            android:paddingTop="45dp">
+            android:background="@color/colorBackgroundLightGray"
+            android:paddingTop="45dp"
+            tools:ignore="RtlSymmetry">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_user_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@mipmap/avatar" />
-
-            <TextView
-                android:id="@+id/tv_user_account"
-                android:layout_width="wrap_content"
+            <!--已登录-->
+            <RelativeLayout
+                android:id="@+id/rl_mine_login"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/iv_user_avatar"
-                android:text="桂电第二帅、老王"
-                android:textColor="#2E2E2E"
-                android:textSize="18dp" />
+                android:paddingLeft="20dp"
+                >
 
-            <TextView
-                android:id="@+id/tv_user_signature"
-                android:layout_width="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_avatar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/avatar" />
+
+                <TextView
+                    android:id="@+id/tv_user_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/iv_user_avatar"
+                    android:text="Porhub.com"
+                    android:textColor="#2E2E2E"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_user_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_user_account"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:layout_toEndOf="@+id/iv_user_avatar"
+                    android:text="签名：Enjoy yourself ~ "
+                    android:textColor="#363636"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <!--未登录-->
+            <LinearLayout
+                android:id="@+id/ll_mine_un_login"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_user_account"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:layout_toEndOf="@+id/iv_user_avatar"
-                android:text="签名：你可以跟我随便砍价，我不差钱~ "
-                android:textColor="#363636"
-                android:textSize="14dp" />
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_main_un_login_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/avatar_un_login"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="0dp"
+                    android:textSize="16sp"
+                    android:text="点击登录" />
+
+
+            </LinearLayout>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -436,6 +468,4 @@
 
         </ScrollView>
 
-    </LinearLayout>
-
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>
