@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.view.fragment;
+package cn.imhtb.bytemarket.ui.fragment;
 
 
 import android.content.Intent;
@@ -35,12 +35,12 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bingoogolapple.bgabanner.BGABanner;
-import cn.imhtb.bytemarket.DetailActivity;
+import cn.imhtb.bytemarket.ui.activity.DetailActivity;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.entity.GoodsEntity;
 import cn.imhtb.bytemarket.entity.UserEntity;
-import cn.imhtb.bytemarket.view.adapter.GoodsAdapter;
+import cn.imhtb.bytemarket.ui.adapter.GoodsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

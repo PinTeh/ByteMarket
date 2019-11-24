@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PublishActivity">
+    tools:context=".ui.activity.PublishActivity">
 
 
     <include layout="@layout/common_top" />

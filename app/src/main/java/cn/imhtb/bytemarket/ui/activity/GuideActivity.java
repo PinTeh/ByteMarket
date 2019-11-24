@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.imhtb.bytemarket.R;
 
 public class GuideActivity extends AppCompatActivity {
 

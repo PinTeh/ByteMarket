@@ -1,6 +1,7 @@
-package cn.imhtb.bytemarket.view.fragment;
+package cn.imhtb.bytemarket.ui.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,11 +15,13 @@ import cn.imhtb.bytemarket.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends Fragment {
+public class CampusFragment extends Fragment {
 
+    private Context context;
 
-    public MessageFragment() {
+    public CampusFragment() {
         // Required empty public constructor
+        context = getActivity();
     }
 
 
@@ -26,7 +29,8 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        return inflater.inflate(R.layout.fragment_campus, container, false);
     }
+
 
 }

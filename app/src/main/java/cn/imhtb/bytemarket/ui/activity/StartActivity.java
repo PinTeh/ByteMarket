@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
+import cn.imhtb.bytemarket.R;
 
 public class StartActivity extends AppCompatActivity {
 

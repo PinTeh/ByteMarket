@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.view.adapter;
+package cn.imhtb.bytemarket.ui.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

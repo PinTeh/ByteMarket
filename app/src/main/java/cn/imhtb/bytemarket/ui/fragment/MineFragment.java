@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.view.fragment;
+package cn.imhtb.bytemarket.ui.fragment;
 
 
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 
-import cn.imhtb.bytemarket.FavourActivity;
+import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.R;
 
 /**

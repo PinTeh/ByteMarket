@@ -18,13 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
-        <activity android:name=".PublishActivity" />
-        <activity android:name=".FavourActivity" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".GuideActivity" />
-        <activity android:name=".StartActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activity.PublishActivity" />
+        <activity android:name=".ui.activity.FavourActivity" />
+        <activity android:name=".ui.activity.DetailActivity" />
+        <activity android:name=".ui.activity.ChatActivity" />
+        <activity android:name=".ui.activity.GuideActivity" />
+        <activity android:name=".ui.activity.StartActivity" />
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

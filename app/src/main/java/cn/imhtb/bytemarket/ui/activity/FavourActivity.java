@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,8 +14,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.entity.FavourEntity;
-import cn.imhtb.bytemarket.view.adapter.FavourAdapter;
+import cn.imhtb.bytemarket.ui.adapter.FavourAdapter;
 
 public class FavourActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.view.adapter;
+package cn.imhtb.bytemarket.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import cn.imhtb.bytemarket.DetailActivity;
+import cn.imhtb.bytemarket.ui.activity.DetailActivity;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.entity.FavourEntity;
 

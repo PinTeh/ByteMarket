@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#EBEAEA"
-    tools:context=".FavourActivity">
+    tools:context=".ui.activity.FavourActivity">
 
     <include layout="@layout/common_top" />
 

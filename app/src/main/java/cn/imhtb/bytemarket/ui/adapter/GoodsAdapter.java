@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.view.adapter;
+package cn.imhtb.bytemarket.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

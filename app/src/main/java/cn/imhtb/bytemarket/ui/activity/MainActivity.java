@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -32,13 +32,15 @@ import java.util.ArrayList;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.base.BaseActivity;
-import cn.imhtb.bytemarket.view.adapter.HomeAdapter;
-import cn.imhtb.bytemarket.view.fragment.CampusFragment;
-import cn.imhtb.bytemarket.view.fragment.MainFragment;
-import cn.imhtb.bytemarket.view.fragment.MessageFragment;
-import cn.imhtb.bytemarket.view.fragment.MineFragment;
-import cn.imhtb.bytemarket.view.fragment.PublishFragment;
+import cn.imhtb.bytemarket.ui.adapter.HomeAdapter;
+import cn.imhtb.bytemarket.ui.fragment.CampusFragment;
+import cn.imhtb.bytemarket.ui.fragment.MainFragment;
+import cn.imhtb.bytemarket.ui.fragment.MessageFragment;
+import cn.imhtb.bytemarket.ui.fragment.MineFragment;
+import cn.imhtb.bytemarket.ui.fragment.PublishFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -75,14 +77,18 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //沉浸式状态栏
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-//            Window window = getWindow();
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//            View view = window.getDecorView();
-//            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-//        }
+        //状态栏设置
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.setStatusBarColor(Color.WHITE);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+            //沉浸式
+            //View view = window.getDecorView();
+            //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
 
         //自适应新增按钮宽度
         DisplayMetrics dm = getResources().getDisplayMetrics();

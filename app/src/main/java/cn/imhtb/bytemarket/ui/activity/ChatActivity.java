@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.OnClick;
+import cn.imhtb.bytemarket.R;
 
 public class ChatActivity extends AppCompatActivity {
 

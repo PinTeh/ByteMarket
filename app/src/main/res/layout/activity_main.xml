@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_main_content"
@@ -21,10 +21,11 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:background="#F0F0F0"
-        app:tl_iconHeight="22dp"
-        app:tl_indicator_color="@android:color/holo_red_dark"
+        app:tl_iconHeight="20dp"
+        app:tl_indicator_color="@color/colorSelected"
+        app:tl_indicator_height="1dp"
         app:tl_indicator_style="NORMAL"
-        app:tl_textSelectColor="@android:color/holo_red_dark"
+        app:tl_textSelectColor="@color/colorSelected"
         app:tl_textUnselectColor="@android:color/black"
         app:tl_textsize="10sp" />
 

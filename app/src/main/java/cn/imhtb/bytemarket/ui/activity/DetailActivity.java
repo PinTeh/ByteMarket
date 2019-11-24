@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket;
+package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import com.allen.library.SuperTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.entity.GoodsEntity;
 import cn.imhtb.bytemarket.entity.UserEntity;
 import de.hdodenhof.circleimageview.CircleImageView;
