@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.ui.activity.LoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +79,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             } break;
             case R.id.ll_mine_un_login:{
-                initLoginComponent(true);
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             } break;
             case R.id.rl_mine_login:{
                 initLoginComponent(false);
