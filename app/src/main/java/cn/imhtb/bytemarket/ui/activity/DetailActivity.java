@@ -1,6 +1,7 @@
 package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,14 +36,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.tv_detail_describe)
     TextView tvDescribe;
 
+    @BindView(R.id.toolbar_detail)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-
-        TextView textView = findViewById(R.id.tv_top_desc);
-        textView.setText("商品详情");
 
         String goodsString = getIntent().getStringExtra("GOODS");
         GoodsEntity goodsEntity = JSON.parseObject(goodsString, GoodsEntity.class);
@@ -57,19 +58,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             tvDescribe.setText(goodsEntity.getDescribe());
         }
 
+        toolbar.setNavigationOnClickListener(v->finish());
+
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_goods_detail_chat})
+    @OnClick({R.id.iv_goods_detail_chat})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
             case R.id.iv_goods_detail_chat:
                 Intent intent = new Intent(DetailActivity.this, ChatActivity.class);
                 startActivity(intent);
                 break;
+            case 666:
+
             default:
                 break;
         }

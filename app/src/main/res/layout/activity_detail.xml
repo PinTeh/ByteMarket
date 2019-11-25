@@ -7,7 +7,21 @@
     android:orientation="vertical"
     tools:context=".ui.activity.DetailActivity">
 
-    <include layout="@layout/common_top" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_detail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        app:navigationIcon="@mipmap/navigation_back_50">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品详情"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            />
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"

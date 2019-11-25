@@ -1,11 +1,15 @@
 package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.base.BaseActivity;
 import cn.imhtb.bytemarket.utils.PixelUtils;
@@ -32,17 +37,8 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.ll_images_group)
     LinearLayout imageGroup;
 
-    @BindView(R.id.ll_add_image)
-    LinearLayout openAlbums;
-
-    @BindView(R.id.tv_top_desc)
-    TextView topDesc;
-
-    @BindView(R.id.iv_top_back)
-    ImageView topBack;
-
-    @BindView(R.id.btn_publish_publish)
-    Button btnPublish;
+    @BindView(R.id.toolbar_publish)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +46,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_publish);
         ButterKnife.bind(this);
 
-        topDesc.setText("发布商品");
-        openAlbums.setOnClickListener(this);
-        topBack.setOnClickListener(this);
-        btnPublish.setOnClickListener(this);
+        toolbar.setNavigationOnClickListener(v->finish());
     }
 
     private void openPictureSelector() {
@@ -76,8 +69,15 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             }
             for (LocalMedia media : mediaList) {
                 imageGroup.addView(createImage(media.getPath()));
+                //imageGroup.addView(createLinearLayout());
             }
         }
+    }
+
+    //尝试从布局中获取视图
+    private LinearLayout createLinearLayout(){
+        LinearLayout viewById = findViewById(R.id.item_picture);
+        return (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_picture,viewById,true);
     }
 
     private ImageView createImage(String path){
@@ -94,6 +94,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         return imageView;
     }
 
+    @OnClick({R.id.ll_add_image,R.id.btn_publish_publish})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -102,8 +103,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             break;
             case R.id.btn_publish_publish:
                 Toast.makeText(this,"发布成功",Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.iv_top_back:
                 finish();
                 break;
             default:
