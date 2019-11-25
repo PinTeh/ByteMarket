@@ -14,8 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.entity.GoodsEntity;
-import cn.imhtb.bytemarket.entity.UserEntity;
+import cn.imhtb.bytemarket.bean.GoodsEntity;
+import cn.imhtb.bytemarket.bean.UserEntity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.entity.FavourEntity;
+import cn.imhtb.bytemarket.bean.FavourEntity;
 import cn.imhtb.bytemarket.ui.adapter.FavourAdapter;
 
 public class FavourActivity extends AppCompatActivity {

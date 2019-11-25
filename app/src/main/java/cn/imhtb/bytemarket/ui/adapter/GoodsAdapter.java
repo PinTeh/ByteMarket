@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.entity.GoodsEntity;
+import cn.imhtb.bytemarket.bean.GoodsEntity;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder> {
 

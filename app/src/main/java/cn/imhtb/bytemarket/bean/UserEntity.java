@@ -1,4 +1,4 @@
-package cn.imhtb.bytemarket.entity;
+package cn.imhtb.bytemarket.bean;
 
 public class UserEntity {
 

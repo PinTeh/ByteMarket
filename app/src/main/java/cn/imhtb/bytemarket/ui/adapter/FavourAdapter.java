@@ -15,7 +15,7 @@ import java.util.List;
 
 import cn.imhtb.bytemarket.ui.activity.DetailActivity;
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.entity.FavourEntity;
+import cn.imhtb.bytemarket.bean.FavourEntity;
 
 
 public class FavourAdapter extends RecyclerView.Adapter<FavourAdapter.ViewHolder> {

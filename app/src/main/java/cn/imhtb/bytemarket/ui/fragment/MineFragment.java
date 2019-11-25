@@ -3,26 +3,22 @@ package cn.imhtb.bytemarket.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.app.AppComponent;
+import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.ui.activity.LoginActivity;
 
 /**
@@ -51,7 +47,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
-        initLoginComponent(false);
+        initLoginComponent(AppComponent.isLogin);
     }
 
     private void initLoginComponent(boolean login) {
@@ -64,7 +60,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @OnClick({R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login})
+    @OnClick({R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -80,8 +76,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             } break;
             case R.id.ll_mine_un_login:{
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                AppComponent.isLogin = true;
             } break;
             case R.id.rl_mine_login:{
+                initLoginComponent(false);
+            } break;
+            case R.id.btn_mine_logout:{
+                AppComponent.isLogin = false;
                 initLoginComponent(false);
             }
         }
