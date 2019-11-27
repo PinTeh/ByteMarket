@@ -20,7 +20,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.CommonTabLayout;
@@ -41,7 +40,6 @@ import cn.imhtb.bytemarket.ui.fragment.CampusFragment;
 import cn.imhtb.bytemarket.ui.fragment.MainFragment;
 import cn.imhtb.bytemarket.ui.fragment.MessageFragment;
 import cn.imhtb.bytemarket.ui.fragment.MineFragment;
-import cn.imhtb.bytemarket.ui.fragment.PublishFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -125,7 +123,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MainFragment());
         fragments.add(new CampusFragment());
         // 添加按钮
-        fragments.add(new PublishFragment());
+        fragments.add(new Fragment());
         fragments.add(new MessageFragment());
         fragments.add(new MineFragment());
 

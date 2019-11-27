@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -28,13 +29,15 @@ import java.util.stream.Collectors;
 
 import butterknife.BindArray;
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.ui.adapter.GoodsAdapter;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindArray(R.array.goods_title)
     String[] titles;
@@ -57,6 +60,9 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.et_search_key)
     EditText editText;
 
+    @BindViews({R.id.btn_search_distance_filter,R.id.btn_search_price_filter,R.id.btn_search_time_filter})
+    List<Button> btnFilters;
+
     private GoodsAdapter adapter;
 
     private List<GoodsEntity> list = new ArrayList<>();
@@ -78,6 +84,19 @@ public class SearchActivity extends AppCompatActivity {
 
         init();
 
+        initFilterComponent();
+    }
+
+    private void initFilterComponent() {
+        //设置默认
+        setFilterButtonColor(2);
+    }
+
+    private void setFilterButtonColor(int index){
+        for (Button button : btnFilters) {
+            button.setTextColor(getResources().getColor(R.color.colorUnSelected));
+        }
+        btnFilters.get(index).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     private void loadMoreData() {
@@ -161,5 +180,23 @@ public class SearchActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+
+    @OnClick({R.id.btn_search_distance_filter,R.id.btn_search_price_filter,R.id.btn_search_time_filter})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_search_distance_filter:
+                setFilterButtonColor(0);
+                break;
+            case R.id.btn_search_price_filter:
+                setFilterButtonColor(1);
+
+                break;
+            case R.id.btn_search_time_filter:
+                setFilterButtonColor(2);
+
+                break;
+        }
     }
 }

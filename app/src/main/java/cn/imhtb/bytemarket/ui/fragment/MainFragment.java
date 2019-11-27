@@ -147,16 +147,18 @@ public class MainFragment extends Fragment {
     }
 
     private void initData() {
-        for (int i = 0; i < titles.length; i++) {
-            GoodsEntity goods = new GoodsEntity();
-            goods.setTitle(titles[i]);
-            goods.setDescribe(titles[i] + titles[i]);
-            goods.setPrice(new BigDecimal(prices[i]));
-            goods.setImageId(images.getResourceId(i,0));
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUsername("人称江湖梁总");
-            goods.setAuthor(userEntity);
-            list.add(goods);
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < titles.length; i++) {
+                GoodsEntity goods = new GoodsEntity();
+                goods.setTitle(titles[i]);
+                goods.setDescribe(titles[i] + titles[i]);
+                goods.setPrice(new BigDecimal(prices[i]));
+                goods.setImageId(images.getResourceId(i,0));
+                UserEntity userEntity = new UserEntity();
+                userEntity.setUsername("人称江湖梁总");
+                goods.setAuthor(userEntity);
+                list.add(goods);
+            }
         }
     }
 

@@ -78,6 +78,15 @@
             android:textSize="16sp"
             android:hint="请描述一下你的商品" />
 
+        <EditText
+            android:id="@+id/et_publish_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="￥价格"
+            android:inputType="numberDecimal" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"

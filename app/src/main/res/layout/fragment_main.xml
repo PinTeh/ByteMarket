@@ -5,15 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.MainFragment">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,16 +42,16 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_search"
-                        android:orientation="horizontal"
                         android:gravity="center_horizontal"
+                        android:orientation="horizontal"
                         android:padding="3dp">
 
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:contentDescription="@string/contentDescription"
-                            android:layout_marginEnd="3dp"
                             android:layout_marginStart="-30dp"
+                            android:layout_marginEnd="3dp"
+                            android:contentDescription="@string/contentDescription"
                             android:src="@mipmap/search" />
 
                         <TextView
@@ -108,15 +109,13 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_goods"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorBackgroundLightGray"
-                />
+                android:background="@color/colorBackgroundLightGray" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </androidx.core.widget.NestedScrollView>
 
