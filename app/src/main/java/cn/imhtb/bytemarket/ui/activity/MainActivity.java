@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.base.BaseActivity;
+import cn.imhtb.bytemarket.ui.NotScrollViewPager;
 import cn.imhtb.bytemarket.ui.adapter.HomeAdapter;
 import cn.imhtb.bytemarket.ui.fragment.CampusFragment;
 import cn.imhtb.bytemarket.ui.fragment.MainFragment;
@@ -48,7 +49,7 @@ public class MainActivity extends BaseActivity {
     CommonTabLayout commonTabLayout;
 
     @BindView(R.id.vp_main_content)
-    ViewPager viewPager = null;
+    NotScrollViewPager viewPager = null;
 
     @BindArray(R.array.unSelect)
     TypedArray unSelected;
@@ -78,13 +79,11 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         //状态栏设置
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.setStatusBarColor(Color.WHITE);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
+            window.setStatusBarColor(Color.WHITE);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             //沉浸式
             //View view = window.getDecorView();
             //view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -136,6 +135,7 @@ public class MainActivity extends BaseActivity {
         commonTabLayout.setTabData(customTabEntities);
         commonTabLayout.showMsg(3,6);
         commonTabLayout.setMsgMargin(3, -30, 5);
+
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

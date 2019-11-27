@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <cn.imhtb.bytemarket.ui.NotScrollViewPager
         android:id="@+id/vp_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
