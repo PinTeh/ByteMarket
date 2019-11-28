@@ -48,7 +48,7 @@
                 android:id="@+id/tv_message_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的名字叫做老王"
+                android:text="我和亚索都喜欢浪"
                 android:layout_toEndOf="@+id/civ_message_avatar"
                 android:layout_marginStart="15dp"
                 android:textColor="@android:color/black"
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="最低50，爱买不买，不买滚"
+                android:text="最低50"
                 android:layout_toEndOf="@+id/civ_message_avatar"
                 android:layout_below="@+id/tv_message_username"
                 android:layout_marginStart="15dp"
