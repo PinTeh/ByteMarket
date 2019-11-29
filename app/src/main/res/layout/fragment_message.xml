@@ -70,7 +70,17 @@
                 android:src="@mipmap/goods1"
                 />
 
+
         </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btn_http_test"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="doGet"
+            android:textAllCaps="false"
+            />
 
     </LinearLayout>
 

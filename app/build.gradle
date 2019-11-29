@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -70,4 +71,6 @@ dependencies {
     implementation 'com.android.support:design:29.0.0'
     implementation 'com.github.lygttpod:SuperTextView:2.4.2'
     implementation 'com.alibaba:fastjson:1.1.71.android'
+
+    implementation("com.squareup.okhttp3:okhttp:4.2.2")
 }
