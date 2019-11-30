@@ -1,8 +1,6 @@
 package cn.imhtb.bytemarket.common;
 
-public interface ICallBackHandler {
+public interface ICallBackHandler<T> {
 
-    void success(ServerResponse serverResponse);
-
-    //void onFailure();
+    void onSuccess(ServerResponse<T> response);
 }

@@ -1,6 +1,8 @@
 package cn.imhtb.bytemarket.bean;
 
-public class UserEntity {
+import java.io.Serializable;
+
+public class UserEntity implements Serializable {
 
     private String username;
 
@@ -10,5 +12,12 @@ public class UserEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "username='" + username + '\'' +
+                '}';
     }
 }

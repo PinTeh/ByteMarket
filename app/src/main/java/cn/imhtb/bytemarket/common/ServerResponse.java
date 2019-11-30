@@ -1,6 +1,8 @@
 package cn.imhtb.bytemarket.common;
 
-public class ServerResponse<T> {
+import java.io.Serializable;
+
+public class ServerResponse<T> implements Serializable {
 
     private int code;
     private String msg;
