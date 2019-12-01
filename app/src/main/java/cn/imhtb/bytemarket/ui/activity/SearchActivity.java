@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,7 +31,10 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import butterknife.BindArray;
@@ -88,6 +92,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private List<GoodsEntity> list = new ArrayList<>();
 
+    private Map<Integer,Integer> map;
+
     static {
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) ->
              new ClassicsFooter(context)
@@ -102,6 +108,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        //默认选中
+        map = new LinkedHashMap<>();
+        map.put(0,0);
+        map.put(1,0);
 
         init();
 
@@ -133,22 +143,32 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setFilterSuperTextViewColor(int index){
         //1. 初始化
-        for (SuperTextView superTextView : stvFilters) {
-            superTextView.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
-        }
+//        for (SuperTextView superTextView : stvFilters) {
+//            superTextView.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
+//            superTextView.setRightIcon(R.mipmap.sort_down);
+//        }
         //2. 设置选中
         SuperTextView current = stvFilters.get(index);
-        Object t = current.getTag();
-        if (t!=null) {
-            int tag = (int) t;
-            if (tag == 1) {
-                //选中再点击
-                stvFilters.get(index).setRightIcon(R.mipmap.sort_up);
-            } else if (tag == 2) {
-                stvFilters.get(index).setRightIcon(R.mipmap.sort_down);
+        Integer count = map.get(index);
+        if (count!=null){
+            if (count == 0){
+                //第一次选中
+                map.put(index,count+1);
+                current.setRightIcon(R.mipmap.sort_down);
+                current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
+            }else if (count == 1) {
+                //第二次选中
+                map.put(index,count+1);
+                current.setRightIcon(R.mipmap.sort_up);
+                current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
+            }else if (count==2){
+                //第三次选中
+                map.put(index,0);
+                current.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
+                current.setRightIcon(R.mipmap.sort_down);
             }
         }
-        current.setCenterTextColor(getResources().getColor(R.color.colorAccent));
+
     }
 
     private void loadMoreData() {
@@ -243,13 +263,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 drawerLayout.openDrawer(linearLayout);
                 break;
             case R.id.stv_search_price_filter:
-                stvFilters.get(1).setTag(1);
                 setFilterSuperTextViewColor(1);
                 break;
             case R.id.stv_search_time_filter:
-                SuperTextView current = stvFilters.get(0);
-                Object tag = current.getTag();
-
                 setFilterSuperTextViewColor(0);
                 break;
         }
