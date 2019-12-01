@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_address_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="100dp">
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_address_name_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:sLeftTextString="收货人:"
+        app:sLeftTextSize="18sp"
+        app:sCenterTextString="梁艺可"
+        app:sCenterTextSize="18sp"
+        app:sRightTextString="1888888888"
+        app:sRightTextSize="18sp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_address_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="广西壮族自治区桂林市灵川县桂林电子科技大学花江校区"
+        android:textSize="16sp"
+        />
+</LinearLayout>

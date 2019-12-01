@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
-        <activity android:name=".ui.activity.SearchActivity"></activity>
+        <activity android:name=".ui.activity.AddressActivity"></activity>
+        <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.PublishActivity" />
         <activity android:name=".ui.activity.FavourActivity" />

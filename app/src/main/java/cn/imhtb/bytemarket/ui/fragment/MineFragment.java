@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.app.AppComponent;
+import cn.imhtb.bytemarket.ui.activity.AddressActivity;
 import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.ui.activity.LoginActivity;
 
@@ -60,7 +61,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @OnClick({R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout})
+    @OnClick({R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -85,6 +86,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 AppComponent.isLogin = false;
                 initLoginComponent(false);
             }
+            case R.id.rl_mine_fragment_address:{
+                startActivity(new Intent(getActivity(), AddressActivity.class));
+            } break;
         }
     }
 
