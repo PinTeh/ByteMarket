@@ -1,101 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_search"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     tools:context=".ui.activity.SearchActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_search"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:navigationIcon="@mipmap/navigation_back_50"
-        app:contentInsetStartWithNavigation="0dp"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="50dp"
-            android:background="@drawable/background_search"
-            android:orientation="horizontal"
-            >
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/contentDescription"
-                android:layout_margin="2dp"
-                android:src="@mipmap/search" />
-
-            <EditText
-                android:id="@+id/et_search_key"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/search_tips"
-                android:layout_marginStart="2dp"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
-        >
-        <Button
-            android:id="@+id/btn_search_time_filter"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:textSize="14sp"
-            android:text="时间排序"
-            />
-
-        <Button
-            android:id="@+id/btn_search_price_filter"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:textSize="14sp"
-            android:text="价格排序"
-            />
-
-        <Button
-            android:id="@+id/btn_search_distance_filter"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:textSize="14sp"
-            android:text="距离优先"
-            />
-    </LinearLayout>
-
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/srl_search_refresh"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_search_result_list"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_search"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:navigationIcon="@mipmap/navigation_back_50"
+            app:contentInsetStartWithNavigation="0dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/background_search"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@string/contentDescription"
+                    android:layout_margin="2dp"
+                    android:src="@mipmap/search" />
+
+                <EditText
+                    android:id="@+id/et_search_key"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="@string/search_tips"
+                    android:layout_marginStart="2dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            >
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_search_time_filter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:sCenterTextString="时间排序"
+                app:sRightIconRes="@mipmap/sort_down"
+                app:sRightIconWidth="20dp"
+                app:sRightIconHeight="20dp"
+                />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/stv_search_price_filter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:sCenterTextString="价格排序"
+                app:sRightIconRes="@mipmap/sort_down"
+                app:sRightIconWidth="20dp"
+                app:sRightIconHeight="20dp"
+                />
+
+            <Button
+                android:id="@+id/btn_search_campus_filter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textSize="14sp"
+                android:text="校园"
+                />
+        </LinearLayout>
+
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/srl_search_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBackgroundLightGray"
-            />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            >
 
-</LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search_result_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackgroundLightGray"
+                />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_search_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:background="@color/colorPrimary"
+        >
+        <RadioGroup
+            android:id="@+id/radio_group_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_campus_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        </RadioGroup>
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

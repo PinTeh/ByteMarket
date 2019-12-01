@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
     private Context context;
     private int resourceId;
     private ISelfOnItemClickListener listener;
-
+    private int selectedIndex = -1;
 
     public CampusAdapter(List<CampusEntity> list, Context context, int resourceId,ISelfOnItemClickListener listener) {
         this.list = list;
@@ -43,7 +44,19 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId,parent,false);
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
+
+        //设置单选
+        RadioButton radioButton= holder.radioButton;
+        if (radioButton!=null){
+            radioButton.setOnClickListener(v->{
+                int position = holder.getAdapterPosition();
+                selectedIndex = selectedIndex==position?-1:position;
+                notifyDataSetChanged();
+            });
+        }
+
+        return holder;
     }
 
     @Override
@@ -51,11 +64,18 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         CampusEntity campusEntity = list.get(position);
         holder.name.setText(campusEntity.getName());
         holder.number.setText(campusEntity.getNumber());
-        holder.describe.setText(campusEntity.getDescribe());
         Glide.with(context).load(campusEntity.getAvatar()).into(holder.avatar);
         holder.content.setOnClickListener(v -> {
             listener.itemClick(position);
         });
+        // 搜索布局控件
+        if (holder.describe!=null) {
+            holder.describe.setText(campusEntity.getDescribe());
+        }
+        RadioButton radioButton= holder.radioButton;
+        if (radioButton!=null) {
+            radioButton.setChecked(selectedIndex==position);
+        }
     }
 
     @Override
@@ -70,6 +90,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         TextView number;
         TextView describe;
         ImageView avatar;
+        RadioButton radioButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +99,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
             this.describe = itemView.findViewById(R.id.tv_item_campus_describe);
             this.avatar = itemView.findViewById(R.id.iv_item_campus_logo);
             this.content = itemView.findViewById(R.id.cv_item_campus_content);
+            this.radioButton = itemView.findViewById(R.id.rb_search_item);
         }
     }
 

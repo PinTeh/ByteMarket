@@ -6,18 +6,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.alibaba.fastjson.JSON;
+import com.allen.library.SuperTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
@@ -33,11 +39,20 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.bean.CampusEntity;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 import cn.imhtb.bytemarket.bean.UserEntity;
+import cn.imhtb.bytemarket.ui.adapter.CampusAdapter;
 import cn.imhtb.bytemarket.ui.adapter.GoodsAdapter;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    @BindView(R.id.et_search_key)
+    EditText editText;
+
+    @BindView(R.id.toolbar_search)
+    Toolbar toolbar;
 
     @BindArray(R.array.goods_title)
     String[] titles;
@@ -48,20 +63,26 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @BindArray(R.array.goods_image)
     TypedArray images;
 
-    @BindView(R.id.toolbar_search)
-    Toolbar toolbar;
-
     @BindView(R.id.srl_search_refresh)
     SmartRefreshLayout smartRefreshLayout;
 
     @BindView(R.id.rv_search_result_list)
     RecyclerView recyclerView;
 
-    @BindView(R.id.et_search_key)
-    EditText editText;
+    @BindView(R.id.rv_search_campus_list)
+    RecyclerView recyclerViewSearch;
 
-    @BindViews({R.id.btn_search_distance_filter,R.id.btn_search_price_filter,R.id.btn_search_time_filter})
-    List<Button> btnFilters;
+    @BindView(R.id.btn_search_campus_filter)
+    Button campusFilter;
+
+    @BindViews({R.id.stv_search_time_filter,R.id.stv_search_price_filter})
+    List<SuperTextView> stvFilters;
+
+    @BindView(R.id.drawer_search)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.ll_search_right)
+    LinearLayout linearLayout;
 
     private GoodsAdapter adapter;
 
@@ -85,18 +106,49 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         init();
 
         initFilterComponent();
+
+        initDrawer();
+
+    }
+
+    private void initDrawer() {
+        List<CampusEntity> list = new ArrayList<>();
+        list.add(CampusEntity.newInstance());
+        list.add(CampusEntity.newInstanceAlpha());
+        list.add(CampusEntity.newInstanceBeta());
+        list.add(CampusEntity.newInstance());
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        CampusAdapter adapter = new CampusAdapter(list, this,R.layout.item_campus_search, position -> {
+            Log.d("ttt", "initDrawer: " + "执行了");
+        });
+        recyclerViewSearch.setAdapter(adapter);
+        recyclerViewSearch.setLayoutManager(manager);
     }
 
     private void initFilterComponent() {
         //设置默认
-        setFilterButtonColor(2);
+        setFilterSuperTextViewColor(0);
     }
 
-    private void setFilterButtonColor(int index){
-        for (Button button : btnFilters) {
-            button.setTextColor(getResources().getColor(R.color.colorUnSelected));
+    private void setFilterSuperTextViewColor(int index){
+        //1. 初始化
+        for (SuperTextView superTextView : stvFilters) {
+            superTextView.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
         }
-        btnFilters.get(index).setTextColor(getResources().getColor(R.color.colorAccent));
+        //2. 设置选中
+        SuperTextView current = stvFilters.get(index);
+        Object t = current.getTag();
+        if (t!=null) {
+            int tag = (int) t;
+            if (tag == 1) {
+                //选中再点击
+                stvFilters.get(index).setRightIcon(R.mipmap.sort_up);
+            } else if (tag == 2) {
+                stvFilters.get(index).setRightIcon(R.mipmap.sort_down);
+            }
+        }
+        current.setCenterTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     private void loadMoreData() {
@@ -174,6 +226,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         //list = list.stream().filter(g -> g.getTitle().contains(editText.getText().toString())).collect(Collectors.toList());
                         Collections.copy(list,list.stream().filter(g -> g.getTitle().contains(editText.getText().toString())).collect(Collectors.toList()));
                         adapter.notifyDataSetChanged();
+                        editText.clearFocus();
                     }
 
                 }
@@ -182,20 +235,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    @OnClick({R.id.btn_search_distance_filter,R.id.btn_search_price_filter,R.id.btn_search_time_filter})
+    @OnClick({R.id.btn_search_campus_filter,R.id.stv_search_price_filter,R.id.stv_search_time_filter})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_search_distance_filter:
-                setFilterButtonColor(0);
+            case R.id.btn_search_campus_filter:
+                drawerLayout.openDrawer(linearLayout);
                 break;
-            case R.id.btn_search_price_filter:
-                setFilterButtonColor(1);
-
+            case R.id.stv_search_price_filter:
+                stvFilters.get(1).setTag(1);
+                setFilterSuperTextViewColor(1);
                 break;
-            case R.id.btn_search_time_filter:
-                setFilterButtonColor(2);
+            case R.id.stv_search_time_filter:
+                SuperTextView current = stvFilters.get(0);
+                Object tag = current.getTag();
 
+                setFilterSuperTextViewColor(0);
                 break;
         }
     }

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:navigationIcon="@mipmap/navigation_back_50"
+        android:elevation="1dp"
         >
 
         <TextView
@@ -27,9 +28,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_address_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/colorBackgroundLightGray"
-        android:padding="10dp"
+        android:padding="5dp"
+        android:elevation="1dp"
+        />
+
+    <Button
+        android:id="@+id/btn_address_add"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@null"
+        android:text="新增地址"
+        android:textSize="18sp"
         />
 
 </LinearLayout>

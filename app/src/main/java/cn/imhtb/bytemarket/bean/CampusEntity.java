@@ -46,7 +46,7 @@ public class CampusEntity {
         CampusEntity campusEntity = new CampusEntity();
         campusEntity.setName("桂林电子科技大学");
         campusEntity.setAvatar("http://image.imhtb.cn/guet_logo.jpg");
-        campusEntity.setNumber("一共有32兆在这里卖64位的东西");
+        campusEntity.setNumber("一共有38件商品正在出售");
         campusEntity.setDescribe("欢迎加入桂林电子科技大学二手字节交易市场");
         return campusEntity;
     }
@@ -55,7 +55,7 @@ public class CampusEntity {
         CampusEntity campusEntity = new CampusEntity();
         campusEntity.setName("广西师范大学");
         campusEntity.setAvatar("http://image.imhtb.cn/gxsf_logo.jpg");
-        campusEntity.setNumber("一共有38个字节在这里卖2T东西");
+        campusEntity.setNumber("一共有22件商品正在出售");
         campusEntity.setDescribe("欢迎加入广西师范大学二手字节交易市场");
         return campusEntity;
     }
@@ -64,7 +64,7 @@ public class CampusEntity {
         CampusEntity campusEntity = new CampusEntity();
         campusEntity.setName("广西大学");
         campusEntity.setAvatar("http://image.imhtb.cn/gxdx_logo.jpg");
-        campusEntity.setNumber("一共有2个字节在这里乱搞");
+        campusEntity.setNumber("一共有18件商品正在出售");
         campusEntity.setDescribe("欢迎加入广西大学二手字节交易市场");
         return campusEntity;
     }
