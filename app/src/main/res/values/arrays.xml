@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="subTitle">
-        <item>全部</item>
         <item>校园</item>
         <item>热门</item>
         <item>手机</item>
