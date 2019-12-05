@@ -18,8 +18,9 @@
         <ImageView
             android:id="@+id/iv_item_campus_logo"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:src="@mipmap/avatar"
+            android:layout_marginTop="5dp"
             android:contentDescription="@string/contentDescription" />
 
         <LinearLayout

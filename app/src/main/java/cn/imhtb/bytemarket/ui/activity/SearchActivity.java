@@ -108,14 +108,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-        //默认选中
-        map = new LinkedHashMap<>();
-        map.put(0,0);
-        map.put(1,0);
-
-        init();
 
         initFilterComponent();
+
+        init();
 
         initDrawer();
 
@@ -137,29 +133,26 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initFilterComponent() {
-        //设置默认
-        setFilterSuperTextViewColor(0);
+        //默认选中
+        map = new LinkedHashMap<>();
+        map.put(0,0);
+        map.put(1,0);
     }
 
     private void setFilterSuperTextViewColor(int index){
-        //1. 初始化
-//        for (SuperTextView superTextView : stvFilters) {
-//            superTextView.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
-//            superTextView.setRightIcon(R.mipmap.sort_down);
-//        }
-        //2. 设置选中
+
         SuperTextView current = stvFilters.get(index);
         Integer count = map.get(index);
         if (count!=null){
             if (count == 0){
                 //第一次选中
                 map.put(index,count+1);
-                current.setRightIcon(R.mipmap.sort_down);
+                current.setRightIcon(R.mipmap.sort_down_red);
                 current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
             }else if (count == 1) {
                 //第二次选中
                 map.put(index,count+1);
-                current.setRightIcon(R.mipmap.sort_up);
+                current.setRightIcon(R.mipmap.sort_up_red);
                 current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
             }else if (count==2){
                 //第三次选中
