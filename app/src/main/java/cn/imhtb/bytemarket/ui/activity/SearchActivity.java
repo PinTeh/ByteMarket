@@ -2,6 +2,7 @@ package cn.imhtb.bytemarket.ui.activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +47,9 @@ import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.bean.CampusEntity;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 import cn.imhtb.bytemarket.bean.UserEntity;
+import cn.imhtb.bytemarket.common.Api;
+import cn.imhtb.bytemarket.common.ICallBackHandler;
+import cn.imhtb.bytemarket.common.OkHttpUtils;
 import cn.imhtb.bytemarket.ui.adapter.CampusAdapter;
 import cn.imhtb.bytemarket.ui.adapter.GoodsAdapter;
 
@@ -87,6 +91,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     @BindView(R.id.ll_search_right)
     LinearLayout linearLayout;
+
+    private int page = 1;
 
     private GoodsAdapter adapter;
 
@@ -237,9 +243,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         //使用 adapter.notifyDataSetChanged() 时，必须保证传进 Adapter 的数据 List 是同一个 List
                         //而不能是其他对象，否则无法更新。
                         //list = list.stream().filter(g -> g.getTitle().contains(editText.getText().toString())).collect(Collectors.toList());
-                        Collections.copy(list,list.stream().filter(g -> g.getTitle().contains(editText.getText().toString())).collect(Collectors.toList()));
-                        adapter.notifyDataSetChanged();
-                        editText.clearFocus();
+                        String key = editText.getText().toString().trim();
+                        String params = "?page=" + page + "&key="+key;
+                        Integer time = map.get(0);
+                        Integer price = map.get(1);
+                        if (time==1){
+                            params = params + "&time=desc";
+                        }else if (time==2){
+                            params = params + "&time=asc";
+                        }
+                        if (price==1){
+                            params = params + "&price=desc";
+                        }else if (price==2){
+                            params = params + "&price=asc";
+                        }
+                        new SearchGoods().execute(params);
                     }
 
                 }
@@ -261,6 +279,32 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.stv_search_time_filter:
                 setFilterSuperTextViewColor(0);
                 break;
+        }
+    }
+
+    class SearchGoods extends AsyncTask<String,Void,List<GoodsEntity>> {
+
+        List<GoodsEntity> data = new ArrayList<>();
+        @Override
+        protected List<GoodsEntity> doInBackground(String... strings) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_SEARCH_GOODS + strings[0],SearchActivity.this,(ICallBackHandler<List<GoodsEntity>>) response ->{
+                data = response.getData();
+                // TODO 删除
+                data.forEach(v->{
+                    v.setImageId(R.mipmap.goods1);
+                    v.setAuthor(UserEntity.getInstance());
+                });
+            },true);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+            super.onPostExecute(goodsEntities);
+            list.clear();
+            list.addAll(goodsEntities);
+            adapter.notifyDataSetChanged();
+            editText.clearFocus();
         }
     }
 }

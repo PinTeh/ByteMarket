@@ -1,20 +1,21 @@
 package cn.imhtb.bytemarket.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +29,9 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import butterknife.BindArray;
@@ -39,17 +39,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.bean.BannerEntity;
 import cn.imhtb.bytemarket.bean.CategoryEntity;
+import cn.imhtb.bytemarket.bean.GoodsEntity;
+import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
 import cn.imhtb.bytemarket.common.OkHttpUtils;
-import cn.imhtb.bytemarket.common.ServerResponse;
 import cn.imhtb.bytemarket.ui.activity.DetailActivity;
-import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.TabEntity;
-import cn.imhtb.bytemarket.bean.GoodsEntity;
-import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.ui.activity.SearchActivity;
 import cn.imhtb.bytemarket.ui.adapter.GoodsAdapter;
 
@@ -75,6 +74,9 @@ public class MainFragment extends Fragment {
 
     @BindView(R.id.ctl_main_classify)
     CommonTabLayout commonTabLayout;
+
+    @BindView(R.id.rv_goods)
+    RecyclerView recyclerView;
 
     private int page = 1;
 
@@ -123,18 +125,9 @@ public class MainFragment extends Fragment {
     }
 
     private void initComponent(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.rv_goods);
         //设置瀑布流布局
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-
-        //初始化适配器及数据
-        adapter = new GoodsAdapter(getActivity(),list,position -> {
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("GOODS", JSON.toJSONString(list.get(position)));
-            startActivity(intent);
-        });
-        recyclerView.setAdapter(adapter);
 
         //刷新控件
         smartRefreshLayout = view.findViewById(R.id.swipe_refresh);
@@ -148,11 +141,6 @@ public class MainFragment extends Fragment {
                 entity = (TabEntity) customTabEntities.get(position);
                 if (entity!=null){
                     list.clear();
-//                    OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS+"?cid="+entity.getId(),context,(ICallBackHandler<List<GoodsEntity>>) response ->{
-//                        List<GoodsEntity> data = response.getData();
-//                        list.addAll(data);
-//                    });
-                    adapter.notifyDataSetChanged();
                     loadMoreData();
                 }
             }
@@ -164,110 +152,133 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void initData() {
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < titles.length; i++) {
-                GoodsEntity goods = new GoodsEntity();
-                goods.setTitle(titles[i]);
-                goods.setDescribe(titles[i] + titles[i]);
-                goods.setPrice(new BigDecimal(prices[i]));
-                goods.setImageId(images.getResourceId(i,0));
-                UserEntity userEntity = new UserEntity();
-                userEntity.setUsername("人称江湖梁总");
-                goods.setAuthor(userEntity);
-                list.add(goods);
-            }
-        }
+    private void init() {
 
-//        OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS,context,(ICallBackHandler<List<GoodsEntity>>) response ->{
-//            List<GoodsEntity> data = response.getData();
-//            list.addAll(data);
-//        });
+        new GetGoods().execute();
 
+        new GetBanner().execute();
+
+        new GetCategory().execute();
     }
 
     private void loadMoreData() {
 
-//        String params = "?page=" + (++page);
-//        if (entity.getId()!=0){
-//            params = params + "&cid=" + entity.getId();
-//        }
-//            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS+params,context,(ICallBackHandler<List<GoodsEntity>>) response ->{
-//                List<GoodsEntity> data = response.getData();
-//                list.addAll(data);
-//            });
+        String params = "?page=" + (page++);
+        if (entity!=null&&entity.getId()!=0){
+            params = params + "&cid=" + entity.getId();
+        }
 
-        Handler handler = new Handler();
-        handler.postDelayed(()->{
+        new LoadMoreGoods().execute(params);
+    }
 
-            for (int i = 0; i < titles.length; i++) {
-                GoodsEntity goods = new GoodsEntity();
-                goods.setTitle(titles[i]);
-                goods.setPrice(new BigDecimal(prices[i]));
-                goods.setImageId(images.getResourceId(i,0));
-                UserEntity userEntity = new UserEntity();
-                userEntity.setUsername("人称江湖梁总");
-                goods.setAuthor(userEntity);
-                list.add(goods);
-            }
+    class LoadMoreGoods extends AsyncTask<String,Void,List<GoodsEntity>>{
 
+        List<GoodsEntity> data = new ArrayList<>();
+        @Override
+        protected List<GoodsEntity> doInBackground(String... strings) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS + strings[0],context,(ICallBackHandler<List<GoodsEntity>>) response ->{
+                data = response.getData();
+                // TODO 删除
+                data.forEach(v->{
+                    v.setImageId(R.mipmap.goods1);
+                    v.setAuthor(UserEntity.getInstance());
+                });
+            },true);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+            super.onPostExecute(goodsEntities);
+            list.addAll(goodsEntities);
             adapter.notifyDataSetChanged();
             smartRefreshLayout.finishLoadMore();
-        },1000);
-    }
-
-    private void init() {
-
-        initData();
-
-        initBanner();
-
-        initCategoryBar();
-    }
-
-    private void initCategoryBar() {
-//        OkHttpUtils.doGet(Api.TYPE_CATEGORY,Api.URL_GET_CATEGORY,context,(ICallBackHandler<List<CategoryEntity>>) response ->{
-//            List<CategoryEntity> data = response.getData();
-//            customTabEntities.add(new TabEntity("全部",0));
-//            data.forEach(v ->{
-//                customTabEntities.add(new TabEntity(v.getName(),v.getId()));
-//            });
-//        });
-        entity = new TabEntity("全部",0);
-        customTabEntities.add(new TabEntity("全部",0));
-        for (String mTitle : subTitles) {
-            customTabEntities.add(new TabEntity(mTitle));
         }
-        commonTabLayout.setTabData(customTabEntities);
     }
 
-    private void initBanner() {
-        contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
-                Glide.with(context)
-                        .load(model)
-                        .placeholder(R.drawable.p_seekbar_thumb_normal)
-                        .error(R.drawable.p_seekbar_thumb_normal)
-                        .centerCrop()
-                        .dontAnimate()
-                        .into(itemView));
+    class GetGoods extends AsyncTask<Void,Void,List<GoodsEntity>>{
 
-        /*
-        OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<BannerEntity>>)response -> {
-            List<BannerEntity> list = response.getData();
+        List<GoodsEntity> data = new ArrayList<>();
+        @Override
+        protected List<GoodsEntity> doInBackground(Void... voids) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<GoodsEntity>>) response -> {
+                data = response.getData();
+                // TODO 删除
+                data.forEach(v->{
+                    v.setImageId(R.mipmap.goods1);
+                    v.setAuthor(UserEntity.getInstance());
+                });
+            },true);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+            super.onPostExecute(goodsEntities);
+            //初始化适配器及数据
+            list.addAll(goodsEntities);
+            adapter = new GoodsAdapter(getActivity(),list,position -> {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("GOODS", JSON.toJSONString(list.get(position)));
+                startActivity(intent);
+            });
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+    class GetCategory extends AsyncTask<Void,Void,ArrayList<CustomTabEntity>>{
+
+        @Override
+        protected ArrayList<CustomTabEntity> doInBackground(Void... voids) {
+            customTabEntities.add(new TabEntity("全部",0));
+            OkHttpUtils.doGet(Api.TYPE_CATEGORY,Api.URL_GET_CATEGORY,context,(ICallBackHandler<List<CategoryEntity>>) response ->{
+                List<CategoryEntity> data = response.getData();
+                data.forEach(v ->{
+                    customTabEntities.add(new TabEntity(v.getName(),v.getId()));
+                });
+            },true);
+            return customTabEntities;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CustomTabEntity> tabEntities) {
+            super.onPostExecute(tabEntities);
+            commonTabLayout.setTabData(tabEntities);
+        }
+    }
+
+    class GetBanner extends AsyncTask<Void,Void,List<BannerEntity>>{
+
+        List<BannerEntity> list = new ArrayList<>();
+
+        @Override
+        protected List<BannerEntity> doInBackground(Void... voids) {
+            OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<BannerEntity>>)response -> {
+                list = response.getData();
+            },true);
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<BannerEntity> bannerEntities) {
+            super.onPostExecute(bannerEntities);
             List<String> urls = list.stream().map(BannerEntity::getUrl).collect(Collectors.toList());
             List<String> tips = list.stream().map(BannerEntity::getTips).collect(Collectors.toList());
+            contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
+                    Glide.with(context)
+                            .load(model)
+                            .placeholder(R.drawable.p_seekbar_thumb_normal)
+                            .error(R.drawable.p_seekbar_thumb_normal)
+                            .centerCrop()
+                            .dontAnimate()
+                            .into(itemView));
             contentBanner.setData(urls, tips);
-        });
-         */
-
-        contentBanner.setData(
-                Arrays.asList("http://image.imhtb.cn/3f5ff03fa0c024b930f515e63ae2c702.jpg_945x288_7dff4510.jpg",
-                        "http://image.imhtb.cn/76e68eda4ed089c0e5b0ce2367efe428.jpg"),
-                Arrays.asList("tips1", "tips1"));
+        }
     }
 
     @OnClick(R.id.ll_main_search)
-    public void toSearch(){
+    void toSearch(){
         startActivity(new Intent(context, SearchActivity.class));
     }
+
 }

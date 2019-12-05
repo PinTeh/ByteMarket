@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 import cn.imhtb.bytemarket.bean.UserEntity;
 import okhttp3.Call;
@@ -30,7 +31,7 @@ public class JsonCallBack<T> implements Callback {
 
     private ICallBackHandler<T> iCallBackHandler;
 
-    public JsonCallBack(Context context,ICallBackHandler<T> iCallBackHandler,Type type){
+    public JsonCallBack(Context context, ICallBackHandler<T> iCallBackHandler, Type type) {
         handler = new Handler(Looper.getMainLooper());
         this.context = context;
         this.iCallBackHandler = iCallBackHandler;
@@ -45,15 +46,15 @@ public class JsonCallBack<T> implements Callback {
     }
 
     @Override
-    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+    public void onResponse(@NotNull Call call, @NotNull Response response) {
         handler.post(()->{
             try {
                 String responseString = Objects.requireNonNull(response.body()).string();
                 Gson gson = new Gson();
-                ServerResponse<T> serverResponse = gson.fromJson(responseString,type);
-                if (serverResponse.isSuccess()){
+                ServerResponse<T> serverResponse = gson.fromJson(responseString, type);
+                if (serverResponse.isSuccess()) {
                     iCallBackHandler.onSuccess(serverResponse);
-                }else {
+                } else {
                     makeToast("服务端响应失败请求");
                 }
             } catch (IOException e) {
@@ -63,7 +64,7 @@ public class JsonCallBack<T> implements Callback {
         });
     }
 
-    private void makeToast(String message){
-        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+    private void makeToast(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }
