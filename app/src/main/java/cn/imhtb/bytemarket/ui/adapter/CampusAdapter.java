@@ -31,6 +31,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
     private Context context;
     private int resourceId;
     private ISelfOnItemClickListener listener;
+    private ISelfOnItemClickListener radioButtonListener;
     private int selectedIndex = -1;
 
     public CampusAdapter(List<CampusEntity> list, Context context, int resourceId,ISelfOnItemClickListener listener) {
@@ -38,6 +39,14 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         this.context = context;
         this.resourceId = resourceId;
         this.listener = listener;
+    }
+
+    public CampusAdapter(List<CampusEntity> list, Context context, int resourceId,ISelfOnItemClickListener listener,ISelfOnItemClickListener radioButtonListener) {
+        this.list = list;
+        this.context = context;
+        this.resourceId = resourceId;
+        this.listener = listener;
+        this.radioButtonListener = radioButtonListener;
     }
 
     @NonNull
@@ -52,6 +61,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
             radioButton.setOnClickListener(v->{
                 int position = holder.getAdapterPosition();
                 selectedIndex = selectedIndex==position?-1:position;
+                radioButtonListener.itemClick(position);
                 notifyDataSetChanged();
             });
         }
@@ -65,9 +75,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         holder.name.setText(campusEntity.getName());
         holder.number.setText(campusEntity.getNumber());
         Glide.with(context).load(campusEntity.getAvatar()).into(holder.avatar);
-        holder.content.setOnClickListener(v -> {
-            listener.itemClick(position);
-        });
+        holder.content.setOnClickListener(v -> listener.itemClick(position));
         // 搜索布局控件
         if (holder.describe!=null) {
             holder.describe.setText(campusEntity.getDescribe());
@@ -75,6 +83,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         RadioButton radioButton= holder.radioButton;
         if (radioButton!=null) {
             radioButton.setChecked(selectedIndex==position);
+
         }
     }
 

@@ -2,6 +2,8 @@ package cn.imhtb.bytemarket.bean;
 
 public class CampusEntity {
 
+    private Integer id;
+
     private String name;
 
     private String number;
@@ -9,6 +11,14 @@ public class CampusEntity {
     private String avatar;
 
     private String describe;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -44,6 +54,7 @@ public class CampusEntity {
 
     public static CampusEntity newInstance(){
         CampusEntity campusEntity = new CampusEntity();
+        campusEntity.setId(1);
         campusEntity.setName("桂林电子科技大学");
         campusEntity.setAvatar("http://image.imhtb.cn/guet_logo.jpg");
         campusEntity.setNumber("一共有38件商品正在出售");
@@ -53,6 +64,7 @@ public class CampusEntity {
 
     public static CampusEntity newInstanceAlpha(){
         CampusEntity campusEntity = new CampusEntity();
+        campusEntity.setId(2);
         campusEntity.setName("广西师范大学");
         campusEntity.setAvatar("http://image.imhtb.cn/gxsf_logo.jpg");
         campusEntity.setNumber("一共有22件商品正在出售");
@@ -62,6 +74,7 @@ public class CampusEntity {
 
     public static CampusEntity newInstanceBeta(){
         CampusEntity campusEntity = new CampusEntity();
+        campusEntity.setId(3);
         campusEntity.setName("广西大学");
         campusEntity.setAvatar("http://image.imhtb.cn/gxdx_logo.jpg");
         campusEntity.setNumber("一共有18件商品正在出售");

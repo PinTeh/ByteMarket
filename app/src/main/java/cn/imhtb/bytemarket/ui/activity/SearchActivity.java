@@ -115,11 +115,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
 
-        initFilterComponent();
-
         init();
-
-        initDrawer();
 
     }
 
@@ -131,9 +127,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         list.add(CampusEntity.newInstance());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        CampusAdapter adapter = new CampusAdapter(list, this,R.layout.item_campus_search, position -> {
-            Log.d("ttt", "initDrawer: " + "执行了");
+        CampusAdapter adapter = new CampusAdapter(list
+                ,this
+                ,R.layout.item_campus_search
+                ,p ->  Log.d("ttt", "initDrawer: " + "执行了")
+                ,p -> {
+            map.put(2, list.get(p).getId());
+            loadData(true);
         });
+
         recyclerViewSearch.setAdapter(adapter);
         recyclerViewSearch.setLayoutManager(manager);
     }
@@ -171,46 +173,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loadMoreData() {
-
-        Handler handler = new Handler();
-        handler.postDelayed(()->{
-
-            for (int i = 0; i < titles.length; i++) {
-                GoodsEntity goods = new GoodsEntity();
-                goods.setTitle(titles[i]);
-                goods.setPrice(new BigDecimal(prices[i]));
-                goods.setImageId(images.getResourceId(i,0));
-                UserEntity userEntity = new UserEntity();
-                userEntity.setUsername("人称江湖梁总");
-                goods.setAuthor(userEntity);
-                list.add(goods);
-            }
-
-            adapter.notifyDataSetChanged();
-            smartRefreshLayout.finishLoadMore();
-        },1000);
-    }
-
-    private void initData() {
-        for (int i = 0; i < titles.length; i++) {
-            GoodsEntity goods = new GoodsEntity();
-            goods.setTitle(titles[i]);
-            goods.setDescribe(titles[i] + titles[i]);
-            goods.setPrice(new BigDecimal(prices[i]));
-            goods.setImageId(images.getResourceId(i,0));
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUsername("人称江湖梁总");
-            goods.setAuthor(userEntity);
-            list.add(goods);
-        }
-
+        page++;
+        loadData(false);
     }
 
     private void init(){
 
+        initFilterComponent();
+
         initComponent();
 
-        initData();
+        initDrawer();
+
+        loadData(false);
 
     }
 
@@ -233,7 +208,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        //TODO
         editText.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 // 监听到回车键，会执行2次该方法。按下与松开
@@ -241,29 +215,47 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     //松开事件
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         //使用 adapter.notifyDataSetChanged() 时，必须保证传进 Adapter 的数据 List 是同一个 List
-                        //而不能是其他对象，否则无法更新。
-                        //list = list.stream().filter(g -> g.getTitle().contains(editText.getText().toString())).collect(Collectors.toList());
-                        String key = editText.getText().toString().trim();
-                        String params = "?page=" + page + "&key="+key;
-                        Integer time = map.get(0);
-                        Integer price = map.get(1);
-                        if (time==1){
-                            params = params + "&time=desc";
-                        }else if (time==2){
-                            params = params + "&time=asc";
-                        }
-                        if (price==1){
-                            params = params + "&price=desc";
-                        }else if (price==2){
-                            params = params + "&price=asc";
-                        }
-                        new SearchGoods().execute(params);
+                        page = 0;
+                        loadData(true);
                     }
 
                 }
             }
             return false;
         });
+    }
+
+    private void loadData(boolean isClear) {
+        if (isClear){
+            page = 1;
+            list.clear();
+        }
+        String params = "?page=" + page;
+        String key = editText.getText().toString().trim();
+        if (!key.isEmpty()){
+            params =  params + "&key="+key;
+        }
+        Integer time = map.getOrDefault(0,0);
+        Integer price = map.getOrDefault(1,0);
+        Integer school = map.getOrDefault(2,0);
+        if (time!=null){
+            if (time==1){
+                params = params + "&time=desc";
+            }else if (time==2){
+                params = params + "&time=asc";
+            }
+        }
+        if (price!=null) {
+            if (price == 1) {
+                params = params + "&price=desc";
+            } else if (price == 2) {
+                params = params + "&price=asc";
+            }
+        }
+        if (school!=null&&school!=0){
+            params = params + "&school=" + school;
+        }
+        new SearchGoods().execute(params);
     }
 
     @OnClick({R.id.btn_search_campus_filter,R.id.stv_search_price_filter,R.id.stv_search_time_filter})
@@ -275,9 +267,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.stv_search_price_filter:
                 setFilterSuperTextViewColor(1);
+                loadData(true);
                 break;
             case R.id.stv_search_time_filter:
                 setFilterSuperTextViewColor(0);
+                loadData(true);
                 break;
         }
     }
@@ -301,10 +295,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(List<GoodsEntity> goodsEntities) {
             super.onPostExecute(goodsEntities);
-            list.clear();
             list.addAll(goodsEntities);
             adapter.notifyDataSetChanged();
             editText.clearFocus();
+            smartRefreshLayout.finishLoadMore();
         }
     }
 }

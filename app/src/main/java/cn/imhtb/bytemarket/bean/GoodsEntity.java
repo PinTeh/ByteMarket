@@ -17,7 +17,7 @@ public class GoodsEntity {
 
     private UserEntity author;
 
-    private List<String> images;
+    private String images;
 
     public int getImageId() {
         return imageId;
@@ -51,11 +51,11 @@ public class GoodsEntity {
         this.author = author;
     }
 
-    public List<String> getImages() {
+    public String getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(String images) {
         this.images = images;
     }
 

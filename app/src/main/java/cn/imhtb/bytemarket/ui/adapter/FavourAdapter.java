@@ -43,21 +43,13 @@ public class FavourAdapter extends RecyclerView.Adapter<FavourAdapter.ViewHolder
         holder.title.setText(favourEntity.getTitle());
         holder.price.setText(favourEntity.getPrice().toEngineeringString());
 
-        holder.content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("desc",position + "");
-                context.startActivity(intent);
-            }
+        holder.content.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("desc",position + "");
+            context.startActivity(intent);
         });
 
-        holder.cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.cancel.setText("收藏");
-            }
-        });
+        holder.cancel.setOnClickListener(v -> holder.cancel.setText("收藏"));
 
     }
 
