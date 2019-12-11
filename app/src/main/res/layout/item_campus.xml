@@ -17,10 +17,10 @@
 
         <ImageView
             android:id="@+id/iv_item_campus_logo"
-            android:layout_width="80dp"
-            android:layout_height="70dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:src="@mipmap/avatar"
-            android:layout_marginTop="5dp"
+            android:layout_margin="10dp"
             android:contentDescription="@string/contentDescription" />
 
         <LinearLayout
@@ -29,14 +29,15 @@
             android:orientation="vertical"
             android:layout_toEndOf="@id/iv_item_campus_logo"
             android:padding="3dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             >
             <TextView
                 android:id="@+id/tv_item_campus_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="桂林电子科技大学"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/colorFontLightDark"
                 />
 
@@ -46,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="18个字节在这里乱搞"
                 android:ellipsize="end"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 />
 
             <TextView
@@ -56,7 +57,7 @@
                 android:text="欢迎加入桂林电子科技大学字节市场"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:maxLines="1"
                 />
 

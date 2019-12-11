@@ -1,6 +1,6 @@
 package cn.imhtb.bytemarket.bean;
 
-public class CategoryEntity {
+public class Category {
 
     private Integer id;
 

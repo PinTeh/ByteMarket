@@ -36,10 +36,10 @@ import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
+import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.BannerEntity;
-import cn.imhtb.bytemarket.bean.CategoryEntity;
+import cn.imhtb.bytemarket.bean.Category;
 import cn.imhtb.bytemarket.bean.Goods;
-import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
 import cn.imhtb.bytemarket.common.OkHttpUtils;
@@ -216,11 +216,12 @@ public class MainFragment extends Fragment {
         @Override
         protected ArrayList<CustomTabEntity> doInBackground(Void... voids) {
             customTabEntities.add(new TabEntity("全部",0));
-            OkHttpUtils.doGet(Api.TYPE_CATEGORY,Api.URL_GET_CATEGORY,context,(ICallBackHandler<List<CategoryEntity>>) response ->{
-                List<CategoryEntity> data = response.getData();
-                data.forEach(v ->{
-                    customTabEntities.add(new TabEntity(v.getName(),v.getId()));
-                });
+            OkHttpUtils.doGet(Api.TYPE_CATEGORY,Api.URL_GET_CATEGORY,context,(ICallBackHandler<List<Category>>) response ->{
+                List<Category> data = response.getData();
+                AppComponent.categoryList.clear();
+                AppComponent.categoryList.addAll(data);
+                data.forEach(v -> customTabEntities.add(new TabEntity(v.getName(),v.getId())));
+
             },true);
             return customTabEntities;
         }
