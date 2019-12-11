@@ -1,13 +1,10 @@
 package cn.imhtb.bytemarket.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -20,28 +17,26 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.bean.CampusEntity;
-import cn.imhtb.bytemarket.bean.FavourEntity;
-import cn.imhtb.bytemarket.ui.activity.DetailActivity;
+import cn.imhtb.bytemarket.bean.Campus;
 
 
 public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder> {
 
-    private List<CampusEntity> list;
+    private List<Campus> list;
     private Context context;
     private int resourceId;
     private ISelfOnItemClickListener listener;
     private ISelfOnItemClickListener radioButtonListener;
     private int selectedIndex = -1;
 
-    public CampusAdapter(List<CampusEntity> list, Context context, int resourceId,ISelfOnItemClickListener listener) {
+    public CampusAdapter(List<Campus> list, Context context, int resourceId, ISelfOnItemClickListener listener) {
         this.list = list;
         this.context = context;
         this.resourceId = resourceId;
         this.listener = listener;
     }
 
-    public CampusAdapter(List<CampusEntity> list, Context context, int resourceId,ISelfOnItemClickListener listener,ISelfOnItemClickListener radioButtonListener) {
+    public CampusAdapter(List<Campus> list, Context context, int resourceId, ISelfOnItemClickListener listener, ISelfOnItemClickListener radioButtonListener) {
         this.list = list;
         this.context = context;
         this.resourceId = resourceId;
@@ -71,14 +66,14 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        CampusEntity campusEntity = list.get(position);
-        holder.name.setText(campusEntity.getName());
-        holder.number.setText(campusEntity.getNumber());
-        Glide.with(context).load(campusEntity.getAvatar()).into(holder.avatar);
+        Campus campus = list.get(position);
+        holder.name.setText(campus.getName());
+        holder.number.setText(campus.getNumber());
+        Glide.with(context).load(campus.getAvatar()).into(holder.avatar);
         holder.content.setOnClickListener(v -> listener.itemClick(position));
         // 搜索布局控件
         if (holder.describe!=null) {
-            holder.describe.setText(campusEntity.getDescribe());
+            holder.describe.setText(campus.getDescribe());
         }
         RadioButton radioButton= holder.radioButton;
         if (radioButton!=null) {

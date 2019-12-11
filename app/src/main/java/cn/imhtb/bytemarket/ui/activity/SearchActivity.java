@@ -5,20 +5,15 @@ import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.util.SparseIntArray;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,14 +24,10 @@ import com.allen.library.SuperTextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -44,10 +35,8 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.bean.CampusEntity;
+import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Goods;
-import cn.imhtb.bytemarket.bean.GoodsEntity;
-import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
 import cn.imhtb.bytemarket.common.OkHttpUtils;
@@ -121,11 +110,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initDrawer() {
-        List<CampusEntity> list = new ArrayList<>();
-        list.add(CampusEntity.newInstance());
-        list.add(CampusEntity.newInstanceAlpha());
-        list.add(CampusEntity.newInstanceBeta());
-        list.add(CampusEntity.newInstance());
+        List<Campus> list = new ArrayList<>();
+        list.add(Campus.newInstance());
+        list.add(Campus.newInstanceAlpha());
+        list.add(Campus.newInstanceBeta());
+        list.add(Campus.newInstance());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         CampusAdapter adapter = new CampusAdapter(list

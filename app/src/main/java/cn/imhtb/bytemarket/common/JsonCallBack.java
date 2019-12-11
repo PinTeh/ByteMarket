@@ -7,16 +7,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Objects;
-import java.util.concurrent.Executors;
 
-import cn.imhtb.bytemarket.bean.UserEntity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -40,28 +37,24 @@ public class JsonCallBack<T> implements Callback {
 
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        handler.post(()->{
-            makeToast("HTTP请求失败");
-        });
+        makeToast("HTTP请求失败");
     }
 
     @Override
     public void onResponse(@NotNull Call call, @NotNull Response response) {
-        handler.post(()->{
-            try {
-                String responseString = Objects.requireNonNull(response.body()).string();
-                Gson gson = new Gson();
-                ServerResponse<T> serverResponse = gson.fromJson(responseString, type);
-                if (serverResponse.isSuccess()) {
-                    iCallBackHandler.onSuccess(serverResponse);
-                } else {
-                    makeToast("服务端响应失败请求");
-                }
-            } catch (IOException e) {
-                Log.e("[HTTP]:error", Objects.requireNonNull(e.getMessage()));
-                makeToast("Gson类型转换异常");
+        try {
+            String responseString = Objects.requireNonNull(response.body()).string();
+            Gson gson = new Gson();
+            ServerResponse<T> serverResponse = gson.fromJson(responseString, type);
+            if (serverResponse.isSuccess()) {
+                iCallBackHandler.onSuccess(serverResponse);
+            } else {
+                makeToast("服务端响应失败请求");
             }
-        });
+        } catch (IOException e) {
+            Log.e("[HTTP]:error", Objects.requireNonNull(e.getMessage()));
+            makeToast("Gson类型转换异常");
+        }
     }
 
     private void makeToast(String message) {
