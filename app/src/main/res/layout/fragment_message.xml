@@ -73,23 +73,6 @@
 
         </RelativeLayout>
 
-
-        <Button
-            android:id="@+id/btn_http_test"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="doGet"
-            android:textAllCaps="false"
-            />
-
-        <Button
-            android:id="@+id/btn_http_test2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="doGet"
-            android:textAllCaps="false"
-            />
-
     </LinearLayout>
 
 </LinearLayout>

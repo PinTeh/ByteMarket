@@ -55,21 +55,4 @@ public class MessageFragment extends Fragment {
         context = getActivity();
     }
 
-    @OnClick(R.id.btn_http_test)
-    public void request(){
-
-        OkHttpUtils.doGet(Api.TYPE_TEST, Api.URL_TEST, context, (ICallBackHandler<UserEntity>) response -> {
-            UserEntity strings = response.getData();
-            Toast.makeText(getActivity(),strings.toString(),Toast.LENGTH_SHORT).show();
-        },false);
-    }
-
-    @OnClick(R.id.btn_http_test2)
-    public void request2(){
-
-        OkHttpUtils.doGet(Api.TYPE_TEST2,Api.URL_TEST2,getActivity(), (ICallBackHandler<List<GoodsEntity>>)response -> {
-            List<GoodsEntity> list = response.getData();
-            Toast.makeText(getActivity(),list.size()+"",Toast.LENGTH_SHORT).show();
-        },false);
-    }
 }

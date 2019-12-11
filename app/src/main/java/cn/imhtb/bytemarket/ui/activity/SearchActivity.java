@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.bean.CampusEntity;
+import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
@@ -96,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private GoodsAdapter adapter;
 
-    private List<GoodsEntity> list = new ArrayList<>();
+    private List<Goods> list = new ArrayList<>();
 
     private Map<Integer,Integer> map;
 
@@ -276,24 +277,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    class SearchGoods extends AsyncTask<String,Void,List<GoodsEntity>> {
+    class SearchGoods extends AsyncTask<String,Void,List<Goods>> {
 
-        List<GoodsEntity> data = new ArrayList<>();
+        List<Goods> data = new ArrayList<>();
         @Override
-        protected List<GoodsEntity> doInBackground(String... strings) {
-            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_SEARCH_GOODS + strings[0],SearchActivity.this,(ICallBackHandler<List<GoodsEntity>>) response ->{
+        protected List<Goods> doInBackground(String... strings) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_SEARCH_GOODS + strings[0],SearchActivity.this,(ICallBackHandler<List<Goods>>) response ->{
                 data = response.getData();
-                // TODO 删除
-                data.forEach(v->{
-                    v.setImageId(R.mipmap.goods1);
-                    v.setAuthor(UserEntity.getInstance());
-                });
             },true);
             return data;
         }
 
         @Override
-        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+        protected void onPostExecute(List<Goods> goodsEntities) {
             super.onPostExecute(goodsEntities);
             list.addAll(goodsEntities);
             adapter.notifyDataSetChanged();

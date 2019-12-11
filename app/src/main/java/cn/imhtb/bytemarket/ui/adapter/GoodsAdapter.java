@@ -1,28 +1,33 @@
 package cn.imhtb.bytemarket.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder> {
 
     private Context context;
     private ISelfOnItemClickListener listener;
-    private List<GoodsEntity> list;
+    private List<Goods> list;
 
-    public GoodsAdapter(Context context, List<GoodsEntity> list,ISelfOnItemClickListener listener) {
+    public GoodsAdapter(Context context, List<Goods> list,ISelfOnItemClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
@@ -36,20 +41,23 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
 
     @Override
     public void onBindViewHolder(@NonNull GoodsHolder holder, final int position) {
-        holder.avatar.setImageResource(R.mipmap.avatar);
-        holder.image.setImageResource(list.get(position).getImageId());
-        holder.price.setText((list.get(position).getPrice().toEngineeringString()));
-        holder.title.setText((list.get(position).getTitle()));
-        holder.username.setText((list.get(position).getAuthor().getUsername()));
 
-        holder.content.setOnClickListener(v -> {
-            //实现方式一
-            /*
-            Intent intent = new Intent(context, DetailActivity.class);
-            context.startActivity(intent);
-             */
-            listener.itemClick(position);
-        });
+        Goods goods = list.get(position);
+
+        Log.d("ttt",goods.toString());
+        String images = goods.getImages();
+        String[] imageArr = images.split(",");
+
+        holder.price.setText((goods.getPrice().toEngineeringString()));
+        holder.title.setText((goods.getTitle()));
+        holder.username.setText((goods.getUser().getName()));
+        Glide.with(context).load(goods.getUser().getAvatar()).into(holder.avatar);
+        if (imageArr.length>0) {
+            Glide.with(context).load(imageArr[0]).into(holder.image);
+        }else {
+            holder.image.setImageResource(R.mipmap.goods1);
+        }
+        holder.content.setOnClickListener(v -> listener.itemClick(position));
 
     }
 

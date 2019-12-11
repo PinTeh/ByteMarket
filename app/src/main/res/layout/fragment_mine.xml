@@ -219,7 +219,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="买到的" />
+                        android:text="购物车" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -265,6 +265,7 @@
 
             <!--消息通知-->
             <RelativeLayout
+                android:id="@+id/rl_mine_fragment_personal_center"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
@@ -316,6 +317,7 @@
 
             <!--消息通知-->
             <RelativeLayout
+                android:id="@+id/rl_mine_fragment_about"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"

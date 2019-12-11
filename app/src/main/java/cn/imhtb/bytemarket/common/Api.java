@@ -7,6 +7,7 @@ import java.util.List;
 
 import cn.imhtb.bytemarket.bean.BannerEntity;
 import cn.imhtb.bytemarket.bean.CategoryEntity;
+import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
 import cn.imhtb.bytemarket.bean.UserEntity;
 
@@ -32,7 +33,7 @@ public class Api {
 
     public static final String URL_GET_GOODS = BASE + "/product/list";
 
-    public static final Type TYPE_GOODS = new TypeToken<ServerResponse<List<GoodsEntity>>>() {}.getType();
+    public static final Type TYPE_GOODS = new TypeToken<ServerResponse<List<Goods>>>() {}.getType();
 
     public static final String URL_SEARCH_GOODS = BASE + "/product/search";
 

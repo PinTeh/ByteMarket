@@ -1,14 +1,10 @@
 package cn.imhtb.bytemarket.ui.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +27,6 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import butterknife.BindArray;
@@ -43,7 +38,7 @@ import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.bean.BannerEntity;
 import cn.imhtb.bytemarket.bean.CategoryEntity;
-import cn.imhtb.bytemarket.bean.GoodsEntity;
+import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
@@ -86,7 +81,7 @@ public class MainFragment extends Fragment {
 
     private GoodsAdapter adapter;
 
-    private List<GoodsEntity> list = new ArrayList<>();
+    private List<Goods> list = new ArrayList<>();
 
     private FragmentActivity context;
 
@@ -171,24 +166,19 @@ public class MainFragment extends Fragment {
         new LoadMoreGoods().execute(params);
     }
 
-    class LoadMoreGoods extends AsyncTask<String,Void,List<GoodsEntity>>{
+    class LoadMoreGoods extends AsyncTask<String,Void,List<Goods>>{
 
-        List<GoodsEntity> data = new ArrayList<>();
+        List<Goods> data = new ArrayList<>();
         @Override
-        protected List<GoodsEntity> doInBackground(String... strings) {
-            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS + strings[0],context,(ICallBackHandler<List<GoodsEntity>>) response ->{
+        protected List<Goods> doInBackground(String... strings) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS + strings[0],context,(ICallBackHandler<List<Goods>>) response ->{
                 data = response.getData();
-                // TODO 删除
-                data.forEach(v->{
-                    v.setImageId(R.mipmap.goods1);
-                    v.setAuthor(UserEntity.getInstance());
-                });
             },true);
             return data;
         }
 
         @Override
-        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+        protected void onPostExecute(List<Goods> goodsEntities) {
             super.onPostExecute(goodsEntities);
             list.addAll(goodsEntities);
             adapter.notifyDataSetChanged();
@@ -196,24 +186,19 @@ public class MainFragment extends Fragment {
         }
     }
 
-    class GetGoods extends AsyncTask<Void,Void,List<GoodsEntity>>{
+    class GetGoods extends AsyncTask<Void,Void,List<Goods>>{
 
-        List<GoodsEntity> data = new ArrayList<>();
+        List<Goods> data = new ArrayList<>();
         @Override
-        protected List<GoodsEntity> doInBackground(Void... voids) {
-            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<GoodsEntity>>) response -> {
+        protected List<Goods> doInBackground(Void... voids) {
+            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<Goods>>) response -> {
                 data = response.getData();
-                // TODO 删除
-                data.forEach(v->{
-                    v.setImageId(R.mipmap.goods1);
-                    v.setAuthor(UserEntity.getInstance());
-                });
             },true);
             return data;
         }
 
         @Override
-        protected void onPostExecute(List<GoodsEntity> goodsEntities) {
+        protected void onPostExecute(List<Goods> goodsEntities) {
             super.onPostExecute(goodsEntities);
             //初始化适配器及数据
             list.addAll(goodsEntities);
