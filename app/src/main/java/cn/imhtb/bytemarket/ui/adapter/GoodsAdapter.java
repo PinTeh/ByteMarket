@@ -44,7 +44,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
 
         Goods goods = list.get(position);
 
-        Log.d("ttt",goods.toString());
         String images = goods.getImages();
         String[] imageArr = images.split(",");
 

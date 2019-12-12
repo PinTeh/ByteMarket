@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.utils.SpUtils;
 
 public class StartActivity extends AppCompatActivity {
@@ -55,11 +56,15 @@ public class StartActivity extends AppCompatActivity {
 
     private void init() {
         boolean isFirstEnter = SpUtils.isShowGuide(StartActivity.this);
+        boolean isLogin = SpUtils.isLogin(StartActivity.this);
+        if (isLogin){
+            AppComponent.isLogin = true;
+        }
         if (isFirstEnter){
             handler.sendEmptyMessageDelayed(GO_GUIDE,500);
             SpUtils.initGuide(StartActivity.this);
         }else {
-            handler.sendEmptyMessageDelayed(GO_MAIN,2000);
+            handler.sendEmptyMessageDelayed(GO_MAIN,1500);
         }
     }
 }

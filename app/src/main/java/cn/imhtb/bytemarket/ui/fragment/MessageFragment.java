@@ -12,9 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -23,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.bean.GoodsEntity;
+import cn.imhtb.bytemarket.bean.MessageEvent;
 import cn.imhtb.bytemarket.bean.UserEntity;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
@@ -53,6 +58,13 @@ public class MessageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
         context = getActivity();
+
+        RelativeLayout layout = view.findViewById(R.id.test_event);
+        layout.setOnClickListener(v->{
+            EventBus.getDefault().post(new MessageEvent("Event测试"));
+        });
     }
+
+
 
 }

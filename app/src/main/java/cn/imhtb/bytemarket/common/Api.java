@@ -42,10 +42,10 @@ public class Api {
 
     public static final String URL_GET_CAMPUS = BASE + "/school/list";
 
-//    public static final String URL_UPLOAD_IMAGES = BASE + "/upload/images";
-    public static final String URL_UPLOAD_IMAGES = "http://10.21.122.95:8080/upload/images";
+    public static final String URL_UPLOAD_IMAGES = BASE + "/upload/images";
+    //public static final String URL_UPLOAD_IMAGES = "http://10.21.122.95:8080/upload/images";
 
     public static final Type TYPE_CAMPUS = new TypeToken<ServerResponse<List<Campus>>>() {}.getType();
 
-
+    public static final String URL_LOGIN = BASE + "/user/login";
 }
