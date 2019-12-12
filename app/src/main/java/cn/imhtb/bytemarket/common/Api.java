@@ -16,6 +16,8 @@ public class Api {
 
     public static final String BASE = "http://134.175.118.250:8080";
 
+    public static final String URL_DETAIL_HTML = BASE + "/product/html/";
+
     public static final String URL_TEST = "http://www.mockhttp.cn/mock/foo/bar";
 
     public static final Type TYPE_TEST = new TypeToken<ServerResponse<UserEntity>>() {}.getType();

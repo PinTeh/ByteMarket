@@ -1,10 +1,64 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorBackgroundLightGray"
     tools:context=".ui.fragment.MainFragment">
+
+    <!--顶部菜单-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/contentDescription"
+            android:src="@drawable/logo_gray" />
+
+        <LinearLayout
+            android:id="@+id/ll_main_search"
+            android:layout_width="0dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_search"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="-30dp"
+                android:layout_marginEnd="3dp"
+                android:contentDescription="@string/contentDescription"
+                android:src="@mipmap/search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/search_tips" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/contentDescription" />
+    </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -22,52 +76,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!--顶部菜单-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@color/colorPrimary"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="5dp"
-                        android:contentDescription="@string/contentDescription"
-                        android:src="@drawable/logo_gray" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_main_search"
-                        android:layout_width="0dp"
-                        android:layout_height="33dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_search"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:padding="3dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_marginStart="-30dp"
-                            android:layout_marginEnd="3dp"
-                            android:contentDescription="@string/contentDescription"
-                            android:src="@mipmap/search" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/search_tips" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/contentDescription" />
-                </LinearLayout>
 
                 <cn.bingoogolapple.bgabanner.BGABanner
                     android:id="@+id/banner_guide_content"
@@ -120,5 +128,6 @@
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </androidx.core.widget.NestedScrollView>
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

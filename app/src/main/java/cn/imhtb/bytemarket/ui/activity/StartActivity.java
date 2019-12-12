@@ -5,16 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.utils.SpUtils;
 
 public class StartActivity extends AppCompatActivity {
-
-    private SharedPreferences sharedPreferences;
 
     public static final int GO_MAIN = 1;
     public static final int GO_GUIDE = 2;
@@ -52,20 +50,16 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
-        sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
         init();
     }
 
     private void init() {
-        boolean isFirstEnter = sharedPreferences.getBoolean("isFirstEnter",true);
+        boolean isFirstEnter = SpUtils.isShowGuide(StartActivity.this);
         if (isFirstEnter){
-            handler.sendEmptyMessageDelayed(GO_GUIDE,200);
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.putBoolean("isFirstEnter",false);
-            edit.apply();
+            handler.sendEmptyMessageDelayed(GO_GUIDE,500);
+            SpUtils.initGuide(StartActivity.this);
         }else {
-            handler.sendEmptyMessageDelayed(GO_MAIN,200);
+            handler.sendEmptyMessageDelayed(GO_MAIN,2000);
         }
     }
 }

@@ -101,12 +101,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    //尝试从布局中获取视图
-    private LinearLayout createLinearLayout(){
-        LinearLayout viewById = findViewById(R.id.item_picture);
-        return (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_picture,viewById,true);
-    }
-
     private ImageView createImage(String path){
         ImageView imageView = new ImageView(this);
         imageView.setImageBitmap(BitmapFactory.decodeFile(path));
@@ -119,42 +113,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         imageView.setLayoutParams(params);
 
         return imageView;
-    }
-
-    private void handlePublish_bak() {
-
-        LocalMedia media = mediaList.get(0);
-        String imagePath = media.getPath();
-        Executors.newCachedThreadPool().execute(()->{
-            OkHttpClient okHttpClient = new OkHttpClient();
-            File file = new File(imagePath);
-
-
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", "", body)
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url(Api.URL_UPLOAD_IMAGES)
-                    .post(requestBody)
-                    .build();
-
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.d("ttt", "上传失败 "+ e);
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    Log.d("ttt",response.body().string());
-                }
-            });
-
-        });
     }
 
     private void handlePublish() {
@@ -182,7 +140,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    e.printStackTrace();
                     Log.d("ttt", "上传失败 " + e);
                 }
 

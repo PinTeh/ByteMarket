@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    @BindView(R.id.et_login_account)
+    @BindView(R.id.et_login_username)
     EditText et_account;
 
     @BindView(R.id.civ_login_avatar)
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ButterKnife.bind(this);
     }
 
-    @OnTextChanged(R.id.et_login_account)
+    @OnTextChanged(R.id.et_login_username)
     public void accountChangeListener(){
         //TODO
         if (et_account.getText().toString().trim().length() == 6){

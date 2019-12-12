@@ -1,12 +1,15 @@
 package cn.imhtb.bytemarket.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.alibaba.fastjson.JSON;
 import com.allen.library.SuperTextView;
@@ -15,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.bean.GoodsEntity;
-import cn.imhtb.bytemarket.bean.UserEntity;
+import cn.imhtb.bytemarket.bean.Goods;
+import cn.imhtb.bytemarket.common.Api;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,6 +42,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.toolbar_detail)
     Toolbar toolbar;
 
+    @BindView(R.id.web_view_detail)
+    WebView webView;
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +53,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
 
         String goodsString = getIntent().getStringExtra("GOODS");
-        GoodsEntity goodsEntity = JSON.parseObject(goodsString, GoodsEntity.class);
-        if (goodsEntity != null) {
-            //civAvatar.setImageResource();
-            UserEntity author = goodsEntity.getAuthor();
-            if (author != null) {
-                tvUsername.setText(author.getUsername());
-            }
-            stvPrice.setCenterString(goodsEntity.getPrice().toString());
-            tvTitle.setText(goodsEntity.getTitle());
-            tvDescribe.setText(goodsEntity.getDescribe());
+        Goods goods = JSON.parseObject(goodsString,Goods.class);
+        if (goods!=null) {
+            WebSettings settings = webView.getSettings();
+            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            settings.setJavaScriptEnabled(true);
+            settings.setDomStorageEnabled(true);
+            webView.loadUrl(Api.URL_DETAIL_HTML + goods.getId());
         }
 
         toolbar.setNavigationOnClickListener(v->finish());
