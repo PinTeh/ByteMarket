@@ -20,6 +20,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
         <activity android:name=".ui.activity.TestActivity">
+
         </activity>
         <activity android:name=".ui.activity.AddressActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
@@ -36,7 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity">
+
+        </activity>
         <activity android:name=".base.BaseActivity" />
     </application>
 

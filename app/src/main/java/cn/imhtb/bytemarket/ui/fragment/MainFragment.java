@@ -1,10 +1,11 @@
 package cn.imhtb.bytemarket.ui.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -138,7 +138,7 @@ public class MainFragment extends Fragment {
         smartRefreshLayout = view.findViewById(R.id.swipe_refresh);
         smartRefreshLayout.setEnableRefresh(false);
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
-        //smartRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);//取消内容不满一页时开启上拉加载功能
+        smartRefreshLayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
 
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -158,9 +158,10 @@ public class MainFragment extends Fragment {
         });
     }
 
+
     private void init() {
 
-        getGoods();
+        loadMoreData();
 
         getBanner();
 
@@ -192,6 +193,7 @@ public class MainFragment extends Fragment {
 
 
     private void getGoods(){
+        Log.d("ttt", "getGoods: 执行了");
         Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<Goods>>) response -> {
                 context.runOnUiThread(()->{
@@ -204,6 +206,7 @@ public class MainFragment extends Fragment {
     }
 
 
+    @SuppressLint("NewApi")
     private void getCategory(){
         Executors.newCachedThreadPool().execute(()->{
             customTabEntities.add(new TabEntity("全部",0));
@@ -219,6 +222,7 @@ public class MainFragment extends Fragment {
         });
     }
 
+    @SuppressLint("NewApi")
     private void getBanner(){
         Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<BannerEntity>>)response -> {

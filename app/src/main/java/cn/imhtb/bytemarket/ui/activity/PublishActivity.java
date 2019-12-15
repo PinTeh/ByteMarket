@@ -1,5 +1,6 @@
 package cn.imhtb.bytemarket.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -125,6 +126,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

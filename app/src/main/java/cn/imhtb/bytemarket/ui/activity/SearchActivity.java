@@ -1,5 +1,6 @@
 package cn.imhtb.bytemarket.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -215,6 +216,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    @SuppressLint("NewApi")
     private void loadData(boolean isClear) {
         if (isClear){
             page = 1;

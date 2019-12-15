@@ -70,10 +70,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         return list.size();
     }
 
-    public void loadMore(Collection<Goods> collection){
-        list.addAll(collection);
-        notifyDataSetChanged();
-    }
+
 
     static class GoodsHolder extends RecyclerView.ViewHolder{
 

@@ -32,7 +32,7 @@ public class TestActivity extends AppCompatActivity {
 
     GoodsAdapter adapter;
 
-    SmartRefreshLayout smartRefreshLayout;
+    SmartRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,12 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
         recyclerView = findViewById(R.id.rv_goods2);
-        smartRefreshLayout = findViewById(R.id.swipe_refresh2);
+        refreshLayout = findViewById(R.id.swipe_refresh2);
 
         //设置瀑布流布局
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        //解决抖动
+        //manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(manager);
 
         adapter = new GoodsAdapter(this,list, position -> {
@@ -53,10 +55,10 @@ public class TestActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //刷新控件
-        smartRefreshLayout.setEnableRefresh(false);
-        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
+        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
 
-        getGoods();
+        loadMoreData();
     }
 
     private void loadMoreData() {
@@ -71,21 +73,9 @@ public class TestActivity extends AppCompatActivity {
                         List<Goods> data = response.getData();
                         list.addAll(data);
                         adapter.notifyDataSetChanged();
-                        smartRefreshLayout.finishLoadMore();
+                        refreshLayout.finishLoadMore();
                     }), false);
         });
     }
 
-    private void getGoods(){
-        Executors.newCachedThreadPool().execute(()->{
-            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, this, (ICallBackHandler<List<Goods>>) response -> {
-                this.runOnUiThread(()->{
-                    List<Goods> data = response.getData();
-                    list.addAll(data);
-                    adapter.notifyDataSetChanged();
-
-                });
-            },false);
-        });
-    }
 }
