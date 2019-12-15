@@ -59,10 +59,12 @@ public class MessageFragment extends Fragment {
         ButterKnife.bind(this,view);
         context = getActivity();
 
+
         RelativeLayout layout = view.findViewById(R.id.test_event);
         layout.setOnClickListener(v->{
             EventBus.getDefault().post(new MessageEvent("Event测试"));
         });
+
     }
 
 

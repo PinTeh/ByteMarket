@@ -80,22 +80,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         Log.d("ttt", "mine fragment  onViewCreate");
 
         initLoginComponent(AppComponent.isLogin);
-        //注册事件
-        EventBus.getDefault().register(this);
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //解除事件
-        EventBus.getDefault().unregister(this);
-        Log.d("ttt", "解除事件: ");
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
-        Log.d("ttt", "onMessageEvent: ");
     }
 
     private void initLoginComponent(boolean login) {

@@ -180,9 +180,9 @@ public class MainFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Goods> goodsEntities) {
             super.onPostExecute(goodsEntities);
+            smartRefreshLayout.finishLoadMore();
             list.addAll(goodsEntities);
             adapter.notifyDataSetChanged();
-            smartRefreshLayout.finishLoadMore();
         }
     }
 
@@ -253,8 +253,8 @@ public class MainFragment extends Fragment {
             contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
                     Glide.with(context)
                             .load(model)
-                            .placeholder(R.drawable.p_seekbar_thumb_normal)
-                            .error(R.drawable.p_seekbar_thumb_normal)
+                            .placeholder(R.color.white)
+                            .error(R.color.white)
                             .centerCrop()
                             .dontAnimate()
                             .into(itemView));

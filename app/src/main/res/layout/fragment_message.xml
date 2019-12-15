@@ -6,23 +6,21 @@
     android:background="#E9E7E7"
     tools:context=".ui.fragment.MessageFragment">
 
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_message"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@android:color/white"
+        android:background="@color/colorPrimary"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="消息中心"
-            android:textColor="#2C2C2C"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"
+            android:text="消息中心"
+            android:layout_gravity="center"
             />
-    </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"

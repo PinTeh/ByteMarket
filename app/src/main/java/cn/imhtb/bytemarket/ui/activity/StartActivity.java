@@ -1,13 +1,17 @@
 package cn.imhtb.bytemarket.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.app.AppComponent;
@@ -66,5 +70,12 @@ public class StartActivity extends AppCompatActivity {
         }else {
             handler.sendEmptyMessageDelayed(GO_MAIN,1500);
         }
+
+        //状态栏设置
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.TRANSPARENT);
+        View view = window.getDecorView();
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 }
