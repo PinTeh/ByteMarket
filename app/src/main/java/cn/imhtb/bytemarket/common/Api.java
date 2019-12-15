@@ -34,9 +34,11 @@ public class Api {
 
     public static final Type TYPE_CATEGORY = new TypeToken<ServerResponse<List<Category>>>() {}.getType();
 
-    public static final String URL_GET_GOODS = BASE + "/product/list";
+    public static final String URL_GET_GOODS = BASE + "/product/list?limit=10";
 
     public static final Type TYPE_GOODS = new TypeToken<ServerResponse<List<Goods>>>() {}.getType();
+
+    public static final Type TYPE_SINGLE_GOODS = new TypeToken<ServerResponse<Goods>>() {}.getType();
 
     public static final String URL_SEARCH_GOODS = BASE + "/product/search";
 
@@ -48,4 +50,6 @@ public class Api {
     public static final Type TYPE_CAMPUS = new TypeToken<ServerResponse<List<Campus>>>() {}.getType();
 
     public static final String URL_LOGIN = BASE + "/user/login";
+
+    public static final String URL_ADD_PRODUCT = BASE + "/product/";
 }

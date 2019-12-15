@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Collection;
 import java.util.List;
 
 import cn.imhtb.bytemarket.R;
@@ -44,18 +45,22 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
 
         Goods goods = list.get(position);
 
-        String images = goods.getImages();
-        String[] imageArr = images.split(",");
 
         holder.price.setText((goods.getPrice().toEngineeringString()));
         holder.title.setText((goods.getTitle()));
         holder.username.setText((goods.getUser().getName()));
         Glide.with(context).load(goods.getUser().getAvatar()).into(holder.avatar);
-        if (imageArr.length>0) {
-            Glide.with(context).load(imageArr[0]).into(holder.image);
-        }else {
-            holder.image.setImageResource(R.mipmap.goods1);
+
+        String images = goods.getImages();
+        if (images!=null){
+            String[] imageArr = images.split(",");
+            if (imageArr.length>0) {
+                Glide.with(context).load(imageArr[0]).into(holder.image);
+            }else {
+                holder.image.setImageResource(R.mipmap.goods1);
+            }
         }
+
         holder.content.setOnClickListener(v -> listener.itemClick(position));
 
     }
@@ -63,6 +68,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void loadMore(Collection<Goods> collection){
+        list.addAll(collection);
+        notifyDataSetChanged();
     }
 
     static class GoodsHolder extends RecyclerView.ViewHolder{
@@ -88,4 +98,5 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
     public interface ISelfOnItemClickListener{
         void itemClick(int position);
     }
+
 }

@@ -68,7 +68,7 @@ public class StartActivity extends AppCompatActivity {
             handler.sendEmptyMessageDelayed(GO_GUIDE,500);
             SpUtils.initGuide(StartActivity.this);
         }else {
-            handler.sendEmptyMessageDelayed(GO_MAIN,1500);
+            handler.sendEmptyMessageDelayed(GO_MAIN,500);
         }
 
         //状态栏设置

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -26,7 +27,9 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import butterknife.BindArray;
@@ -81,7 +84,7 @@ public class MainFragment extends Fragment {
 
     private GoodsAdapter adapter;
 
-    private List<Goods> list = new ArrayList<>();
+    private List<Goods> list = new LinkedList<>();
 
     private FragmentActivity context;
 
@@ -124,10 +127,18 @@ public class MainFragment extends Fragment {
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
 
+        adapter = new GoodsAdapter(getActivity(),list,position -> {
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra("GOODS", JSON.toJSONString(list.get(position)));
+            startActivity(intent);
+        });
+        recyclerView.setAdapter(adapter);
+
         //刷新控件
         smartRefreshLayout = view.findViewById(R.id.swipe_refresh);
         smartRefreshLayout.setEnableRefresh(false);
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
+        //smartRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);//取消内容不满一页时开启上拉加载功能
 
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -149,117 +160,84 @@ public class MainFragment extends Fragment {
 
     private void init() {
 
-        new GetGoods().execute();
+        getGoods();
 
-        new GetBanner().execute();
+        getBanner();
 
-        new GetCategory().execute();
+        getCategory();
     }
 
     private void loadMoreData() {
-
-        String params = "?page=" + (page++);
-        if (entity!=null&&entity.getId()!=0){
+        String params = "&page=" + (page++);
+        if (entity!=null && entity.getId()!=0){
             params = params + "&cid=" + entity.getId();
         }
 
-        new LoadMoreGoods().execute(params);
+        loadMore(params);
     }
 
-    class LoadMoreGoods extends AsyncTask<String,Void,List<Goods>>{
-
-        List<Goods> data = new ArrayList<>();
-        @Override
-        protected List<Goods> doInBackground(String... strings) {
-            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_GET_GOODS + strings[0],context,(ICallBackHandler<List<Goods>>) response ->{
-                data = response.getData();
-            },true);
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(List<Goods> goodsEntities) {
-            super.onPostExecute(goodsEntities);
-            smartRefreshLayout.finishLoadMore();
-            list.addAll(goodsEntities);
-            adapter.notifyDataSetChanged();
-        }
+    private void loadMore(String ...strings){
+        recyclerView.stopScroll();
+        recyclerView.stopNestedScroll();
+        Executors.newCachedThreadPool().execute(()-> {
+            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS + strings[0], context, (ICallBackHandler<List<Goods>>) response ->
+                    context.runOnUiThread(() -> {
+                        List<Goods> data = response.getData();
+                        list.addAll(data);
+                        adapter.notifyDataSetChanged();
+                        smartRefreshLayout.finishLoadMore();
+                    }), false);
+        });
     }
 
-    class GetGoods extends AsyncTask<Void,Void,List<Goods>>{
 
-        List<Goods> data = new ArrayList<>();
-        @Override
-        protected List<Goods> doInBackground(Void... voids) {
+    private void getGoods(){
+        Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<Goods>>) response -> {
-                data = response.getData();
-            },true);
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(List<Goods> goodsEntities) {
-            super.onPostExecute(goodsEntities);
-            //初始化适配器及数据
-            list.addAll(goodsEntities);
-            adapter = new GoodsAdapter(getActivity(),list,position -> {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("GOODS", JSON.toJSONString(list.get(position)));
-                startActivity(intent);
-            });
-            recyclerView.setAdapter(adapter);
-        }
+                context.runOnUiThread(()->{
+                    List<Goods> data = response.getData();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                });
+            },false);
+        });
     }
 
-    class GetCategory extends AsyncTask<Void,Void,ArrayList<CustomTabEntity>>{
 
-        @Override
-        protected ArrayList<CustomTabEntity> doInBackground(Void... voids) {
+    private void getCategory(){
+        Executors.newCachedThreadPool().execute(()->{
             customTabEntities.add(new TabEntity("全部",0));
             OkHttpUtils.doGet(Api.TYPE_CATEGORY,Api.URL_GET_CATEGORY,context,(ICallBackHandler<List<Category>>) response ->{
-                List<Category> data = response.getData();
-                AppComponent.categoryList.clear();
-                AppComponent.categoryList.addAll(data);
-                data.forEach(v -> customTabEntities.add(new TabEntity(v.getName(),v.getId())));
-
-            },true);
-            return customTabEntities;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<CustomTabEntity> tabEntities) {
-            super.onPostExecute(tabEntities);
-            commonTabLayout.setTabData(tabEntities);
-        }
+                context.runOnUiThread(()-> {
+                    List<Category> data = response.getData();
+                    AppComponent.categoryList.clear();
+                    AppComponent.categoryList.addAll(data);
+                    data.forEach(v -> customTabEntities.add(new TabEntity(v.getName(), v.getId())));
+                    commonTabLayout.setTabData(customTabEntities);
+                });
+            },false);
+        });
     }
 
-    class GetBanner extends AsyncTask<Void,Void,List<BannerEntity>>{
-
-        List<BannerEntity> list = new ArrayList<>();
-
-        @Override
-        protected List<BannerEntity> doInBackground(Void... voids) {
+    private void getBanner(){
+        Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<BannerEntity>>)response -> {
-                list = response.getData();
-            },true);
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(List<BannerEntity> bannerEntities) {
-            super.onPostExecute(bannerEntities);
-            List<String> urls = list.stream().map(BannerEntity::getUrl).collect(Collectors.toList());
-            List<String> tips = list.stream().map(BannerEntity::getTips).collect(Collectors.toList());
-            contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
-                    Glide.with(context)
-                            .load(model)
-                            .placeholder(R.color.white)
-                            .error(R.color.white)
-                            .centerCrop()
-                            .dontAnimate()
-                            .into(itemView));
-            contentBanner.setData(urls, tips);
-        }
+                context.runOnUiThread(()-> {
+                    List<BannerEntity> list = response.getData();
+                    List<String> urls = list.stream().map(BannerEntity::getUrl).collect(Collectors.toList());
+                    List<String> tips = list.stream().map(BannerEntity::getTips).collect(Collectors.toList());
+                    contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
+                            Glide.with(context)
+                                    .load(model)
+                                    .placeholder(R.color.white)
+                                    .error(R.color.white)
+                                    .centerCrop()
+                                    .dontAnimate()
+                                    .into(itemView));
+                    contentBanner.setData(urls, tips);
+                });
+            },false);
+        });
     }
 
     @OnClick(R.id.ll_main_search)

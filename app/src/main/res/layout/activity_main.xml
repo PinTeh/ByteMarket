@@ -49,7 +49,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:contentDescription="@string/contentDescription"
-                android:src="@mipmap/add_main" />
+                android:src="@mipmap/startup_rocket" />
         </RelativeLayout>
     </LinearLayout>
 

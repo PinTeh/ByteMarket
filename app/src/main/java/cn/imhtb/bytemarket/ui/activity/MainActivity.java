@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
         llAdd.getLayoutParams().width = dm.widthPixels / 5;
         llAdd.setOnClickListener(v->startActivity(new Intent(this,PublishActivity.class)));
 
-        initLequal();
+        //initLequal();
 
         initCheckPermission();
 

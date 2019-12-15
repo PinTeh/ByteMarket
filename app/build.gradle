@@ -60,8 +60,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:29.0.2'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'  //1.0.5及以前版本的老用户升级需谨慎，API改动过大
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'  //没有使用特殊Header，可以不加这行
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     //图片选择器 2.3.2
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.9'
     // Glide
@@ -76,4 +75,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'com.github.arcadefire:nice-spinner:1.4.4'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    implementation 'top.zibin:Luban:1.1.8'
 }
