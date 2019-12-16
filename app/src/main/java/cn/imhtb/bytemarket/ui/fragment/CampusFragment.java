@@ -69,7 +69,7 @@ public class CampusFragment extends Fragment {
                     recyclerView.setLayoutManager(manager);
                     CampusAdapter adapter = new CampusAdapter(list, context,R.layout.item_campus,position -> {
                         Intent intent = new Intent(context, SearchActivity.class);
-                        intent.putExtra("ID", list.get(position).getId());
+                        intent.putExtra("INDEX", position);
                         startActivity(intent);
                     });
                     recyclerView.setAdapter(adapter);

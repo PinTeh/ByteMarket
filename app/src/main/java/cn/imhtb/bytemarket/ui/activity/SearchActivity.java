@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +35,6 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
-import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.common.Api;
@@ -86,12 +84,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private int page = 1;
 
+    private int index;
+
     private GoodsAdapter adapter;
+
+    private CampusAdapter campusAdapter;
 
     private List<Goods> list = new ArrayList<>();
 
-    //搜索条件
-    private Map<Integer,Integer> condition;
+    private List<Campus> campusList = new ArrayList<>();
+
+    /**
+     * 搜索条件
+     */
+    private Map<Integer,Integer> condition = new LinkedHashMap<>();
 
     static {
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) ->
@@ -112,49 +118,61 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void initDrawer() {
-        LinearLayoutManager manager = new LinearLayoutManager(SearchActivity.this);
-        recyclerViewSearch.setLayoutManager(manager);
+    private void init(){
 
+        initFilterComponent();
+
+        initComponent();
+
+        initDrawer();
+
+    }
+
+    private void initDrawer() {
         Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_CAMPUS,Api.URL_GET_CAMPUS, SearchActivity.this, (ICallBackHandler<List<Campus>>) r -> {
                 runOnUiThread(()->{
-                    List<Campus> list = r.getData();
-//                    CampusAdapter adapter = new CampusAdapter(list
-//                            ,this
-//                            ,R.layout.item_campus_search
-//                            ,p ->  Log.d("ttt", "initDrawer: " + "执行了")
-//                            ,p -> {
-//                        condition.put(2, list.get(p).getId());
-
-                    CampusAdapter adapter = new CampusAdapter(list
-                            ,this
-                            ,R.layout.item_campus_search);
-
-                    adapter.setListener(position -> {
-                        int selectedIndex = adapter.getSelectedIndex() == position ? -1 : position;
-                        adapter.setSelectedIndex(selectedIndex);
-                        adapter.notifyDataSetChanged();
-                    });
-                    recyclerViewSearch.setAdapter(adapter);
-
-                    loadData(true);
+                    campusList.addAll(r.getData());
+                    campusAdapter.notifyDataSetChanged();
+                    if (index<campusList.size() && index > -1) {
+                        condition.put(2, campusList.get(index).getId());
+                    }
+                    // 初始化数据
+                    loadData(false);
                 });
             },false);
         });
+
     }
 
     private void initFilterComponent() {
-
         //获取条件
         Intent intent = getIntent();
-        int campusId = intent.getIntExtra("ID",0);
-
+        index = intent.getIntExtra("INDEX",-1);
         //默认选中
-        condition = new LinkedHashMap<>();
         condition.put(0,0);
         condition.put(1,0);
-        condition.put(2,campusId);
+        condition.put(2,index);
+
+        LinearLayoutManager manager = new LinearLayoutManager(SearchActivity.this);
+        recyclerViewSearch.setLayoutManager(manager);
+        campusAdapter = new CampusAdapter(campusList
+                ,this
+                ,R.layout.item_campus_search);
+
+        campusAdapter.setSelectedIndex(index);
+        campusAdapter.setListener(position -> {
+            int selectedIndex = campusAdapter.getSelectedIndex() == position ? -1 : position;
+            campusAdapter.setSelectedIndex(selectedIndex);
+            campusAdapter.notifyDataSetChanged();
+            if (selectedIndex == -1){
+                condition.put(2, 0);
+            }else{
+                condition.put(2, campusList.get(position).getId());
+            }
+            loadData(true);
+        });
+        recyclerViewSearch.setAdapter(campusAdapter);
     }
 
     private void setFilterSuperTextViewColor(int index){
@@ -187,17 +205,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         loadData(false);
     }
 
-    private void init(){
 
-        initFilterComponent();
-
-        initComponent();
-
-        initDrawer();
-
-        loadData(false);
-
-    }
 
     private void initComponent() {
         //设置瀑布流布局
@@ -237,34 +245,37 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     @SuppressLint("NewApi")
     private void loadData(boolean isClear) {
+
         if (isClear){
             page = 1;
             list.clear();
         }
+
         String params = "?page=" + page;
         String key = editText.getText().toString().trim();
         if (!key.isEmpty()){
             params =  params + "&key="+key;
         }
-        Integer time = condition.getOrDefault(0,0);
-        Integer price = condition.getOrDefault(1,0);
-        Integer school = condition.getOrDefault(2,0);
+
+        Integer time = condition.get(0);
+        Integer price = condition.get(1);
+        Integer school = condition.get(2);
         // 这串东西连我自己都看不懂
-        if (time!=null){
+        if (time != null){
             if (time==1){
                 params = params + "&time=desc";
             }else if (time==2){
                 params = params + "&time=asc";
             }
         }
-        if (price!=null) {
+        if (price != null) {
             if (price == 1) {
                 params = params + "&price=desc";
             } else if (price == 2) {
                 params = params + "&price=asc";
             }
         }
-        if (school!=null&&school!=0){
+        if (school != null&&school > 0){
             params = params + "&school=" + school;
         }
 
@@ -286,6 +297,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 setFilterSuperTextViewColor(0);
                 loadData(true);
                 break;
+            default:
+
         }
     }
 
@@ -299,7 +312,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     editText.clearFocus();
                     smartRefreshLayout.finishLoadMore();
                 })
-            ,true)
+            ,false)
         );
     }
 
