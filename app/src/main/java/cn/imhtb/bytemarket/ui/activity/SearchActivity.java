@@ -3,7 +3,6 @@ package cn.imhtb.bytemarket.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -36,6 +36,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.common.Api;
@@ -89,7 +90,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private List<Goods> list = new ArrayList<>();
 
-    private Map<Integer,Integer> map;
+    //搜索条件
+    private Map<Integer,Integer> condition;
 
     static {
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) ->
@@ -111,51 +113,68 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initDrawer() {
-        List<Campus> list = new ArrayList<>();
-        list.add(Campus.newInstance());
-        list.add(Campus.newInstanceAlpha());
-        list.add(Campus.newInstanceBeta());
-        list.add(Campus.newInstance());
-
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        CampusAdapter adapter = new CampusAdapter(list
-                ,this
-                ,R.layout.item_campus_search
-                ,p ->  Log.d("ttt", "initDrawer: " + "执行了")
-                ,p -> {
-            map.put(2, list.get(p).getId());
-            loadData(true);
-        });
-
-        recyclerViewSearch.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(SearchActivity.this);
         recyclerViewSearch.setLayoutManager(manager);
+
+        Executors.newCachedThreadPool().execute(()->{
+            OkHttpUtils.doGet(Api.TYPE_CAMPUS,Api.URL_GET_CAMPUS, SearchActivity.this, (ICallBackHandler<List<Campus>>) r -> {
+                runOnUiThread(()->{
+                    List<Campus> list = r.getData();
+//                    CampusAdapter adapter = new CampusAdapter(list
+//                            ,this
+//                            ,R.layout.item_campus_search
+//                            ,p ->  Log.d("ttt", "initDrawer: " + "执行了")
+//                            ,p -> {
+//                        condition.put(2, list.get(p).getId());
+
+                    CampusAdapter adapter = new CampusAdapter(list
+                            ,this
+                            ,R.layout.item_campus_search);
+
+                    adapter.setListener(position -> {
+                        int selectedIndex = adapter.getSelectedIndex() == position ? -1 : position;
+                        adapter.setSelectedIndex(selectedIndex);
+                        adapter.notifyDataSetChanged();
+                    });
+                    recyclerViewSearch.setAdapter(adapter);
+
+                    loadData(true);
+                });
+            },false);
+        });
     }
 
     private void initFilterComponent() {
+
+        //获取条件
+        Intent intent = getIntent();
+        int campusId = intent.getIntExtra("ID",0);
+
         //默认选中
-        map = new LinkedHashMap<>();
-        map.put(0,0);
-        map.put(1,0);
+        condition = new LinkedHashMap<>();
+        condition.put(0,0);
+        condition.put(1,0);
+        condition.put(2,campusId);
     }
 
     private void setFilterSuperTextViewColor(int index){
 
         SuperTextView current = stvFilters.get(index);
-        Integer count = map.get(index);
+        Integer count = condition.get(index);
         if (count!=null){
             if (count == 0){
                 //第一次选中
-                map.put(index,count+1);
+                condition.put(index,count+1);
                 current.setRightIcon(R.mipmap.sort_down_red);
                 current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
             }else if (count == 1) {
                 //第二次选中
-                map.put(index,count+1);
+                condition.put(index,count+1);
                 current.setRightIcon(R.mipmap.sort_up_red);
                 current.setCenterTextColor(getResources().getColor(R.color.colorSelected));
             }else if (count==2){
                 //第三次选中
-                map.put(index,0);
+                condition.put(index,0);
                 current.setCenterTextColor(getResources().getColor(R.color.colorUnSelected));
                 current.setRightIcon(R.mipmap.sort_down);
             }
@@ -227,9 +246,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (!key.isEmpty()){
             params =  params + "&key="+key;
         }
-        Integer time = map.getOrDefault(0,0);
-        Integer price = map.getOrDefault(1,0);
-        Integer school = map.getOrDefault(2,0);
+        Integer time = condition.getOrDefault(0,0);
+        Integer price = condition.getOrDefault(1,0);
+        Integer school = condition.getOrDefault(2,0);
+        // 这串东西连我自己都看不懂
         if (time!=null){
             if (time==1){
                 params = params + "&time=desc";
@@ -247,7 +267,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (school!=null&&school!=0){
             params = params + "&school=" + school;
         }
-        new SearchGoods().execute(params);
+
+        searchGoods(params);
     }
 
     @OnClick({R.id.btn_search_campus_filter,R.id.stv_search_price_filter,R.id.stv_search_time_filter})
@@ -268,24 +289,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    class SearchGoods extends AsyncTask<String,Void,List<Goods>> {
-
-        List<Goods> data = new ArrayList<>();
-        @Override
-        protected List<Goods> doInBackground(String... strings) {
-            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_SEARCH_GOODS + strings[0],SearchActivity.this,(ICallBackHandler<List<Goods>>) response ->{
-                data = response.getData();
-            },true);
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(List<Goods> goodsEntities) {
-            super.onPostExecute(goodsEntities);
-            list.addAll(goodsEntities);
-            adapter.notifyDataSetChanged();
-            editText.clearFocus();
-            smartRefreshLayout.finishLoadMore();
-        }
+    private void searchGoods(String ...strings){
+        Executors.newCachedThreadPool().execute(()->
+            OkHttpUtils.doGet(Api.TYPE_GOODS,Api.URL_SEARCH_GOODS + strings[0],SearchActivity.this,(ICallBackHandler<List<Goods>>) response ->
+                runOnUiThread(()->{
+                    List<Goods> data = response.getData();
+                    list.addAll(data);
+                    adapter.notifyDataSetChanged();
+                    editText.clearFocus();
+                    smartRefreshLayout.finishLoadMore();
+                })
+            ,true)
+        );
     }
+
 }

@@ -1,6 +1,7 @@
 package cn.imhtb.bytemarket.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +47,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
 
         final Goods goods = list.get(position);
 
-        holder.image.requestLayout();
-
         String images = goods.getImages();
         String cover;
         if (images!=null){
@@ -60,6 +59,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
                 if (height == null) {
                     height = new Random().nextInt(3) * 50 + 400;
                     map.put(position,height);
+                    Log.d("ttt",height + "");
                 }
                 layoutParams.height = height;
                 holder.image.setLayoutParams(layoutParams);

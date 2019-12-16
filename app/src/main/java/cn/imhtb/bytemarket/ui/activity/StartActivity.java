@@ -10,15 +10,19 @@ import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
+import java.util.List;
+import java.util.concurrent.Executors;
 
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.app.AppComponent;
+import cn.imhtb.bytemarket.bean.Campus;
+import cn.imhtb.bytemarket.common.Api;
+import cn.imhtb.bytemarket.common.ICallBackHandler;
+import cn.imhtb.bytemarket.common.OkHttpUtils;
 import cn.imhtb.bytemarket.utils.SpUtils;
 
 public class StartActivity extends AppCompatActivity {
@@ -62,41 +66,6 @@ public class StartActivity extends AppCompatActivity {
         init();
     }
 
-    //TODO 删除
-    int count = 0;
-    Runnable runnable;
-    private void loadInterestingImages() {
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                count++;
-                getGif(count);
-                handler.postDelayed(this,1000);
-            }
-        };
-        handler.post(runnable);
-    }
-
-    public void getGif(int i){
-        ImageView imageView = findViewById(R.id.iv_start);
-        int index;
-        switch (i){
-            case 2:
-                index =  R.drawable.i3;break;
-            case 3:
-                index = R.drawable.i2;break;
-            case 4:
-                index = R.drawable.i4;break;
-            case 5:
-                index = R.drawable.i5;break;
-            default:
-                index = R.drawable.i1;
-        }
-        Glide.with(StartActivity.this)
-                .asGif()
-                .load(index)
-                .into(imageView);
-    }
 
     private void init() {
         boolean isFirstEnter = SpUtils.isShowGuide(StartActivity.this);
@@ -108,8 +77,7 @@ public class StartActivity extends AppCompatActivity {
             handler.sendEmptyMessageDelayed(GO_GUIDE,500);
             SpUtils.initGuide(StartActivity.this);
         }else {
-            loadInterestingImages();
-            handler.sendEmptyMessageDelayed(GO_MAIN,5000);
+            handler.sendEmptyMessageDelayed(GO_MAIN,1000);
         }
 
         //状态栏设置
@@ -126,6 +94,5 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(runnable);
     }
 }

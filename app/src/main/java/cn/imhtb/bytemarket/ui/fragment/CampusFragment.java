@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
@@ -39,8 +40,6 @@ public class CampusFragment extends Fragment {
     RecyclerView recyclerView;
 
     private FragmentActivity context;
-
-    private List<Campus> list = new ArrayList<>();
 
     public CampusFragment() {
     }
@@ -59,17 +58,18 @@ public class CampusFragment extends Fragment {
         loadData();
     }
 
+
     private void loadData() {
         Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_CAMPUS,Api.URL_GET_CAMPUS, context, (ICallBackHandler<List<Campus>>) r -> {
                 context.runOnUiThread(()->{
-                    list = r.getData();
+                    List<Campus> list = r.getData();
 
                     LinearLayoutManager manager = new LinearLayoutManager(context);
                     recyclerView.setLayoutManager(manager);
                     CampusAdapter adapter = new CampusAdapter(list, context,R.layout.item_campus,position -> {
                         Intent intent = new Intent(context, SearchActivity.class);
-                        intent.putExtra("TAG", JSON.toJSONString(list.get(position)));
+                        intent.putExtra("ID", list.get(position).getId());
                         startActivity(intent);
                     });
                     recyclerView.setAdapter(adapter);

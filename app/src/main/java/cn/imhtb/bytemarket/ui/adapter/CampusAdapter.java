@@ -26,8 +26,13 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
     private Context context;
     private int resourceId;
     private ISelfOnItemClickListener listener;
-    private ISelfOnItemClickListener radioButtonListener;
     private int selectedIndex = -1;
+
+    public CampusAdapter(List<Campus> list, Context context, int resourceId) {
+        this.list = list;
+        this.context = context;
+        this.resourceId = resourceId;
+    }
 
     public CampusAdapter(List<Campus> list, Context context, int resourceId, ISelfOnItemClickListener listener) {
         this.list = list;
@@ -36,32 +41,27 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         this.listener = listener;
     }
 
-    public CampusAdapter(List<Campus> list, Context context, int resourceId, ISelfOnItemClickListener listener, ISelfOnItemClickListener radioButtonListener) {
-        this.list = list;
-        this.context = context;
-        this.resourceId = resourceId;
+    public void setListener(ISelfOnItemClickListener listener) {
         this.listener = listener;
-        this.radioButtonListener = radioButtonListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId,parent,false);
-        ViewHolder holder = new ViewHolder(view);
 
         //设置单选
-        RadioButton radioButton= holder.radioButton;
-        if (radioButton!=null){
-            radioButton.setOnClickListener(v->{
-                int position = holder.getAdapterPosition();
-                selectedIndex = selectedIndex==position?-1:position;
-                radioButtonListener.itemClick(position);
-                notifyDataSetChanged();
-            });
-        }
+//        RadioButton radioButton= holder.selected;
+//        if (radioButton!=null){
+//            radioButton.setOnClickListener(v->{
+//                int position = holder.getAdapterPosition();
+//                selectedIndex = selectedIndex==position?-1:position;
+//                radioButtonListener.itemClick(position);
+//                notifyDataSetChanged();
+//            });
+//        }
 
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -71,14 +71,17 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         holder.number.setText(campus.getNumber());
         Glide.with(context).load(campus.getAvatar()).into(holder.avatar);
         holder.content.setOnClickListener(v -> listener.itemClick(position));
-        // 搜索布局控件
+        // Search布局
         if (holder.describe!=null) {
             holder.describe.setText(campus.getDescribe());
         }
-        RadioButton radioButton= holder.radioButton;
-        if (radioButton!=null) {
-            radioButton.setChecked(selectedIndex==position);
-
+        //Search布局
+        if (holder.selected!=null) {
+            if (selectedIndex == position) {
+                holder.selected.setVisibility(View.VISIBLE);
+            } else {
+                holder.selected.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -94,7 +97,7 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
         TextView number;
         TextView describe;
         ImageView avatar;
-        RadioButton radioButton;
+        ImageView selected;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,11 +106,19 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
             this.describe = itemView.findViewById(R.id.tv_item_campus_describe);
             this.avatar = itemView.findViewById(R.id.iv_item_campus_logo);
             this.content = itemView.findViewById(R.id.cv_item_campus_content);
-            this.radioButton = itemView.findViewById(R.id.rb_search_item);
+            this.selected = itemView.findViewById(R.id.iv_search_selected);
         }
     }
 
     public interface ISelfOnItemClickListener{
         void itemClick(int position);
+    }
+
+    public int getSelectedIndex(){
+        return selectedIndex;
+    }
+
+    public void setSelectedIndex(int index){
+        this.selectedIndex = index;
     }
 }
