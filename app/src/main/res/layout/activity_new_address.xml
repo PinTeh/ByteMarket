@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="新增收货地址"
+        android:background="#eee"
+        android:textColor="#333"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <EditText
+            android:id="@+id/et_address_new_receiver"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:hint="收货人"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_address_new_phone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:inputType="phone"
+            android:layout_marginBottom="20dp"
+            android:hint="手机号码"
+            android:paddingLeft="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/et_address_new_address"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="30dp"
+            android:hint="收货地址"
+            android:paddingLeft="10dp"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/bt_address_new_save"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border_add_photo"
+        android:layout_margin="10dp"
+        android:text="保存"/>
+
+
+</LinearLayout>

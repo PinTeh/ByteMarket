@@ -1,6 +1,8 @@
 package cn.imhtb.bytemarket.bean;
 
-public class AddressEntity {
+public class Address {
+
+    private Integer id;
 
     private String name;
 
@@ -8,7 +10,9 @@ public class AddressEntity {
 
     private String address;
 
-    public AddressEntity(String name, String phone, String address) {
+    private Integer userId;
+
+    public Address(String name, String phone, String address) {
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -36,5 +40,21 @@ public class AddressEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
