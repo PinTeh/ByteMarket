@@ -1,11 +1,6 @@
 package cn.imhtb.bytemarket.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.transition.Transition;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +20,6 @@ import java.util.Random;
 
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.bean.Goods;
-import cn.imhtb.bytemarket.utils.PixelUtils;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder> {
 
@@ -66,28 +54,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
             String[] imageArr = images.split(",");
             if (imageArr.length>0) {
                 cover = imageArr[0];
-                Glide.with(context).asBitmap().load(cover).into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Integer height = map.get(position);
-                        ViewGroup.LayoutParams layoutParams = holder.image.getLayoutParams();
-                        if (height==null) {
-                            float density = context.getResources().getDisplayMetrics().density;
-                            Log.d("ttt", "onResourceReady: " + resource.getHeight() + ":" + resource.getWidth()+":"+density);
-                            height = getAutoHeight(resource.getWidth(),resource.getHeight());
 
-                            map.put(position,height);
-                        }
-                        layoutParams.height = height;
-                        holder.image.setLayoutParams(layoutParams);
-                        holder.image.setImageBitmap(resource);
-                    }
+                Integer height = map.get(position);
+                ViewGroup.LayoutParams layoutParams = holder.image.getLayoutParams();
+                if (height == null) {
+                    height = new Random().nextInt(3) * 50 + 400;
+                    map.put(position,height);
+                }
+                layoutParams.height = height;
+                holder.image.setLayoutParams(layoutParams);
 
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+                Glide.with(context).load(cover).into(holder.image);
             }else {
                 holder.image.setImageResource(R.mipmap.goods1);
             }
@@ -98,16 +75,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         holder.username.setText((goods.getUser().getName()));
         Glide.with(context).load(goods.getUser().getAvatar()).into(holder.avatar);
 
-
         holder.content.setOnClickListener(v -> listener.itemClick(position));
 
-    }
-
-    public int getAutoHeight(int width,int height){
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        double w = dm.widthPixels / 2.0;
-        double h = (w / width) * height;
-        return (int)h;
     }
 
     @Override

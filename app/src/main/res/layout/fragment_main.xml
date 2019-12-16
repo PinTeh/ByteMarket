@@ -54,9 +54,16 @@
             android:contentDescription="@string/contentDescription" />
     </LinearLayout>
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -108,16 +115,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/swipe_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fillViewport="true">
+                android:fillViewport="true"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_goods"
@@ -126,8 +128,8 @@
                     android:background="@color/colorBackgroundLightGray" />
             </androidx.core.widget.NestedScrollView>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

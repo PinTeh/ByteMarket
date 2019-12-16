@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -94,6 +94,11 @@ public class MainFragment extends Fragment {
 
     //static 代码段可以防止内存泄露
     static {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.colorBackgroundLightGray, android.R.color.darker_gray);//全局设置主题颜色
+            return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+        });
         //设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
             //指定为经典Footer，默认是 BallPulseFooter
@@ -136,9 +141,10 @@ public class MainFragment extends Fragment {
 
         //刷新控件
         smartRefreshLayout = view.findViewById(R.id.swipe_refresh);
-        smartRefreshLayout.setEnableRefresh(false);
+        smartRefreshLayout.setEnableRefresh(true);
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> refreshData());
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
-        smartRefreshLayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
+        //smartRefreshLayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
 
 
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
@@ -157,6 +163,11 @@ public class MainFragment extends Fragment {
 
             }
         });
+    }
+
+    private void refreshData() {
+        page = 1;
+        loadMoreData();
     }
 
 
@@ -186,12 +197,13 @@ public class MainFragment extends Fragment {
                     context.runOnUiThread(() -> {
                         List<Goods> data = response.getData();
                         list.addAll(data);
-                        adapter.notifyDataSetChanged(); // 会发生抖动
+                        adapter.notifyDataSetChanged(); // adapter没设高度 会发生抖动
 //                        if (data.size()>0) {
 //                            //不然会报错
 //                            adapter.notifyItemInserted(data.size());
 //                        }
                         smartRefreshLayout.finishLoadMore();
+                        smartRefreshLayout.finishRefresh();
                     }), false);
         });
     }
