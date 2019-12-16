@@ -140,6 +140,7 @@ public class MainFragment extends Fragment {
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> loadMoreData());
         smartRefreshLayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
 
+
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -185,26 +186,15 @@ public class MainFragment extends Fragment {
                     context.runOnUiThread(() -> {
                         List<Goods> data = response.getData();
                         list.addAll(data);
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged(); // 会发生抖动
+//                        if (data.size()>0) {
+//                            //不然会报错
+//                            adapter.notifyItemInserted(data.size());
+//                        }
                         smartRefreshLayout.finishLoadMore();
                     }), false);
         });
     }
-
-
-    private void getGoods(){
-        Log.d("ttt", "getGoods: 执行了");
-        Executors.newCachedThreadPool().execute(()->{
-            OkHttpUtils.doGet(Api.TYPE_GOODS, Api.URL_GET_GOODS, context, (ICallBackHandler<List<Goods>>) response -> {
-                context.runOnUiThread(()->{
-                    List<Goods> data = response.getData();
-                    list.addAll(data);
-                    adapter.notifyDataSetChanged();
-                });
-            },false);
-        });
-    }
-
 
     @SuppressLint("NewApi")
     private void getCategory(){
