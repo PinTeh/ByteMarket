@@ -29,6 +29,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     private Context context;
     private int resourceId;
     private ISelfOnItemClickListener listener;
+    private ISelfOnItemClickListener selectedListener;
 
 
     public AddressAdapter(List<Address> list, Context context, int resourceId,ISelfOnItemClickListener listener) {
@@ -38,20 +39,27 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         this.listener = listener;
     }
 
+    public void setSelectedListener(ISelfOnItemClickListener selectedListener) {
+        this.selectedListener = selectedListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.content.setOnClickListener(v->
-            new XPopup.Builder(context)
-                    .hasShadowBg(false)
-                    .atView(v)
-                    .asAttachList(new String[]{"编辑", "删除"},
+
+        // 必须在事件发生前，调用这个方法来监视View的触摸
+        final XPopup.Builder builder = new XPopup.Builder(context)
+                .watchView(viewHolder.content);
+        viewHolder.content.setOnLongClickListener(v -> {
+            builder.asAttachList(new String[]{"编辑", "删除"},
                             new int[]{},
                             (position, text) -> listener.itemClick(position,text))
-                    .show()
-        );
+                    .show();
+            return false;
+        });
+
         return viewHolder;
     }
 
@@ -62,6 +70,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
         holder.namePhone.setCenterString(address.getName());
         holder.namePhone.setRightString(address.getPhone());
         holder.address.setText(address.getAddress());
+
+        //选择收获地址时 写在这不知道会有什么后果
+        holder.content.setOnClickListener(v->{
+            selectedListener.itemClick(position,"");
+        });
+
     }
 
     @Override

@@ -45,6 +45,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.web_view_detail)
     WebView webView;
 
+    private String goodsString;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        String goodsString = getIntent().getStringExtra("GOODS");
+        goodsString = getIntent().getStringExtra("GOODS");
         Goods goods = JSON.parseObject(goodsString,Goods.class);
         if (goods!=null) {
             WebSettings settings = webView.getSettings();
@@ -71,7 +73,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_goods_detail_chat:
-                Intent intent = new Intent(DetailActivity.this, ChatActivity.class);
+                Intent intent = new Intent(DetailActivity.this, PurchaseActivity.class);
+                intent.putExtra("GOODS",goodsString);
                 startActivity(intent);
                 break;
             case 666:

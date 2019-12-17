@@ -20,7 +20,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:windowSoftInputMode="stateAlwaysHidden"
         tools:replace="android:theme">
-        <activity android:name=".ui.activity.TestActivity"></activity>
+        <activity android:name=".ui.activity.PurchaseActivity"></activity>
+        <activity android:name=".ui.activity.TestActivity" />
         <activity android:name=".ui.activity.AddressActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
@@ -36,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".base.BaseActivity" />
     </application>
 

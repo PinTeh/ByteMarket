@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.PurchaseActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:navigationIcon="@mipmap/navigation_back_50"
+        android:layout_alignParentTop="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买宝贝"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/background_dark"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F0EFEF" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_purchase_address"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+
+        app:sUseShape="true"
+        app:sShapeStrokeColor="#CCCBCB"
+        app:sShapeStrokeWidth="0.1dp"
+        app:sShapeCornersRadius="2dp"
+
+        app:sLeftIconRes="@mipmap/location"
+        app:sLeftIconHeight="40dp"
+        app:sLeftIconWidth="40dp"
+
+        app:sRightIconRes="@mipmap/arrow_right"
+        app:sRightIconHeight="30dp"
+        app:sRightIconWidth="30dp"
+        app:sRightIconMarginRight="5dp"
+
+        app:sLeftTopTextString=""
+        app:sLeftTextString="请选择收获地址"
+        app:sLeftViewGravity="left_center"
+        app:sRightViewMarginLeft="20dp"
+        app:sLeftMaxEms="18"
+
+        app:sCenterTopTextString=" "
+        app:sCenterTextGravity="left"
+        app:sCenterTextString=" "
+
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F0EFEF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        >
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/stv_purchase_goods_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:sLeftTopTextString="3.0beat 弹窗 小耳罩 头戴式蓝牙耳机耳麦 录音师"
+            app:sLeftTopLines="2"
+
+            app:sLeftIconRes="@mipmap/goods2"
+            app:sLeftIconWidth="110dp"
+            app:sLeftIconHeight="110dp"
+
+            app:sLeftTopTextSize="18sp"
+            app:sCenterSpaceHeight="20dp"
+            app:sLeftBottomTextSize="17sp"
+            app:sLeftBottomTextString="￥1888.00"
+            app:sLeftBottomTextColor="@android:color/holo_red_dark"
+            app:sLeftViewGravity="left_center"
+
+            android:layout_margin="5dp"
+            app:sUseShape="true"
+            app:sShapeStrokeColor="#CCCBCB"
+            app:sShapeStrokeWidth="0.1dp"
+            app:sShapeCornersRadius="2dp"
+            />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F0EFEF" />
+
+    <com.allen.library.SuperTextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:sLeftTopTextString="支付方式"
+        app:sRightTopTextString="移动支付"
+        app:sRightTvDrawableLeft="@mipmap/pay_type"
+        app:sRightTvDrawableHeight="17dp"
+        app:sRightTvDrawableWidth="100dp"
+        android:layout_margin="5dp"
+        app:sUseShape="true"
+        app:sShapeStrokeColor="#CCCBCB"
+        app:sShapeStrokeWidth="0.1dp"
+        app:sShapeCornersRadius="2dp"
+         />
+
+    <com.allen.library.SuperTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:sLeftTextString="配送方式"
+        app:sRightTextString="快递 ￥0.00"
+
+        android:layout_margin="5dp"
+        app:sUseShape="true"
+        app:sShapeStrokeColor="#CCCBCB"
+        app:sShapeStrokeWidth="0.1dp"
+        app:sShapeCornersRadius="2dp"
+        />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+         />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_purchase_total"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_above="@+id/ll_btn"
+
+        app:sLeftViewGravity="left_center"
+        app:sLeftBottomTextColor="#979b9e"
+        app:sLeftBottomTextString="运费"
+        app:sLeftTopTextString="商品总额"
+        app:sLeftViewMarginLeft="10dp"
+
+        app:sRightBottomTextColor="#979b9e"
+        app:sRightBottomTextString="+￥0.00"
+        app:sRightTopTextString="￥1888.00"
+        app:sRightViewMarginRight="10dp"
+        app:sRightViewGravity="right_center"
+
+        app:sUseShape="true"
+        app:sShapeStrokeColor="#CCCBCB"
+        app:sShapeStrokeWidth="0.1dp"
+        app:sShapeCornersRadius="2dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F0EFEF" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计 :"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/background_dark"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_purchase_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="￥1888.00"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/background_dark"
+            />
+
+        <Button
+            android:id="@+id/btn_purchase_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/background_buy"
+            android:text="确认下单"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

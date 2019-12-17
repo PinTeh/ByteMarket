@@ -12,6 +12,9 @@ public class Address {
 
     private Integer userId;
 
+    public Address() {
+    }
+
     public Address(String name, String phone, String address) {
         this.name = name;
         this.phone = phone;

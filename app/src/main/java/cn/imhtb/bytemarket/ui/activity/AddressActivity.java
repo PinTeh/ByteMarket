@@ -2,6 +2,7 @@ package cn.imhtb.bytemarket.ui.activity;
 
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -78,6 +80,13 @@ public class AddressActivity extends AppCompatActivity {
                         return;
                     }
                     handleDelete(addresses.get(position).getId()); });
+
+        addressAdapter.setSelectedListener((position, text) -> {
+            Address address = addresses.get(position);
+            Log.d("ttt", "onCreate: " + "发送事件");
+            EventBus.getDefault().postSticky(new MessageEvent("address:selected", JSON.toJSONString(address)));
+            finish();
+        });
 
         recyclerView.setAdapter(addressAdapter);
         recyclerView.setLayoutManager(manager);
