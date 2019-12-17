@@ -121,7 +121,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             if (loginUser == null) {
                 return;
             }
-            
+
             int id = goods.getId();
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .readTimeout(20, TimeUnit.SECONDS)

@@ -57,7 +57,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                             new int[]{},
                             (position, text) -> listener.itemClick(position,text))
                     .show();
-            return false;
+            return true;
         });
 
         return viewHolder;
