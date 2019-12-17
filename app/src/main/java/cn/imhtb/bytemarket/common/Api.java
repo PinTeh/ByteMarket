@@ -9,6 +9,7 @@ import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.BannerEntity;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Category;
+import cn.imhtb.bytemarket.bean.Favour;
 import cn.imhtb.bytemarket.bean.Goods;
 
 public class Api {
@@ -35,9 +36,15 @@ public class Api {
 
     public static final String URL_GET_ADDRESS = BASE + "/address/list";
 
+    public static final String URL_GET_COLLECT = BASE + "/store/collect";
+
+    public static final String URL_GET_HISTORY = BASE + "/store/history";
+
     public static final String URL_ADDRESS_ADD = BASE + "/address/";
 
     public static final String URL_ADDRESS_DELETE = BASE + "/address/";
+
+    public static final String URL_FAVOUR_DELETE = BASE + "/store/";
 
     public static final Type TYPE_BANNER = new TypeToken<ServerResponse<List<BannerEntity>>>() {}.getType();
 
@@ -50,5 +57,7 @@ public class Api {
     public static final Type TYPE_SINGLE_GOODS = new TypeToken<ServerResponse<Goods>>() {}.getType();
 
     public static final Type TYPE_CATEGORY = new TypeToken<ServerResponse<List<Category>>>() {}.getType();
+
+    public static final Type TYPE_FAVOUR = new TypeToken<ServerResponse<List<Favour>>>() {}.getType();
 
 }

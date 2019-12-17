@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="150dp"
@@ -24,6 +25,7 @@
             android:layout_height="30dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_favour_user_avatar"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@mipmap/avatar"
@@ -31,6 +33,7 @@
                 android:layout_marginStart="10dp" />
 
             <TextView
+                android:id="@+id/tv_favour_user_nike_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/contentDescription"
@@ -45,21 +48,26 @@
             android:padding="5dp">
 
             <ImageView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/iv_favour_goods_cover"
+                android:layout_marginLeft="3dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/contentDescription"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/guide_one" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="6dp">
+                android:paddingLeft="10dp">
 
                 <TextView
-                    android:id="@+id/tv_favour_title"
+                    android:id="@+id/tv_favour_goods_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="标题"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textSize="20sp"
                     />
 
@@ -67,29 +75,29 @@
                     android:id="@+id/tv_favour_dolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_favour_title"
+                    android:layout_below="@id/tv_favour_goods_title"
                     android:text="￥"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_favour_price"
+                    android:id="@+id/tv_favour_goods_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_favour_title"
+                    android:layout_below="@id/tv_favour_goods_title"
                     android:layout_toRightOf="@id/tv_favour_dolor"
                     android:text="60"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_favour_cancel_collect"
+                    android:id="@+id/tv_favour_cancel"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/border_button"
-                    android:text="取消收藏"
+                    android:text="删除"
                     android:gravity="center"
                     />
             </RelativeLayout>

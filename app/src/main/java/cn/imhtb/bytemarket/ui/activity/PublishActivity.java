@@ -113,7 +113,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
 
         threeBounce = new ThreeBounce();
         threeBounce.setBounds(0, 20, 100, 100);
-        //noinspection deprecation
         threeBounce.setColor(getResources().getColor(R.color.colorFontLightDark));
     }
 
@@ -138,10 +137,9 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                 return;
             }
 
-            for (LocalMedia media : mediaList) {
-                imageGroup.addView(createImage(media.getPath()));
-
-            }
+//            for (LocalMedia media : mediaList) {
+//                imageGroup.addView(createImage(media.getPath()));
+//            }
 
             File file = new File("/sdcard/byteMarket");
             if (!file.exists()&&!file.mkdirs()){
@@ -162,6 +160,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void onSuccess(File file) {
                             afterCompress.add(file.getPath());
+                            imageGroup.addView(createImage(file.getPath()));
                             Log.d("ttt", "onSuccess: 压缩成功" + file.getPath());
                         }
 

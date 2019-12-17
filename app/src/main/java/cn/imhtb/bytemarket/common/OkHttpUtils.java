@@ -2,14 +2,19 @@ package cn.imhtb.bytemarket.common;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
+import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -63,4 +68,16 @@ public class OkHttpUtils {
 
         call.enqueue(new JsonCallBack<T>(context,callback,type));
     }
+
+    public static<T> void doDel(Type type, String url, Context context,ICallBackHandler<T> callback){
+        Request request = new Request.Builder()
+                .url(url)
+                .delete()
+                .build();
+
+        Call call = client.newCall(request);
+
+        call.enqueue(new JsonCallBack<>(context,callback,type));
+    }
+
 }

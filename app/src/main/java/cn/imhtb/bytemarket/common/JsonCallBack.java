@@ -58,6 +58,8 @@ public class JsonCallBack<T> implements Callback {
     }
 
     private void makeToast(String message) {
+        Looper.prepare();
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Looper.loop();
     }
 }

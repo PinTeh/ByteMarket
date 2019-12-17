@@ -129,6 +129,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_mine_fragment_address:{
                 startActivity(new Intent(getActivity(), AddressActivity.class));
             } break;
+            default:
         }
     }
 
