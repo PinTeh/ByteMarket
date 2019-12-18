@@ -29,13 +29,9 @@ android {
             jcenter() // PictureSelector
             maven { url "https://jitpack.io" }
             mavenCentral()
+            maven { url "https://dl.bintray.com/rongcloud/maven" }
         }
     }
-    //glide
-//    repositories {
-//        mavenCentral()
-//        google()
-//    }
 
 }
 
@@ -82,4 +78,8 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
 
     implementation 'com.lxj:xpopup:1.8.10-x'
+
+    api 'cn.rongcloud.sdk:im_kit:2.9.22'
+    //im_kit必须依赖im_lib，所以需要加入对应依赖
+    api 'cn.rongcloud.sdk:im_lib:2.9.22'
 }

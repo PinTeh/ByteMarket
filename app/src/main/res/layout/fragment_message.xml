@@ -22,56 +22,31 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_height="40dp"
+        android:text="Open"
+        />
 
-        <RelativeLayout
-            android:id="@+id/test_event"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:padding="10dp"
-            android:background="@android:color/white"
-            >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_message_avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@mipmap/avatar_circle"
-                />
+    <Button
+        android:id="@+id/test2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Login"
+        />
 
-            <TextView
-                android:id="@+id/tv_message_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我和亚索都喜欢浪"
-                android:layout_toEndOf="@+id/civ_message_avatar"
-                android:layout_marginStart="15dp"
-                android:textColor="@android:color/black"
-                />
+    <Button
+        android:id="@+id/test3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="List"
+        />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="最低50"
-                android:layout_toEndOf="@+id/civ_message_avatar"
-                android:layout_below="@+id/tv_message_username"
-                android:layout_marginStart="15dp"
-                />
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:src="@mipmap/goods1"
-                />
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    <fragment
+        android:id="@+id/conversationlist"
+        android:name="io.rong.imkit.fragment.ConversationListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

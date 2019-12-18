@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,10 +21,14 @@ import java.util.concurrent.Executors;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.Campus;
+import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ICallBackHandler;
 import cn.imhtb.bytemarket.common.OkHttpUtils;
+import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.utils.SpUtils;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -90,6 +95,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
     }
+
 
     @Override
     protected void onDestroy() {

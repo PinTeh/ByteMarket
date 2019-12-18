@@ -20,7 +20,37 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:windowSoftInputMode="stateAlwaysHidden"
         tools:replace="android:theme">
-        <activity android:name=".ui.activity.PurchaseActivity"></activity>
+        <activity
+            android:name=".ui.activity.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="cn.imhtb.bytemarket"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.ConversationListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="cn.imhtb.bytemarket"
+                    android:pathPrefix="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.PurchaseActivity" />
         <activity android:name=".ui.activity.TestActivity" />
         <activity android:name=".ui.activity.AddressActivity" />
         <activity android:name=".ui.activity.SearchActivity" />
@@ -28,7 +58,6 @@
         <activity android:name=".ui.activity.PublishActivity" />
         <activity android:name=".ui.activity.FavourActivity" />
         <activity android:name=".ui.activity.DetailActivity" />
-        <activity android:name=".ui.activity.ChatActivity" />
         <activity android:name=".ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.StartActivity">
             <intent-filter>
@@ -39,6 +68,26 @@
         </activity>
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".base.BaseActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="cn.imhtb.bytemarket.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+
+        <receiver
+            android:name=".rong.SealNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -34,12 +34,16 @@ import butterknife.ButterKnife;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.base.BaseActivity;
+import cn.imhtb.bytemarket.bean.User;
+import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.ui.NotScrollViewPager;
 import cn.imhtb.bytemarket.ui.adapter.HomeAdapter;
 import cn.imhtb.bytemarket.ui.fragment.CampusFragment;
 import cn.imhtb.bytemarket.ui.fragment.MainFragment;
 import cn.imhtb.bytemarket.ui.fragment.MessageFragment;
 import cn.imhtb.bytemarket.ui.fragment.MineFragment;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class MainActivity extends BaseActivity {
 
@@ -97,6 +101,8 @@ public class MainActivity extends BaseActivity {
         initCheckPermission();
 
         initBottomBar();
+
+        handleRongCloud();
     }
 
     private void initLequal() {
@@ -131,13 +137,17 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(fragments.size());
 
         commonTabLayout.setTabData(customTabEntities);
-        commonTabLayout.showMsg(3,6);
-        commonTabLayout.setMsgMargin(3, -30, 5);
+//        commonTabLayout.showMsg(3,6);
+//        commonTabLayout.setMsgMargin(3, -30, 5);
 
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
                 if(position == 2){
+                    return;
+                }
+                if (position == 3){
+                    startActivity(new Intent(MainActivity.this,ConversationListActivity.class));
                     return;
                 }
                 viewPager.setCurrentItem(position, false);
@@ -179,6 +189,41 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this,"授权成功",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+
+    private void handleRongCloud() {
+
+        String u1 = "pxHr7UI4WdNVUMigfclmB5F2HnIKmx4n5rgtYeOECSkW1J1r6VpgfA/OrJHYoYiBkBjvlpOfUjI=";
+        String u2 = "p5iYaNM03QY7AY+LTKwg6qgPyxLY3uLYCd+Gr468txg7vubrul9lR428xc3lh4bqzNX/3+X61iTApiA4gYGhmA==";
+        String token;
+        User loginUser = UserHelper.getInstance().getLoginUser(this);
+        if (loginUser==null){
+            Log.d("ttt", "handleRongCloud: 未登录");
+            return;
+        }
+        if (loginUser.getId()==1){
+            token = u1;
+        }else {
+            token = u2;
+        }
+        Log.d("ttt", "handleRongCloud: " + token);
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                Log.d("ttt", "--onTokenIncorrect" );
+
+            }
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("ttt", "--onSuccess" + userid);
+
+            }
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("ttt", "--onSuccess" + errorCode);
+            }
+        });
     }
 
 }

@@ -59,7 +59,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
                 if (height == null) {
                     height = new Random().nextInt(3) * 50 + 400;
                     map.put(position,height);
-                    Log.d("ttt",height + "");
                 }
                 layoutParams.height = height;
                 holder.image.setLayoutParams(layoutParams);
