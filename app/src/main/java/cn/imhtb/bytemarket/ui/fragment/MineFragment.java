@@ -97,7 +97,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private void initUserInfo(){
         User user = UserHelper.getInstance().getLoginUser(getActivity());
-        Glide.with(Objects.requireNonNull(getActivity())).load(user.getAvatar()).into(iv_avatar);
+        if (user==null){
+            return;
+        }
+        if (user.getAvatar()!=null){
+            Glide.with(Objects.requireNonNull(getActivity())).load(user.getAvatar()).into(iv_avatar);
+        }
         tv_nickname.setText(user.getNickName());
         String signature = "签名:" + (TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
         tv_signature.setText(signature);

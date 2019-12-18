@@ -1,9 +1,12 @@
 package cn.imhtb.bytemarket.helps;
 
 import android.content.Context;
+import android.util.Log;
 
 import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.utils.SpUtils;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class UserHelper {
 
@@ -38,5 +41,32 @@ public class UserHelper {
 
     public boolean isLogin(Context context){
         return SpUtils.isLogin(context);
+    }
+
+    public void connectRongCloud(Context context){
+        User loginUser = getLoginUser(context);
+
+        if (loginUser==null){
+            Log.d("ttt", "handleRongCloud: 未登录");
+            return;
+        }
+        String token = loginUser.getRongCloudToken();
+        Log.d("ttt", "handleRongCloud: " + token);
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                Log.d("ttt", "--onTokenIncorrect" );
+
+            }
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("ttt", "--onSuccess" + userid);
+
+            }
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("ttt", "--onSuccess" + errorCode);
+            }
+        });
     }
 }

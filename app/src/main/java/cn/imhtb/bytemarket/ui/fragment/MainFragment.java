@@ -167,6 +167,7 @@ public class MainFragment extends Fragment {
 
     private void refreshData() {
         page = 1;
+        list.clear();
         loadMoreData();
     }
 

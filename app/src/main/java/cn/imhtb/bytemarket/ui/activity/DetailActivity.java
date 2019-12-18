@@ -17,7 +17,6 @@ import com.alibaba.fastjson.JSON;
 import com.allen.library.SuperTextView;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +34,8 @@ import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ServerResponse;
 import cn.imhtb.bytemarket.helps.UserHelper;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.FormBody;
+import io.rong.imkit.RongIM;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -99,17 +97,21 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    @OnClick({R.id.iv_goods_detail_chat,R.id.ll_detail_collect})
+    @OnClick({R.id.iv_goods_detail_buy,R.id.ll_detail_collect,R.id.iv_goods_detail_chat})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_goods_detail_chat:
+            case R.id.iv_goods_detail_buy:
                 Intent intent = new Intent(DetailActivity.this, PurchaseActivity.class);
                 intent.putExtra("GOODS",goodsString);
                 startActivity(intent);
                 break;
             case R.id.ll_detail_collect:
                 handleFavour(Api.URL_GET_COLLECT);
+                break;
+            case R.id.iv_goods_detail_chat:
+                RongIM.getInstance().startPrivateChat(DetailActivity.this, String.valueOf(goods.getUserId()), goods.getUser().getName());
+
             default:
                 break;
         }

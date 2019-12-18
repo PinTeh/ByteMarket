@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -100,9 +101,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                 String ret = Objects.requireNonNull(response.body()).string();
                 ServerResponse serverResponse = gson.fromJson(ret,ServerResponse.class);
                 //ServerResponse serverResponse = gson.fromJson(response.body().string(),new TypeToken<ServerResponse<Object>>() {}.getType());
-                if (serverResponse.isSuccess()) {
+                if (serverResponse!=null && serverResponse.isSuccess()) {
                     AppComponent.isLogin = true;
                     UserHelper.getInstance().setAutoLogin(LoginActivity.this,gson.toJson(serverResponse.getData()));
+                    //UserHelper.getInstance().connectRongCloud(LoginActivity.this);
+
                     EventBus.getDefault().post(new MessageEvent());
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
@@ -118,16 +121,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    @OnClick(R.id.btn_login_login)
+    @OnClick({R.id.btn_login_login,R.id.tv_go_to_register})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login_login:{
                handleLogin();
             } break;
-            case 666: {
-
+            case R.id.tv_go_to_register: {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
             } break;
+            default:
         }
     }
 }

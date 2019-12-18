@@ -45,5 +45,14 @@
         android:text="登录"
         />
 
+    <TextView
+        android:id="@+id/tv_go_to_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="立即注册"
+        android:textSize="14sp"
+        android:layout_margin="10dp"
+        />
 
 </LinearLayout>

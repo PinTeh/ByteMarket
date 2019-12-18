@@ -4,7 +4,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.BannerEntity;
@@ -33,6 +32,8 @@ public class Api {
     public static final String URL_UPLOAD_IMAGES = BASE + "/upload/images";
 
     public static final String URL_LOGIN = BASE + "/user/login";
+
+    public static final String URL_REGISTER = BASE + "/user/register";
 
     public static final String URL_ADD_PRODUCT = BASE + "/product/";
 

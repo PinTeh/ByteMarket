@@ -17,13 +17,6 @@ public class User {
     private String password;
 
     /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
-
-    /**
      * 昵称
      */
     private String nickName;
@@ -42,6 +35,8 @@ public class User {
      * 个性签名
      */
     private String description;
+
+    private String rongCloudToken;
 
     public Integer getId() {
         return id;
@@ -67,21 +62,6 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getNickName() {
         return nickName;
@@ -113,5 +93,13 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRongCloudToken() {
+        return rongCloudToken;
+    }
+
+    public void setRongCloudToken(String rongCloudToken) {
+        this.rongCloudToken = rongCloudToken;
     }
 }

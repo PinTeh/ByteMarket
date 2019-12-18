@@ -2,7 +2,6 @@ package cn.imhtb.bytemarket.bean;
 
 
 import java.math.BigDecimal;
-import java.util.List;
 
 
 public class GoodsEntity {

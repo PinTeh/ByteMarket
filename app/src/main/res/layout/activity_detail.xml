@@ -169,6 +169,18 @@
             android:layout_margin="5dp"
             android:background="@drawable/background_buy"
             android:gravity="center"
+            android:text="聊一聊"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/iv_goods_detail_buy"
+            android:layout_width="90dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_buy"
+            android:gravity="center"
             android:text="马上买"
             android:textAlignment="center"
             android:textColor="@android:color/white"

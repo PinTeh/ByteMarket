@@ -64,7 +64,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@+id/iv_user_avatar"
-                        android:text="Porhub.com"
+                        android:text=" "
                         android:textColor="#2E2E2E"
                         android:textSize="18sp" />
 
@@ -79,7 +79,7 @@
                         android:layout_toEndOf="@+id/iv_user_avatar"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="签名：Enjoy yourself ~ "
+                        android:text="签名: "
                         android:textColor="#363636"
                         android:textSize="14sp" />
                 </RelativeLayout>
