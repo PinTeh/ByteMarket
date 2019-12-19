@@ -43,7 +43,9 @@ import cn.imhtb.bytemarket.ui.fragment.MainFragment;
 import cn.imhtb.bytemarket.ui.fragment.MessageFragment;
 import cn.imhtb.bytemarket.ui.fragment.MineFragment;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 public class MainActivity extends BaseActivity {
 
@@ -103,6 +105,13 @@ public class MainActivity extends BaseActivity {
         initBottomBar();
 
         UserHelper.getInstance().connectRongCloud(this);
+
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(i -> {
+            if (i > 0){
+                commonTabLayout.showMsg(3,i);
+                commonTabLayout.setMsgMargin(3, -30, 5);                }
+            }, Conversation.ConversationType.PRIVATE);
+
     }
 
     private void initLequal() {

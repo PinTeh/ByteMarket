@@ -38,7 +38,9 @@ import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.ui.activity.AddressActivity;
 import cn.imhtb.bytemarket.ui.activity.FavourActivity;
 import cn.imhtb.bytemarket.ui.activity.LoginActivity;
+import cn.imhtb.bytemarket.ui.activity.PersonalActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.rong.imkit.RongIM;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,6 +82,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         Log.d("ttt", "mine fragment  onViewCreate");
 
         initLoginComponent(AppComponent.isLogin);
+
     }
 
     private void initLoginComponent(boolean login) {
@@ -104,11 +107,11 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             Glide.with(Objects.requireNonNull(getActivity())).load(user.getAvatar()).into(iv_avatar);
         }
         tv_nickname.setText(user.getNickName());
-        String signature = "签名:" + (TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
+        String signature = "签名:" + (!TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
         tv_signature.setText(signature);
     }
 
-    @OnClick({R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})
+    @OnClick({R.id.rl_mine_fragment_personal_center,R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -125,8 +128,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.ll_mine_un_login:{
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             } break;
-            case R.id.rl_mine_login:{
-                //initLoginComponent(false);
+            case R.id.rl_mine_login:
+            case R.id.rl_mine_fragment_personal_center: {
+                startActivity(new Intent(getActivity(), PersonalActivity.class));
             } break;
             case R.id.btn_mine_logout:{
                 handleLogout();
@@ -141,8 +145,27 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private void handleLogout() {
         AppComponent.isLogin = false;
         initLoginComponent(false);
+        RongIM.getInstance().logout();
         UserHelper.getInstance().setLogout(getActivity());
         Toast.makeText(getActivity(),"已登出",Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onMessageEvent(MessageEvent event) {
+        if ("notice:reload".equals(event.getMessage())){
+           initUserInfo();
+        }
+    }
 }

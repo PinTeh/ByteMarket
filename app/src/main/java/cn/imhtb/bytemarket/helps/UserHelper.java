@@ -3,6 +3,7 @@ package cn.imhtb.bytemarket.helps;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.utils.SpUtils;
@@ -24,6 +25,27 @@ public class UserHelper {
             }
         }
         return instance;
+    }
+
+    public boolean validate(Context context,String nickName,String username,String password,String confirm){
+        boolean flag = true;
+
+         if (username==null || username.length() < 6||username.length()>12){
+            Toast.makeText(context,"用户名长度应在6-12之间",Toast.LENGTH_SHORT).show();
+            flag =false;
+        } else if (nickName==null || nickName.length() < 4){
+            Toast.makeText(context,"昵称长度不能小于4",Toast.LENGTH_SHORT).show();
+            flag = false;
+        }
+        else if (password==null || password.length()<6 || password.length()>18){
+            Toast.makeText(context,"密码长度应在6-18之间",Toast.LENGTH_SHORT).show();
+            flag =  false;
+        }
+        else if (confirm==null || !confirm.equals(password)){
+            Toast.makeText(context,"两次输入的密码不一致",Toast.LENGTH_SHORT).show();
+            flag =  false;
+        }
+        return flag;
     }
 
     public boolean setAutoLogin(Context context,String body){

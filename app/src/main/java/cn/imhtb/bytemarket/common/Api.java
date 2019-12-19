@@ -31,9 +31,13 @@ public class Api {
 
     public static final String URL_UPLOAD_IMAGES = BASE + "/upload/images";
 
+    public static final String URL_UPLOAD_IMAGE = BASE + "/upload/image";
+
     public static final String URL_LOGIN = BASE + "/user/login";
 
     public static final String URL_REGISTER = BASE + "/user/register";
+
+    public static final String URL_USER_UPDATE = BASE + "/user/update";
 
     public static final String URL_ADD_PRODUCT = BASE + "/product/";
 

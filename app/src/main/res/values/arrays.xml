@@ -30,4 +30,10 @@
         <item>@mipmap/msg</item>
         <item>@mipmap/user</item>
     </integer-array>
+
+    <string-array name="campus">
+        <item>桂林电子科技大学</item>
+        <item>广西师范大学</item>
+        <item>广西大学</item>
+    </string-array>
 </resources>

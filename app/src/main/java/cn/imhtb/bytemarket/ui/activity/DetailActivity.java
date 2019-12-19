@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.web_view_detail)
     WebView webView;
 
+    @BindView(R.id.ll_detail_bottom)
+    LinearLayout bottom;
+
     private String goodsString;
 
     private Goods goods;
@@ -92,6 +96,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         loginUser = UserHelper.getInstance().getLoginUser(DetailActivity.this);
         if (loginUser!=null){
+            if (loginUser.getId().equals(goods.getUserId())){
+                bottom.setVisibility(View.INVISIBLE);
+            }
             handleFavour(Api.URL_GET_HISTORY);
         }
 

@@ -41,6 +41,7 @@ import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.BannerEntity;
+import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Category;
 import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.common.Api;
@@ -179,6 +180,8 @@ public class MainFragment extends Fragment {
         getBanner();
 
         getCategory();
+
+        getCampus();
     }
 
     private void loadMoreData() {
@@ -220,6 +223,19 @@ public class MainFragment extends Fragment {
                     AppComponent.categoryList.addAll(data);
                     data.forEach(v -> customTabEntities.add(new TabEntity(v.getName(), v.getId())));
                     commonTabLayout.setTabData(customTabEntities);
+                });
+            },false);
+        });
+    }
+
+    @SuppressLint("NewApi")
+    private void getCampus(){
+        Executors.newCachedThreadPool().execute(()->{
+            OkHttpUtils.doGet(Api.TYPE_CAMPUS,Api.URL_GET_CAMPUS,context,(ICallBackHandler<List<Campus>>) response ->{
+                context.runOnUiThread(()-> {
+                    List<Campus> data = response.getData();
+                    AppComponent.campusList.clear();
+                    AppComponent.campusList.addAll(data);
                 });
             },false);
         });

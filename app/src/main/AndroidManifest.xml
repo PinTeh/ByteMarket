@@ -20,7 +20,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:windowSoftInputMode="stateAlwaysHidden"
         tools:replace="android:theme">
-        <activity android:name=".ui.activity.RegisterActivity"></activity>
+        <activity android:name=".ui.activity.PersonalActivity"></activity>
+        <activity android:name=".ui.activity.RegisterActivity" />
         <activity
             android:name=".ui.activity.ConversationActivity"
             android:screenOrientation="portrait"

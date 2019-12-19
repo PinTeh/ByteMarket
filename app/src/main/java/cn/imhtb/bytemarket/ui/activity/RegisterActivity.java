@@ -31,6 +31,7 @@ import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.MessageEvent;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.ServerResponse;
+import cn.imhtb.bytemarket.helps.UserHelper;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -70,9 +71,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String nickname = etnickname.getText().toString();
         String password = etpassword.getText().toString();
         String again = etagain.getText().toString();
-
+        boolean validate = UserHelper.getInstance().validate(this, nickname, username, password, again);
+        if (!validate){
+            return;
+        }
         handleRegister(username,nickname,password);
-
     }
 
 

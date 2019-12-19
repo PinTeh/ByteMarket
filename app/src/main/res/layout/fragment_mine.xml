@@ -83,6 +83,7 @@
                         android:textColor="#363636"
                         android:textSize="14sp" />
                 </RelativeLayout>
+
                 <!--未登录-->
                 <LinearLayout
                     android:id="@+id/ll_mine_un_login"

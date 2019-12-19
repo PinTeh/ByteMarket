@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Category;
 import cn.imhtb.bytemarket.bean.CloudUserInfo;
 import cn.imhtb.bytemarket.common.Api;
@@ -21,6 +22,8 @@ public class AppComponent extends Application {
     public static boolean isLogin = false;
 
     public static List<Category> categoryList = new ArrayList<>();
+
+    public static List<Campus> campusList = new ArrayList<>();
 
     @Override
     public void onCreate() {
