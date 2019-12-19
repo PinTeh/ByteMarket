@@ -99,12 +99,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             try {
                 Response response = okHttpClient.newCall(request).execute();
                 String ret = Objects.requireNonNull(response.body()).string();
+                Log.d("ttt", "handleLogin: ret = " + ret);
                 ServerResponse serverResponse = gson.fromJson(ret,ServerResponse.class);
                 //ServerResponse serverResponse = gson.fromJson(response.body().string(),new TypeToken<ServerResponse<Object>>() {}.getType());
                 if (serverResponse!=null && serverResponse.isSuccess()) {
                     AppComponent.isLogin = true;
-                    UserHelper.getInstance().setAutoLogin(LoginActivity.this,gson.toJson(serverResponse.getData()));
-                    //UserHelper.getInstance().connectRongCloud(LoginActivity.this);
+                    String userString = gson.toJson(serverResponse.getData());
+                    Log.d("ttt", "handleLogin: " + userString);
+                    UserHelper.getInstance().setAutoLogin(this,userString);
 
                     EventBus.getDefault().post(new MessageEvent());
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));

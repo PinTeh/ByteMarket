@@ -35,6 +35,7 @@ import cn.imhtb.bytemarket.common.ServerResponse;
 import cn.imhtb.bytemarket.helps.UserHelper;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -110,7 +111,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 handleFavour(Api.URL_GET_COLLECT);
                 break;
             case R.id.iv_goods_detail_chat:
-                RongIM.getInstance().startPrivateChat(DetailActivity.this, String.valueOf(goods.getUserId()), goods.getUser().getName());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("GOODS",goodsString);
+                //将商品信息string通过title传过去
+                //RongIM.getInstance().startPrivateChat(DetailActivity.this, String.valueOf(goods.getUserId()), goods.getUser().getName());
+                RongIM.getInstance().startConversation(DetailActivity.this, Conversation.ConversationType.PRIVATE,String.valueOf(goods.getUserId()), goods.getUser().getName(),bundle);
+
 
             default:
                 break;

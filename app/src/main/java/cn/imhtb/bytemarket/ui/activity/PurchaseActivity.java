@@ -1,6 +1,7 @@
 package cn.imhtb.bytemarket.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,16 +46,22 @@ public class PurchaseActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.tv_purchase_total)
     TextView tv_total;
 
+    @BindView(R.id.toolbar_purchase)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
         ButterKnife.bind(this);
+        toolbar.setNavigationOnClickListener(v->finish());
 
         //获取商品
         Goods goods = JSON.parseObject(getIntent().getStringExtra("GOODS"),Goods.class);
-        Glide.with(this).load(goods.getImages().split(",")[0]).into(stv_goods.getLeftIconIV());
+        if (goods==null){
+            return;
+        }
+        Glide.with(this).load(goods.getCover()).into(stv_goods.getLeftIconIV());
         stv_goods.setLeftTopString(goods.getTitle());
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         String priceString = "￥" + decimalFormat.format(goods.getPrice());

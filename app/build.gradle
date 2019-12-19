@@ -32,7 +32,9 @@ android {
             maven { url "https://dl.bintray.com/rongcloud/maven" }
         }
     }
-
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {

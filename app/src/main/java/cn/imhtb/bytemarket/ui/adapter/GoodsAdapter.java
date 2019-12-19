@@ -57,10 +57,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
                 Integer height = map.get(position);
                 ViewGroup.LayoutParams layoutParams = holder.image.getLayoutParams();
                 if (height == null) {
-                    height = new Random().nextInt(3) * 50 + 400;
+                    height = new Random().nextInt(4) * 30 + 450;
                     map.put(position,height);
                 }
-                layoutParams.height = height;
+                //layoutParams.height = height;
                 holder.image.setLayoutParams(layoutParams);
 
                 Glide.with(context).load(cover).into(holder.image);

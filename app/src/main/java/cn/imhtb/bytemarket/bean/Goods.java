@@ -1,5 +1,7 @@
 package cn.imhtb.bytemarket.bean;
 
+import com.luck.picture.lib.tools.StringUtils;
+
 import java.math.BigDecimal;
 
 public class Goods {
@@ -157,5 +159,9 @@ public class Goods {
                 ", schoolId=" + schoolId +
                 ", user=" + user +
                 '}';
+    }
+
+    public String getCover(){
+        return images.split(",")[0];
     }
 }

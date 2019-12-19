@@ -4,7 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activity.ConversationActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_conversation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:navigationIcon="@mipmap/navigation_back_50"
+        android:elevation="1dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_toolbar_conversation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/rl_chat_goods_show"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:padding="5dp"
+        >
+        <ImageView
+            android:id="@+id/iv_chat_goods_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/contentDescription"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_chat_goods_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="17sp"
+            android:layout_toEndOf="@id/iv_chat_goods_image"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="2dp"
+            android:textSize="12sp"
+            android:layout_toEndOf="@id/iv_chat_goods_image"
+            android:layout_alignParentBottom="true"
+            android:text="交易前聊一聊"
+            />
+
+        <Button
+            android:id="@+id/btn_chat_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/background_buy"
+            android:text="立即购买"
+            android:textColor="@android:color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            />
+
+    </RelativeLayout>
 
     <fragment
         android:id="@+id/conversation"

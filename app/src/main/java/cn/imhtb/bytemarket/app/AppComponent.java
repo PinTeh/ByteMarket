@@ -26,7 +26,7 @@ public class AppComponent extends Application {
     public void onCreate() {
         super.onCreate();
         RongIM.init(this,"kj7swf8okn4q2");
-        RongIM.setUserInfoProvider(this::findById, false);
+        RongIM.setUserInfoProvider(this::findById, true);
     }
 
     private UserInfo findById(String userId){

@@ -1,6 +1,7 @@
 package cn.imhtb.bytemarket.helps;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import cn.imhtb.bytemarket.bean.User;
@@ -51,12 +52,13 @@ public class UserHelper {
             return;
         }
         String token = loginUser.getRongCloudToken();
+        Log.d("ttt", "connectRongCloud: " + loginUser.toString());
         Log.d("ttt", "handleRongCloud: " + token);
+
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 Log.d("ttt", "--onTokenIncorrect" );
-
             }
             @Override
             public void onSuccess(String userid) {
@@ -68,5 +70,6 @@ public class UserHelper {
                 Log.d("ttt", "--onSuccess" + errorCode);
             }
         });
+
     }
 }

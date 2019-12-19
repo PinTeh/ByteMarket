@@ -102,4 +102,18 @@ public class User {
     public void setRongCloudToken(String rongCloudToken) {
         this.rongCloudToken = rongCloudToken;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", schoolId=" + schoolId +
+                ", description='" + description + '\'' +
+                ", rongCloudToken='" + rongCloudToken + '\'' +
+                '}';
+    }
 }
