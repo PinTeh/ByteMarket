@@ -30,7 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,13 +48,15 @@
                     android:id="@+id/rl_mine_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp">
+                    android:paddingStart="20dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_user_avatar"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@mipmap/avatar" />
+                        android:src="@mipmap/avatar"
+                        android:layout_marginTop="5dp"
+                        />
 
                     <TextView
                         android:id="@+id/tv_user_nickname"
@@ -64,7 +65,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_toEndOf="@+id/iv_user_avatar"
-                        android:text=" "
+                        android:text="111111"
                         android:textColor="#2E2E2E"
                         android:textSize="18sp" />
 
@@ -78,8 +79,23 @@
                         android:layout_marginEnd="15dp"
                         android:layout_toEndOf="@+id/iv_user_avatar"
                         android:ellipsize="end"
-                        android:maxLines="2"
+                        android:maxLines="1"
                         android:text="签名: "
+                        android:textColor="#363636"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_user_school_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_user_signature"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toEndOf="@+id/iv_user_avatar"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="学校: "
                         android:textColor="#363636"
                         android:textSize="14sp" />
                 </RelativeLayout>

@@ -31,6 +31,7 @@ import org.angmarch.views.NiceSpinner;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +53,7 @@ import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.common.Api;
 import cn.imhtb.bytemarket.common.Constants;
 import cn.imhtb.bytemarket.common.ServerResponse;
+import cn.imhtb.bytemarket.helps.ProductHelper;
 import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.utils.PixelUtils;
 import okhttp3.MediaType;
@@ -87,8 +89,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
 
     @BindView(R.id.btn_publish_publish)
     Button button;
-
-    private List<LocalMedia> mediaList;
 
     private List<String> afterCompress = new LinkedList<>();
 
@@ -131,9 +131,9 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PictureConfig.CHOOSE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
 
-            mediaList = PictureSelector.obtainMultipleResult(data);
+            List<LocalMedia> mediaList = PictureSelector.obtainMultipleResult(data);
 
-            if (mediaList==null){
+            if (mediaList ==null){
                 return;
             }
 
@@ -187,40 +187,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    /*
-    private void uploadImages(List<LocalMedia> localMedias){
-       Executors.newCachedThreadPool().execute(()->{
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .writeTimeout(20,TimeUnit.SECONDS).build();
-
-            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-            localMedias.forEach(v -> {
-                builder.addFormDataPart("file"
-                        , ""
-                        , RequestBody.create(MediaType.parse("image/*"), new File(v.getPath())));
-            });
-
-            Request request = new Request.Builder()
-                    .url(Api.URL_UPLOAD_IMAGES)
-                    .post(builder.build())
-                    .build();
-
-            okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.d("ttt", "上传失败 " + e);
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    Log.d("ttt", response.body().string());
-                }
-            });
-        });
-    }
-    */
-
     public String handleUploadImages(){
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(20, TimeUnit.SECONDS)
@@ -258,6 +224,18 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             return;
         }
 
+        boolean validate = ProductHelper.getInstance().validate(
+                PublishActivity.this
+                , et_title.getText().toString()
+                , afterCompress
+                , et_describe.getText().toString()
+                , categorySelectedId
+                , new BigDecimal(et_price.getText().toString()));
+
+        if (!validate){
+            return;
+        }
+
         //正在发布
         button.setCompoundDrawables(null, threeBounce, null, null);
         button.setText("");
@@ -281,8 +259,9 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             map.put("images",images);
             map.put("userId", loginUser.getId());
             map.put("categoryId", categorySelectedId);
-            map.put("schoolId", loginUser.getSchoolId());
-
+            if (loginUser.getSchoolId()!=null){
+                map.put("schoolId", loginUser.getSchoolId());
+            }
 
             Gson gson = new Gson();
             MediaType type = MediaType.parse("application/json;charset=utf-8");

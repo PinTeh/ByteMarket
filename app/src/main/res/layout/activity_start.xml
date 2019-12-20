@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".ui.activity.StartActivity">
 
     <ImageView
         android:id="@+id/iv_start"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/startup_rocket"
+        android:layout_width="200dp"
+        android:layout_height="160dp"
+        android:src="@mipmap/fog"
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         />

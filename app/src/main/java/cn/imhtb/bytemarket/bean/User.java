@@ -31,6 +31,8 @@ public class User {
      */
     private Integer schoolId;
 
+    private String schoolName;
+
     /**
      * 个性签名
      */
@@ -101,6 +103,14 @@ public class User {
 
     public void setRongCloudToken(String rongCloudToken) {
         this.rongCloudToken = rongCloudToken;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
     @Override

@@ -73,6 +73,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.tv_user_signature)
     TextView tv_signature;
 
+    @BindView(R.id.tv_user_school_name)
+    TextView tv_school_name;
+
     @BindView(R.id.tv_mine_gc)
     TextView tv_gc_count;
 
@@ -119,6 +122,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initUserInfo(){
+
         User user = UserHelper.getInstance().getLoginUser(getActivity());
         if (user==null){
             return;
@@ -127,15 +131,29 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (user.getAvatar()!=null){
             Glide.with(Objects.requireNonNull(getActivity())).load(user.getAvatar()).into(iv_avatar);
         }
+
         tv_nickname.setText(user.getNickName());
-        String signature = "签名:" + (!TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
+        String signature = "签名: " + (!TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
         tv_signature.setText(signature);
+
+        if (!TextUtils.isEmpty(user.getSchoolName())){
+            String schoolName = "学校: " + user.getSchoolName();
+            tv_school_name.setText(schoolName);
+        }else {
+            tv_school_name.setText("");
+        }
 
         //初始化数量
         initCount(user.getId());
     }
 
     private void initCount(Integer uid) {
+        if (uid==null){
+            tv_gc_count.setText("0");
+            tv_pc_count.setText("0");
+            tv_sc_count.setText("0");
+            return;
+        }
         Executors.newCachedThreadPool().execute(()->{
             OkHttpUtils.doGet(Api.TYPE_MAP, Api.URL_PRODUCT_STATUS + "?uid=" + uid, getActivity(), (ICallBackHandler<Map<String, Integer>>) response -> {
                 context.runOnUiThread(()->{
@@ -173,6 +191,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             } break;
             case R.id.rl_mine_login:
             case R.id.rl_mine_fragment_personal_center: {
+                if (UserHelper.getInstance().getLoginUser(getActivity())==null){
+                    Toast.makeText(getActivity(),"请登陆后尝试",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), PersonalActivity.class));
             } break;
             case R.id.btn_mine_logout:{
@@ -190,6 +212,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         initLoginComponent(false);
         RongIM.getInstance().logout();
         UserHelper.getInstance().setLogout(getActivity());
+        initCount(null);
         Toast.makeText(getActivity(),"已登出",Toast.LENGTH_SHORT).show();
     }
 

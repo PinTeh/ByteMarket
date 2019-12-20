@@ -94,19 +94,22 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         toolbar.setNavigationOnClickListener(v->finish());
 
         User loginUser = UserHelper.getInstance().getLoginUser(this);
-        if (loginUser!=null){
-            Glide.with(this).load(loginUser.getAvatar()).into(avatar);
-            username.setText(loginUser.getUsername());
-            nickName.setText(loginUser.getNickName());
-            description.setText(loginUser.getDescription());
+        if (loginUser==null){
+            Toast.makeText(this,"未登录",Toast.LENGTH_SHORT).show();
+            return;
         }
 
+        Glide.with(this).load(loginUser.getAvatar()).into(avatar);
+        username.setText(loginUser.getUsername());
+        nickName.setText(loginUser.getNickName());
+        description.setText(loginUser.getDescription());
 
         data = new ArrayList<>();
         for (Campus campus : AppComponent.campusList) {
             data.add(campus.getName());
         }
         spinner.attachDataSource(data);
+        spinner.setSelectedIndex(AppComponent.campusList.indexOf(AppComponent.campusList.get(loginUser.getSchoolId())));
         spinner.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
             selectedPosition = position;
         });
@@ -150,7 +153,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
             map.put("nickName", name);
             map.put("description", desc);
             if (cid != -1){
-                map.put("campusId", cid);
+                map.put("schoolId", cid);
             }
             map.put("id", loginUser.getId());
             if (!TextUtils.isEmpty(avatarNew)){
@@ -172,7 +175,7 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
 
                 ServerResponse<User> serverResponse = gson.fromJson(ret, new TypeToken<ServerResponse<User>>() {}.getType());
                 if (serverResponse.isSuccess()){
-                    //Log.d("ttt", "handleUpdateInfo: " + JSON.toJSONString(serverResponse.getData()));
+                    Log.d("ttt", "handleUpdateInfo: " + JSON.toJSONString(serverResponse.getData()));
                     EventBus.getDefault().post(new MessageEvent("update:success", JSON.toJSONString(serverResponse.getData())));
                 }else {
                     Log.d("ttt",ret);
