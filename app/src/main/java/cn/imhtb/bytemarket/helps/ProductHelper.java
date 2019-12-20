@@ -24,26 +24,24 @@ public class ProductHelper {
         return instance;
     }
 
-    public boolean validate(Context context, String title, List<String> images, String description, Integer categoryId, BigDecimal price) {
+    public boolean validate(Context context, String title, List<String> images, String description, String price) {
 
         boolean flag = true;
 
-        if (images==null || images.size()<1) {
+        if (images == null || images.size()<1) {
             Toast.makeText(context, "请上传至少一张商品图片", Toast.LENGTH_SHORT).show();
             flag = false;
         } else if (TextUtils.isEmpty(title)) {
             Toast.makeText(context, "请输入商品标题", Toast.LENGTH_SHORT).show();
             flag = false;
-        } else if (price == null) {
+        } else if (TextUtils.isEmpty(price)) {
             Toast.makeText(context, "请输入商品价格", Toast.LENGTH_SHORT).show();
-            flag = false;
-        } else if (null == categoryId || categoryId == -1 || categoryId == 0) {
-            Toast.makeText(context, "请选择一个商品类别", Toast.LENGTH_SHORT).show();
             flag = false;
         } else if (null == description || description.length() < 15) {
             Toast.makeText(context, "请添加15字以上的商品描述哦", Toast.LENGTH_SHORT).show();
             flag = false;
         }
+
         return flag;
     }
 

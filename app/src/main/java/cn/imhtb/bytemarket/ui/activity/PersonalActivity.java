@@ -80,11 +80,13 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
     NiceSpinner spinner;
 
 
-    List<String> data;
+    private List<String> data;
 
     private int selectedPosition = -1;
 
-    String avatarNew;
+    private String avatarNew;
+
+    private Integer defaultSchoolIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +107,18 @@ public class PersonalActivity extends AppCompatActivity implements View.OnClickL
         description.setText(loginUser.getDescription());
 
         data = new ArrayList<>();
-        for (Campus campus : AppComponent.campusList) {
+        for (int i = 0; i < AppComponent.campusList.size(); i++) {
+            Campus campus = AppComponent.campusList.get(i);
             data.add(campus.getName());
+            if (loginUser.getSchoolName().equals(campus.getName())){
+                defaultSchoolIndex = i;
+            }
         }
         spinner.attachDataSource(data);
-        spinner.setSelectedIndex(AppComponent.campusList.indexOf(AppComponent.campusList.get(loginUser.getSchoolId())));
+
+        if (defaultSchoolIndex!=null){
+            spinner.setSelectedIndex(defaultSchoolIndex);
+        }
         spinner.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
             selectedPosition = position;
         });

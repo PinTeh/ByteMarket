@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.github.ybq.android.spinkit.style.ThreeBounce;
-import com.github.ybq.android.spinkit.style.Wave;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -62,7 +60,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -92,7 +89,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
 
     private List<String> afterCompress = new LinkedList<>();
 
-    private Integer categorySelectedId = Constants.DEFAULT_CATEFORY;
+    private Integer categorySelectedId = Constants.DEFAULT_CATEGORY;
 
     private ThreeBounce threeBounce;
 
@@ -103,7 +100,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         ButterKnife.bind(this);
 
         toolbar.setNavigationOnClickListener(v->finish());
-        //final List<String> collect = AppComponent.categoryList.stream().map(Category::getName).collect(Collectors.toList());
         List<Category> categoryList = AppComponent.categoryList;
         spinner.attachDataSource(categoryList);
         spinner.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
@@ -136,10 +132,6 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             if (mediaList ==null){
                 return;
             }
-
-//            for (LocalMedia media : mediaList) {
-//                imageGroup.addView(createImage(media.getPath()));
-//            }
 
             File file = new File("/sdcard/byteMarket");
             if (!file.exists()&&!file.mkdirs()){
@@ -224,15 +216,15 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             return;
         }
 
+
         boolean validate = ProductHelper.getInstance().validate(
                 PublishActivity.this
                 , et_title.getText().toString()
                 , afterCompress
                 , et_describe.getText().toString()
-                , categorySelectedId
-                , new BigDecimal(et_price.getText().toString()));
+                , et_price.getText().toString());
 
-        if (!validate){
+        if (!validate) {
             return;
         }
 

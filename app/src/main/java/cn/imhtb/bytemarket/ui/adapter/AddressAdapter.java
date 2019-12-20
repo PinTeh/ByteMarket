@@ -47,20 +47,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId,parent,false);
-        ViewHolder viewHolder = new ViewHolder(view);
 
-        // 必须在事件发生前，调用这个方法来监视View的触摸
-        final XPopup.Builder builder = new XPopup.Builder(context)
-                .watchView(viewHolder.content);
-        viewHolder.content.setOnLongClickListener(v -> {
-            builder.asAttachList(new String[]{"编辑", "删除"},
-                            new int[]{},
-                            (position, text) -> listener.itemClick(position,text))
-                    .show();
-            return true;
-        });
-
-        return viewHolder;
+        return  new ViewHolder(view);
     }
 
     @Override
@@ -76,6 +64,17 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
             selectedListener.itemClick(position,"");
         });
 
+
+        // 必须在事件发生前，调用这个方法来监视View的触摸
+        final XPopup.Builder builder = new XPopup.Builder(context)
+                .watchView(holder.content);
+        holder.content.setOnLongClickListener(v -> {
+            builder.asAttachList(new String[]{"编辑", "删除"},
+                    new int[]{},
+                    (p, text) -> listener.itemClick(position,text))
+                    .show();
+            return true;
+        });
     }
 
     @Override

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +47,7 @@ import okhttp3.Response;
 public class FavourActivity extends AppCompatActivity {
 
 
-    private List<Favour> list;
+    private List<Favour> list = new ArrayList<>();
 
     private FavourAdapter adapter;
 
@@ -54,8 +55,6 @@ public class FavourActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favour);
-
-        list = new ArrayList<>();
 
         RecyclerView recyclerView = findViewById(R.id.rv_content);
         LinearLayoutManager manager = new LinearLayoutManager(this);

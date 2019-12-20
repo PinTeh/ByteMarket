@@ -79,7 +79,8 @@ public class AddressActivity extends AppCompatActivity {
                         Toast.makeText(this,"编辑功能懒得开发了",Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    handleDelete(addresses.get(position).getId()); });
+                    handleDelete(addresses.get(position).getId());
+                });
 
         addressAdapter.setSelectedListener((position, text) -> {
             Address address = addresses.get(position);
@@ -95,6 +96,7 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     private void handleDelete(Integer id) {
+
         Executors.newCachedThreadPool().execute(()->{
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .readTimeout(20, TimeUnit.SECONDS)
