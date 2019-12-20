@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import cn.imhtb.bytemarket.base.BaseActivity;
 import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.BannerEntity;
 import cn.imhtb.bytemarket.bean.Campus;
@@ -55,6 +56,8 @@ public class Api {
     public static final String URL_FAVOUR_DELETE = BASE + "/store/";
 
     public static final String URL_PRODUCT_STATUS = BASE + "/product/status";
+
+    public static final String URL_GET_PUBLISHING = BASE + "/product/listByStatus";
 
     public static final String URL_CREATE_ORDER = BASE + "/product/createorder";
 

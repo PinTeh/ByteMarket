@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +52,8 @@ public class FavourActivity extends AppCompatActivity {
 
     private FavourAdapter adapter;
 
+    private boolean isShowPublishing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,33 +72,59 @@ public class FavourActivity extends AppCompatActivity {
         animator.setRemoveDuration(300);
         recyclerView.setItemAnimator(animator);
 
-        adapter.setListener(position -> {
-            Integer id = list.get(position).getId();
-            handleDelete(id, position);
-        });
-
-
+        // 设置标题
         ImageView back = findViewById(R.id.iv_top_back);
         TextView topTitle = findViewById(R.id.tv_top_desc);
-
-        // 设置标题
         Intent intent = getIntent();
         String desc = intent.getStringExtra("desc");
         topTitle.setText(desc);
 
         String url = Api.URL_GET_COLLECT;
-        if ("收藏".equals(desc)) {
+        if ("我收藏的".equals(desc)) {
             url = Api.URL_GET_COLLECT;
         } else if ("历史记录".equals(desc)) {
             url = Api.URL_GET_HISTORY;
+        } else if("发布中".equals(desc)){
+            url = Api.URL_GET_PUBLISHING;
+            isShowPublishing = true;
         }
+
+        if (isShowPublishing){
+            adapter.setListener(position -> {
+                Integer id = list.get(position).getGoods().getId();
+                handleDeleteGoods(id, position);
+            });
+        }else {
+            adapter.setListener(position -> {
+                Integer id = list.get(position).getId();
+                handleDeleteFavour(id, position);
+            });
+        }
+
+
+
 
         getFavour(url);
 
         back.setOnClickListener(v -> finish());
     }
 
-    private void handleDelete(Integer id, int position) {
+    private void handleDeleteGoods(Integer id, int position) {
+        Executors.newCachedThreadPool().execute(() -> {
+            OkHttpUtils.doDel(Api.TYPE_MAP, Api.URL_ADD_PRODUCT + "/" + id, FavourActivity.this, (ICallBackHandler<Map<String,Object>>) response -> {
+                runOnUiThread(() -> {
+                    if (response.isSuccess()) {
+                        list.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        //通知数据与界面重新绑定
+                        adapter.notifyItemRangeChanged(position, list.size() - position);
+                    }
+                });
+            });
+        });
+    }
+
+    private void handleDeleteFavour(Integer id, int position) {
         Executors.newCachedThreadPool().execute(() -> {
             OkHttpUtils.doDel(Api.TYPE_FAVOUR, Api.URL_FAVOUR_DELETE + "/" + id, FavourActivity.this, (ICallBackHandler<List<Favour>>) response -> {
                 runOnUiThread(() -> {
@@ -120,7 +149,11 @@ public class FavourActivity extends AppCompatActivity {
         }
 
         Executors.newCachedThreadPool().execute(() -> {
-            OkHttpUtils.doGet(Api.TYPE_FAVOUR, url + "?uid=" + user.getId(), FavourActivity.this, (ICallBackHandler<List<Favour>>) r -> {
+            String u = url + "?uid=" + user.getId();
+            if (isShowPublishing){
+                u = u + "&status=0";
+            }
+            OkHttpUtils.doGet(Api.TYPE_FAVOUR, u, FavourActivity.this, (ICallBackHandler<List<Favour>>) r -> {
                 runOnUiThread(() -> {
                     List<Favour> data = r.getData();
                     list.clear();

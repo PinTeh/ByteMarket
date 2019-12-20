@@ -85,6 +85,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.tv_mine_pc)
     TextView tv_pc_count;
 
+
     private FragmentActivity context;
 
     public MineFragment() {
@@ -172,7 +173,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    @OnClick({R.id.rl_mine_fragment_personal_center,R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})
+    @OnClick({R.id.ll_mine_sold,R.id.ll_mine_got,R.id.ll_mine_publishing,R.id.rl_mine_fragment_personal_center,R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -202,6 +203,17 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             } break;
             case R.id.rl_mine_fragment_address:{
                 startActivity(new Intent(getActivity(), AddressActivity.class));
+            } break;
+            case R.id.ll_mine_publishing:{
+                Intent intent = new Intent(getActivity(), FavourActivity.class);
+                intent.putExtra("desc","发布中");
+                startActivity(intent);
+            } break;
+            case R.id.ll_mine_got:{
+                //TODO
+            } break;
+            case R.id.ll_mine_sold: {
+                //TODO
             } break;
             default:
         }

@@ -138,6 +138,7 @@
                 android:textAlignment="center">
 
                 <LinearLayout
+                    android:id="@+id/ll_mine_publishing"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -165,6 +166,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <LinearLayout
+                    android:id="@+id/ll_mine_sold"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -192,6 +194,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <LinearLayout
+                    android:id="@+id/ll_mine_got"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
