@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.BannerEntity;
@@ -53,6 +54,10 @@ public class Api {
 
     public static final String URL_FAVOUR_DELETE = BASE + "/store/";
 
+    public static final String URL_PRODUCT_STATUS = BASE + "/product/status";
+
+    public static final String URL_CREATE_ORDER = BASE + "/product/createorder";
+
     public static final String URL_GET_RONG_USERINFO= BASE + "/user/v1/getUserInfo";
 
     public static final Type TYPE_RONG_USERINFO = new TypeToken<ServerResponse<CloudUserInfo>>() {}.getType();
@@ -70,5 +75,7 @@ public class Api {
     public static final Type TYPE_CATEGORY = new TypeToken<ServerResponse<List<Category>>>() {}.getType();
 
     public static final Type TYPE_FAVOUR = new TypeToken<ServerResponse<List<Favour>>>() {}.getType();
+
+    public static final Type TYPE_MAP = new TypeToken<ServerResponse<Map<String,Integer>>>() {}.getType();
 
 }

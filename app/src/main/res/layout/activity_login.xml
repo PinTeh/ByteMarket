@@ -20,7 +20,7 @@
         android:id="@+id/et_login_username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:inputType="number"
+        android:inputType="text"
         android:maxLines="1"
         android:ellipsize="end"
         android:hint="请输入账号"

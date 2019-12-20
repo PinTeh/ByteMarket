@@ -130,11 +130,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="25dp"
-                        android:text="已发布"
+                        android:text="发布中"
                         android:textAlignment="center" />
 
 
                     <TextView
+                        android:id="@+id/tv_mine_pc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="0"
@@ -161,6 +162,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_mine_sc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="0"
@@ -187,6 +189,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_mine_gc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="0"

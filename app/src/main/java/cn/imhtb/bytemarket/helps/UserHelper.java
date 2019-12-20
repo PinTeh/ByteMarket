@@ -74,8 +74,6 @@ public class UserHelper {
             return;
         }
         String token = loginUser.getRongCloudToken();
-        Log.d("ttt", "connectRongCloud: " + loginUser.toString());
-        Log.d("ttt", "handleRongCloud: " + token);
 
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override

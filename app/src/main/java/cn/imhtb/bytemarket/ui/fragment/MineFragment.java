@@ -1,6 +1,8 @@
 package cn.imhtb.bytemarket.ui.fragment;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 
@@ -25,7 +27,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +38,10 @@ import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.app.AppComponent;
 import cn.imhtb.bytemarket.bean.MessageEvent;
 import cn.imhtb.bytemarket.bean.User;
+import cn.imhtb.bytemarket.common.Api;
+import cn.imhtb.bytemarket.common.ICallBackHandler;
+import cn.imhtb.bytemarket.common.OkHttpUtils;
+import cn.imhtb.bytemarket.common.ServerResponse;
 import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.ui.activity.AddressActivity;
 import cn.imhtb.bytemarket.ui.activity.FavourActivity;
@@ -65,6 +73,17 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.tv_user_signature)
     TextView tv_signature;
 
+    @BindView(R.id.tv_mine_gc)
+    TextView tv_gc_count;
+
+    @BindView(R.id.tv_mine_sc)
+    TextView tv_sc_count;
+
+    @BindView(R.id.tv_mine_pc)
+    TextView tv_pc_count;
+
+    private FragmentActivity context;
+
     public MineFragment() {
 
     }
@@ -79,6 +98,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
+        context = getActivity();
         Log.d("ttt", "mine fragment  onViewCreate");
 
         initLoginComponent(AppComponent.isLogin);
@@ -103,12 +123,35 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (user==null){
             return;
         }
+        //初始化个人信息
         if (user.getAvatar()!=null){
             Glide.with(Objects.requireNonNull(getActivity())).load(user.getAvatar()).into(iv_avatar);
         }
         tv_nickname.setText(user.getNickName());
         String signature = "签名:" + (!TextUtils.isEmpty(user.getDescription())?user.getDescription():"这人很懒，什么都没留下~");
         tv_signature.setText(signature);
+
+        //初始化数量
+        initCount(user.getId());
+    }
+
+    private void initCount(Integer uid) {
+        Executors.newCachedThreadPool().execute(()->{
+            OkHttpUtils.doGet(Api.TYPE_MAP, Api.URL_PRODUCT_STATUS + "?uid=" + uid, getActivity(), (ICallBackHandler<Map<String, Integer>>) response -> {
+                context.runOnUiThread(()->{
+                    Map<String, Integer> data = response.getData();
+                    if (data.get("gc") !=null){
+                        tv_gc_count.setText(String.valueOf(data.get("gc")));
+                    }
+                    if (data.get("pc")!=null){
+                        tv_pc_count.setText(String.valueOf(data.get("pc")));
+                    }
+                    if (data.get("sc")!=null){
+                        tv_sc_count.setText(String.valueOf(data.get("sc")));
+                    }
+                });
+            },false);
+        });
     }
 
     @OnClick({R.id.rl_mine_fragment_personal_center,R.id.ll_favour,R.id.ll_history,R.id.ll_mine_un_login,R.id.rl_mine_login,R.id.btn_mine_logout,R.id.rl_mine_fragment_address})

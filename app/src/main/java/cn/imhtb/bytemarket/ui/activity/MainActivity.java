@@ -34,7 +34,6 @@ import butterknife.ButterKnife;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.base.BaseActivity;
-import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.helps.UserHelper;
 import cn.imhtb.bytemarket.ui.NotScrollViewPager;
 import cn.imhtb.bytemarket.ui.adapter.HomeAdapter;
@@ -44,7 +43,6 @@ import cn.imhtb.bytemarket.ui.fragment.MessageFragment;
 import cn.imhtb.bytemarket.ui.fragment.MineFragment;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.IUnReadMessageObserver;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 public class MainActivity extends BaseActivity {
@@ -76,6 +74,13 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    final IUnReadMessageObserver observer = i -> {
+        if (i > 0){
+            setMessagePoint(i);
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,11 +111,7 @@ public class MainActivity extends BaseActivity {
 
         UserHelper.getInstance().connectRongCloud(this);
 
-        RongIM.getInstance().addUnReadMessageCountChangedObserver(i -> {
-            if (i > 0){
-                commonTabLayout.showMsg(3,i);
-                commonTabLayout.setMsgMargin(3, -30, 5);                }
-            }, Conversation.ConversationType.PRIVATE);
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(observer, Conversation.ConversationType.PRIVATE);
 
     }
 
@@ -139,7 +140,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new CampusFragment());
         // 添加按钮
         fragments.add(new Fragment());
-        fragments.add(new MessageFragment());
+        fragments.add(new Fragment());
         fragments.add(new MineFragment());
 
         viewPager.setAdapter(new HomeAdapter(getSupportFragmentManager(),fragments));
@@ -154,6 +155,7 @@ public class MainActivity extends BaseActivity {
                     return;
                 }
                 if (position == 3){
+                    commonTabLayout.hideMsg(3);
                     startActivity(new Intent(MainActivity.this,ConversationListActivity.class));
                     return;
                 }
@@ -162,9 +164,14 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabReselect(int position) {
-
+                if (position == 3){
+                    commonTabLayout.hideMsg(3);
+                    startActivity(new Intent(MainActivity.this,ConversationListActivity.class));
+                }
             }
         });
+
+
     }
 
     private void initCheckPermission() {
@@ -198,6 +205,18 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /*
+         * 注销已注册的未读消息数变化监听器。
+         */
+        RongIM.getInstance().removeUnReadMessageCountChangedObserver(observer);
+    }
 
 
+    private void setMessagePoint(int i) {
+        commonTabLayout.showMsg(3,i);
+        commonTabLayout.setMsgMargin(3, -30, 5);
+    }
 }

@@ -67,11 +67,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     @OnTextChanged(R.id.et_login_username)
     public void accountChangeListener(){
         //TODO
-        if (et_account.getText().toString().trim().length() == 6){
-            civ_avatar.setImageResource(R.mipmap.avatar);
-        }else {
-            civ_avatar.setImageResource(R.mipmap.avatar_un_login);
-        }
+        civ_avatar.setImageResource(R.mipmap.avatar_un_login);
     }
 
     public void handleLogin(){
