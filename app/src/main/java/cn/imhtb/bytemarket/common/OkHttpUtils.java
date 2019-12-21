@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.Objects;
 
 import cn.imhtb.bytemarket.ui.activity.FavourActivity;
@@ -55,18 +56,17 @@ public class OkHttpUtils {
         }
     }
 
-    public static<T> void doPost(Type type, String url, String data, Context context,ICallBackHandler<T> callback){
+    public static<T> void doPost(String url, Map<String,Object> data, Context context, ICallBackHandler callback){
         MediaType mediaType = MediaType.parse("application/json;charset=utf-8");
+
         Gson gson = new Gson();
-        String json = gson.toJson(data);
         final Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(mediaType,json))
+                .post(RequestBody.create(mediaType,gson.toJson(data)))
                 .build();
 
         Call call = client.newCall(request);
 
-        call.enqueue(new JsonCallBack<T>(context,callback,type));
     }
 
     public static<T> void doDel(Type type, String url, Context context,ICallBackHandler<T> callback){

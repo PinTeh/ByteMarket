@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.base.BaseActivity;
 import cn.imhtb.bytemarket.bean.Address;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.MessageEvent;
@@ -49,7 +50,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AddressActivity extends AppCompatActivity {
+public class AddressActivity extends BaseActivity {
 
     @BindView(R.id.rv_address_list)
     RecyclerView recyclerView;
@@ -58,7 +59,6 @@ public class AddressActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private BasePopupView popupView;
-
 
     private AddressAdapter addressAdapter;
 
@@ -84,15 +84,15 @@ public class AddressActivity extends AppCompatActivity {
 
         addressAdapter.setSelectedListener((position, text) -> {
             Address address = addresses.get(position);
-            Log.d("ttt", "onCreate: " + "发送事件");
             EventBus.getDefault().postSticky(new MessageEvent("address:selected", JSON.toJSONString(address)));
             finish();
         });
 
         recyclerView.setAdapter(addressAdapter);
         recyclerView.setLayoutManager(manager);
-        getAddress();
         toolbar.setNavigationOnClickListener(v->finish());
+
+        getAddress();
     }
 
     private void handleDelete(Integer id) {
@@ -126,7 +126,7 @@ public class AddressActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_address_add)
-    public void add(){
+    public void saveAddress(){
         popupView = new XPopup.Builder(AddressActivity.this)
                 .autoOpenSoftInput(true)
                 .asCustom(new NewAddressPopup(AddressActivity.this))
@@ -153,18 +153,6 @@ public class AddressActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         if ("address:success".equals(event.getMessage())){
@@ -176,5 +164,17 @@ public class AddressActivity extends AppCompatActivity {
             Toast.makeText(this,"操作成功",Toast.LENGTH_SHORT).show();
             getAddress();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

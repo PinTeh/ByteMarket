@@ -18,40 +18,52 @@ import com.bumptech.glide.Glide;
 
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.base.BaseActivity;
 import cn.imhtb.bytemarket.bean.Goods;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
-public class ConversationActivity extends AppCompatActivity {
+public class ConversationActivity extends BaseActivity {
 
-
+    @BindView(R.id.tv_toolbar_conversation)
     TextView title;
+
+    @BindView(R.id.toolbar_conversation)
+    Toolbar toolbar;
+
+    private String mTargetId;
+
+    /**
+     * 会话类型
+     */
+    private Conversation.ConversationType mConversationType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-        title = findViewById(R.id.tv_toolbar_conversation);
-        Toolbar toolbar = findViewById(R.id.toolbar_conversation);
+        ButterKnife.bind(this);
         toolbar.setNavigationOnClickListener(v->finish());
 
+        // 获取开启会话携带过来的参数
         Intent intent = getIntent();
-
         getIntentDate(intent);
-
         Bundle extras = intent.getExtras();
         if (extras==null){
             RelativeLayout relativeLayout = findViewById(R.id.rl_chat_goods_show);
             relativeLayout.setVisibility(View.GONE);
             return;
         }
+
+        // 填充会话框上的商品信息
         String goodString = extras.getString("GOODS");
-        Log.d("ttt", "onCreate: goodString" + goodString);
         Goods goods = JSON.parseObject(goodString, Goods.class);
-        if (goods != null ){
+        if (goods != null){
             ImageView cover = findViewById(R.id.iv_chat_goods_image);
             TextView price = findViewById(R.id.tv_chat_goods_price);
             Glide.with(this).load(goods.getCover()).into(cover);
@@ -68,15 +80,6 @@ public class ConversationActivity extends AppCompatActivity {
 
     }
 
-    private String mTargetId;
-
-
-    /**
-     * 会话类型
-     */
-    private Conversation.ConversationType mConversationType;
-    
-    
     /**
      * 展示如何从 Intent 中得到 融云会话页面传递的 Uri
      */
@@ -87,8 +90,6 @@ public class ConversationActivity extends AppCompatActivity {
         if (t!=null){
             title.setText(t);
         }
-
-
 
         //intent.getData().getLastPathSegment();//获得当前会话类型
         mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
@@ -101,9 +102,6 @@ public class ConversationActivity extends AppCompatActivity {
 
     /**
      * 加载会话页面 ConversationFragment
-     *
-     * @param mConversationType
-     * @param mTargetId
      */
     private void enterFragment(Conversation.ConversationType mConversationType, String mTargetId) {
 
@@ -129,7 +127,6 @@ public class ConversationActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String s) {
-
                     enterFragment(mConversationType, mTargetId);
                 }
 

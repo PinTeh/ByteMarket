@@ -58,7 +58,7 @@ public class FavourAdapter extends RecyclerView.Adapter<FavourAdapter.ViewHolder
         holder.title.setText(goods.getTitle());
         holder.price.setText(goods.getPrice().toEngineeringString());
         Glide.with(context).load(goods.getUser().getAvatar()).into(holder.avatar);
-        Glide.with(context).load(goods.getImages().split(",")[0]).into(holder.cover);
+        Glide.with(context).load(goods.getCover()).into(holder.cover);
         holder.nickName.setText(goods.getUser().getName());
 
         holder.content.setOnClickListener(v -> {

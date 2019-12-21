@@ -29,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.base.BaseActivity;
 import cn.imhtb.bytemarket.bean.Goods;
 import cn.imhtb.bytemarket.bean.User;
 import cn.imhtb.bytemarket.common.Api;
@@ -43,7 +44,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.civ_detail_user_avatar)
     CircleImageView civAvatar;
@@ -69,11 +70,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.ll_detail_bottom)
     LinearLayout bottom;
 
-    private String goodsString;
-
     private Goods goods;
 
     private User loginUser;
+
+    private String goodsString;
 
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -94,14 +95,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
         toolbar.setNavigationOnClickListener(v->finish());
 
+        // 添加用户历史记录
         loginUser = UserHelper.getInstance().getLoginUser(DetailActivity.this);
         if (loginUser!=null){
             if (loginUser.getId().equals(goods.getUserId())){
-                bottom.setVisibility(View.INVISIBLE);
+                bottom.setVisibility(View.GONE);
             }
             handleFavour(Api.URL_GET_HISTORY);
         }
-
 
     }
 
@@ -118,25 +119,22 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 handleFavour(Api.URL_GET_COLLECT);
                 break;
             case R.id.iv_goods_detail_chat:
-
                 Bundle bundle = new Bundle();
                 bundle.putString("GOODS",goodsString);
-                //将商品信息string通过title传过去
-                //RongIM.getInstance().startPrivateChat(DetailActivity.this, String.valueOf(goods.getUserId()), goods.getUser().getName());
+                //将商品信息string通过bundle传过去
                 RongIM.getInstance().startConversation(DetailActivity.this, Conversation.ConversationType.PRIVATE,String.valueOf(goods.getUserId()), goods.getUser().getName(),bundle);
-
-
             default:
                 break;
         }
     }
 
     private void handleFavour(String url) {
-        Executors.newCachedThreadPool().execute(()-> {
 
-            if (loginUser == null) {
-                return;
-            }
+        if (loginUser == null) {
+            return;
+        }
+
+        Executors.newCachedThreadPool().execute(()-> {
 
             int id = goods.getId();
             OkHttpClient okHttpClient = new OkHttpClient.Builder()

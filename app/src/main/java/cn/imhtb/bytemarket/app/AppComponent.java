@@ -2,7 +2,6 @@ package cn.imhtb.bytemarket.app;
 
 import android.app.Application;
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +33,9 @@ public class AppComponent extends Application {
 
     private UserInfo findById(String userId){
         Executors.newCachedThreadPool().execute(()->{
-            OkHttpUtils.doGet(Api.TYPE_RONG_USERINFO, Api.URL_GET_RONG_USERINFO + "?uid=" + userId, getApplicationContext(), (ICallBackHandler<CloudUserInfo>) response -> {
+            OkHttpUtils.doGet(Api.TYPE_RONG_USER_INFO, Api.URL_GET_RONG_USER_INFO + "?uid=" + userId, getApplicationContext(), (ICallBackHandler<CloudUserInfo>) response -> {
                 CloudUserInfo data = response.getData();
                 UserInfo userInfo = new UserInfo(userId, data.getName(), Uri.parse(data.getAvatar()));
-                Log.d("ttt", "onCreate: " + userInfo);
                 RongIM.getInstance().refreshUserInfoCache(userInfo);
             },false);
         });

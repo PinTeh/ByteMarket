@@ -9,23 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
-        android:elevation="2dp"
-        >
+        android:elevation="2dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="校园"
-            android:textSize="18sp"
             android:textColor="@color/colorFontLightDark"
-            />
+            android:textSize="18sp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_campus_data_list"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl_campus"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackgroundLightGray"
-        />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_campus_data_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackgroundLightGray" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

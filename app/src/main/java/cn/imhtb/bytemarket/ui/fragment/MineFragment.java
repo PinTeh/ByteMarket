@@ -210,22 +210,29 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             } break;
             case R.id.ll_mine_got:{
-                //TODO
+                Toast.makeText(context,"正在开发中，敬请期待",Toast.LENGTH_SHORT).show();
             } break;
             case R.id.ll_mine_sold: {
-                //TODO
+                Toast.makeText(context,"正在开发中,敬请期待~",Toast.LENGTH_SHORT).show();
             } break;
             default:
         }
     }
 
     private void handleLogout() {
-        AppComponent.isLogin = false;
+        initCount(null);
         initLoginComponent(false);
+        AppComponent.isLogin = false;
         RongIM.getInstance().logout();
         UserHelper.getInstance().setLogout(getActivity());
-        initCount(null);
         Toast.makeText(getActivity(),"已登出",Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onMessageEvent(MessageEvent event) {
+        if ("notice:reload".equals(event.getMessage())){
+           initUserInfo();
+        }
     }
 
     @Override
@@ -238,12 +245,5 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void onMessageEvent(MessageEvent event) {
-        if ("notice:reload".equals(event.getMessage())){
-           initUserInfo();
-        }
     }
 }

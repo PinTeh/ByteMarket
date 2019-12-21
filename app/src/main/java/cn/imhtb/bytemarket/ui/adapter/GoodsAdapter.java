@@ -57,11 +57,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
                 Integer height = map.get(position);
                 ViewGroup.LayoutParams layoutParams = holder.image.getLayoutParams();
                 if (height == null) {
-                    height = new Random().nextInt(4) * 30 + 450;
+                    height = new Random().nextInt(6) * 30 + 480;
                     map.put(position,height);
                 }
                 layoutParams.height = height;
-                holder.image.setLayoutParams(layoutParams);
+                //holder.image.setLayoutParams(layoutParams);
 
                 Glide.with(context).load(cover).into(holder.image);
             }else {
@@ -92,7 +92,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         TextView username;
         LinearLayout content;
 
-        public GoodsHolder(@NonNull View itemView) {
+        GoodsHolder(@NonNull View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.iv_goods);
             this.title = itemView.findViewById(R.id.tv_goods_title);

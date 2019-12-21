@@ -3,6 +3,7 @@ package cn.imhtb.bytemarket.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +43,19 @@ public class CampusFragment extends Fragment {
     @BindView(R.id.rv_campus_data_list)
     RecyclerView recyclerView;
 
+    @BindView(R.id.srl_campus)
+    SmartRefreshLayout smartRefreshLayout;
+
     private FragmentActivity context;
 
     public CampusFragment() {
+    }
+
+    static {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.colorBackgroundLightGray, android.R.color.darker_gray);
+            return new ClassicsHeader(context);
+        });
     }
 
     @Override
@@ -56,8 +70,9 @@ public class CampusFragment extends Fragment {
         ButterKnife.bind(this,view);
         context = getActivity();
         loadData();
+        smartRefreshLayout.setEnableLoadMore(false);
+        smartRefreshLayout.setOnRefreshListener(v->loadData());
     }
-
 
     private void loadData() {
         Executors.newCachedThreadPool().execute(()->{
@@ -73,6 +88,7 @@ public class CampusFragment extends Fragment {
                         startActivity(intent);
                     });
                     recyclerView.setAdapter(adapter);
+                    smartRefreshLayout.finishRefresh();
                 });
             },false);
         });

@@ -49,18 +49,6 @@ public class CampusAdapter extends RecyclerView.Adapter<CampusAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId,parent,false);
-
-        //设置单选
-//        RadioButton radioButton= holder.selected;
-//        if (radioButton!=null){
-//            radioButton.setOnClickListener(v->{
-//                int position = holder.getAdapterPosition();
-//                selectedIndex = selectedIndex==position?-1:position;
-//                radioButtonListener.itemClick(position);
-//                notifyDataSetChanged();
-//            });
-//        }
-
         return new ViewHolder(view);
     }
 

@@ -1,6 +1,6 @@
 package cn.imhtb.bytemarket.bean;
 
-public class BannerEntity {
+public class Banner {
 
     private String url;
 

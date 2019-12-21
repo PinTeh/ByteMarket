@@ -40,7 +40,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.imhtb.bytemarket.R;
 import cn.imhtb.bytemarket.TabEntity;
 import cn.imhtb.bytemarket.app.AppComponent;
-import cn.imhtb.bytemarket.bean.BannerEntity;
+import cn.imhtb.bytemarket.bean.Banner;
 import cn.imhtb.bytemarket.bean.Campus;
 import cn.imhtb.bytemarket.bean.Category;
 import cn.imhtb.bytemarket.bean.Goods;
@@ -244,11 +244,11 @@ public class MainFragment extends Fragment {
     @SuppressLint("NewApi")
     private void getBanner(){
         Executors.newCachedThreadPool().execute(()->{
-            OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<BannerEntity>>)response -> {
+            OkHttpUtils.doGet(Api.TYPE_BANNER,Api.URL_GET_BANNER, context, (ICallBackHandler<List<Banner>>) response -> {
                 context.runOnUiThread(()-> {
-                    List<BannerEntity> list = response.getData();
-                    List<String> urls = list.stream().map(BannerEntity::getUrl).collect(Collectors.toList());
-                    List<String> tips = list.stream().map(BannerEntity::getTips).collect(Collectors.toList());
+                    List<Banner> list = response.getData();
+                    List<String> urls = list.stream().map(Banner::getUrl).collect(Collectors.toList());
+                    List<String> tips = list.stream().map(Banner::getTips).collect(Collectors.toList());
                     contentBanner.setAdapter((BGABanner.Adapter<ImageView, String>) (banner, itemView, model, position) ->
                             Glide.with(context)
                                     .load(model)

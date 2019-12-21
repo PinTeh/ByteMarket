@@ -8,10 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import cn.imhtb.bytemarket.R;
+import cn.imhtb.bytemarket.base.BaseActivity;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 
-public class ConversationListActivity extends AppCompatActivity {
+public class ConversationListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
